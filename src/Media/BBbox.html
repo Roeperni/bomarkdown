@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+			<html lang="en">
+			<head>
+				<meta charset="UTF-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>BOM markdown commands</title>
+			</head>
+			<body>
+                <label for="Font">Font:</label>
+                <input type="text" id="Font" name="Font" value="system-ui">
+                <label for="FTW">Font Weight:</label>
+                <input  id= "FTW" list="LFTW" value="normal">
+                <datalist id="LFTW">
+                  <option value="normal">
+                  <option value="bold">
+                  <option value="bolder">
+                  <option value="lighter">
+                  </datalist>
+                  <label for="FTS">Font Style:</label>
+                  <input id= "FTS" list="LFTS" value="normal">
+                  <datalist id="LFTS">
+                    <option value="normal">
+                    <option value="italic">
+                    <option value="oblique">
+                    </datalist>
+                 <label for="Fsize">Quantity (between 1 and 5):</label>
+                <input type="number" id="Fsize" name="Font Size" min="6" max="32" value="12">
+                <button type="button" onclick="generateTxtbox()">Generate TXT box</button>
+                <p>
+                <svg id="svgmain"width="300" height="400" xmlns="http://www.w3.org/2000/svg" >
+                    <text id="S_32" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="50" y="15"
+				fill="black">
+				A         A          
+				</text>
+                </svg>
+                </p>
+                <p>
+                <button type="button" onclick="calculateBBOX()">calculate BBox</button>
+                </p>
+            <script>
+                function generateTxtbox(){
+                    const svg=document.getElementById("svgmain")
+                    const Fsize=document.getElementById("Fsize").value;
+                    const Fstyle=document.getElementById("FTS").value;
+                    const Fweight=document.getElementById("FTW").value;
+                    const Font=document.getElementById("Font").value
+                    svg.textContent="";
+                    svg.setAttribute("height",(255-30)*(Fsize*1.333333+4));
+
+                    y=Fsize*1.33333+4;
+                    for (let i=32;i<=255;i++){
+                        var Txtbox = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+                        Txtbox.setAttribute ('id',"S_"+ i);
+                        Txtbox.setAttribute ('font-family','system-ui');
+                        Txtbox.setAttribute ('fill','black');
+                        Txtbox.setAttribute ('font-weight',Fweight);
+                        Txtbox.setAttribute ('font-style',Fstyle);
+                        Txtbox.setAttribute ('font-size',Fsize);
+                        Txtbox.setAttribute ('x','50');
+                        Txtbox.setAttribute ('y',y);
+                        Txtbox.setAttribute ('white-space','pre');
+                        if (i===32){
+                        Txtbox.appendChild(document.createTextNode("a a a a a a a a a a"));
+                        }else{                   
+                        Txtbox.appendChild(document.createTextNode(String.fromCharCode(i).repeat(10)));
+                        }        
+
+                        var TxtboxL = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+                        TxtboxL.setAttribute ('id',"L_"+ i);
+                        TxtboxL.setAttribute ('font-family','system-ui');
+                        TxtboxL.setAttribute ('fill','black');
+                        TxtboxL.setAttribute ('font-weight',Fweight);
+                        TxtboxL.setAttribute ('font-size',Fsize);
+                        TxtboxL.setAttribute ('x','0');
+                        TxtboxL.setAttribute ('y',y);                     
+                        TxtboxL.appendChild(document.createTextNode(i));
+
+
+
+                        svg.appendChild(Txtbox);
+                        svg.appendChild(TxtboxL);
+                        y+=Fsize*1.333333+4;
+
+                    }
+                }
+                function calculateBBOX(){
+                                        
+                    const svg=document.getElementById("svgmain");
+                    const Fsize=document.getElementById("Fsize").value;
+                    const Fstyle=document.getElementById("FTS").value;
+                    const Fweight=document.getElementById("FTW").value;
+                    const Font=document.getElementById("Font").value
+                    var chartable= {};
+                    var tempsizes={};
+                    
+                    //chartable["Font"]=Font;
+                    //chatable["Size"]=Fsize;
+                    //chartable.Weight=Fweight;
+                    //chartable.Style=Fstyle;
+                    //chartable.Sizes={};
+
+                    for (let i=33;i<=255;i++){
+                        
+                        var txtboxbyid=document.getElementById("S_"+i);
+                        var bboxbyid=txtboxbyid.getBBox();
+                        //char.id=i;
+                        //char.size=bboxbyid.width/10;
+                        //chartable.push(char);
+                        tempsizes[i]=bboxbyid.width/10;
+
+                        
+                    }
+                    alert("loop out");
+                    var txtboxbyid=document.getElementById("S_32");
+                    var bboxbyid=txtboxbyid.getBBox();
+                    //char.id=32;
+                    //char.size=(bboxbyid.width-chartable[64].size*10)/9;
+                    tempsizes[32]=(bboxbyid.width-tempsizes[97]*10)/9;
+                    //chartable.Sizes=tempsizes;
+                    const pre=document.createElement("pre");
+                    pre.appendChild(document.createTextNode(JSON.stringify(tempsizes,null,'\t')))
+                    document.body.appendChild(pre);
+                    
+
+                }
+            </script>
+            </body>

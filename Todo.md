@@ -19,7 +19,7 @@
 []revision parametrable
 [X]support du status
 []status dans les settings
-[]mastership dans les bubbles
+[x]mastership dans les bubbles
 []implémenter le nudge en setting (petit gap entre les icons defaut 2)
-[]generer des id pour les items du groupe
+[x]generer des id pour les items du groupe (pariel fait pour label et effectivité)
 [X]utiliser les defs pour les images

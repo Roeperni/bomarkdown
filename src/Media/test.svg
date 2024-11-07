@@ -22,7 +22,7 @@ Position are relatives to an item the zero of an item is the top left of its ico
   <polyline fill="none" stroke="steelblue"  points="2,17 2,12" stroke-width="2" stroke-linecap="round"/>
   <polyline fill="none" stroke="steelblue"  points="2,17 7,17" stroke-width="2" stroke-linecap="round"/>
   <polyline fill="none" stroke="steelblue"  points="2,17 -0.5,19.5" stroke-width="2" stroke-linecap="round"/>
-  <use href="#relou"/>
+  <use transform="matrix(null,null,null,null,null,null)" href="#relou"/>
 </g>
 
 <g id="context">
@@ -30,11 +30,11 @@ Position are relatives to an item the zero of an item is the top left of its ico
 </g>
 <g id="lock" >
   <rect x="15" y="-2" width="8" height="8" fill="indigo" />
-  <path d="M 16 -2 A 3 3, 0,1,1,22 -2" stroke-width="2" fill="none" stroke="indigo" />
+  <path d="M 16 -2 A 3 3 0 1 1 22 -2" stroke-width="2" fill="none" stroke="indigo" />
 </g>
 <g id="unlock" >
   <rect x="15" y="-2" width="8" height="8" fill="indigo" />
-  <path d="M 16 -2 A 3 3, 0,1,0,10 -2" stroke-width="2" fill="none" stroke="indigo" />
+  <path d="M 16 -2 A 3 3 0 1 0 10 -2" stroke-width="2" fill="none" stroke="indigo" />
 </g>
 <g id="noway">
   <circle r="7" cx="20" cy="0" fill="red" stroke="white" stroke-width="0.25"/>
@@ -62,11 +62,12 @@ Position are relatives to an item the zero of an item is the top left of its ico
 
     
     </g>
-    <g id="G3" transform="translate(220,32)">
+    <g id="G3" transform="matrix(1,0,0,1,220,32)">
       <text font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15"
        fill="rgb(255, 255, 255)">
        item 1
       </text>
+      
       
       <rect x="0" y="0" width="20" height="20" fill="red" rx="4"/>
       <text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bolder" font-style="normal" font-size="16" x="10" y="11" fill="white" >
@@ -76,7 +77,7 @@ Position are relatives to an item the zero of an item is the top left of its ico
         Eff1
       </text>
   
-      <use href="#triedre" x="0" y="0" />
+      <use transform="matrix(null,null,null,null,null,null)" href="#triedre" x="0" y="0" />
       </g>
       <g id="G5" transform="translate(220,62)">
         <text font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15"
@@ -111,6 +112,10 @@ Position are relatives to an item the zero of an item is the top left of its ico
 
     <polyline fill="none" stroke="rgb(255, 255, 255)" points="2,54 4,97 34,98"/>
     <path fill="none" stroke="steelblue" d="M 600 100 C 650 100 650 200 600 200" marker-end="url(#arrow)"/>
+    
+    <text x="581.8" y="200" fill="rgb(255, 255, 255)" white-space="pre">
+        a      A A
+    </text>
     
     
 </svg>
