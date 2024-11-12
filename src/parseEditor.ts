@@ -1,6 +1,23 @@
 import { BOM, EmptyBoM, BoMItem, EmptyBoMItem } from "./extension";
+import * as vscode from 'vscode';
+interface Transcoder {
+	[key:string]:string;
+}
+
+
+
+function ReplacewithObject (transcoder:Transcoder,str:string):string{
+	let tempreturn:string=str;
+	for (let key in transcoder){
+	tempreturn=tempreturn.replace(key,transcoder[key]);
+	}
+	return tempreturn;
+}
 
 export function parseEditor(EditorTxt: string): BOM[] {
+	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
+
+
 	// Split de l'editor sur les saut de ligne
 	let EditorArray: string[] = EditorTxt.split(/\r?\n/).filter((c: string) => c !== "");
 	// init des variable de la fonction
@@ -50,7 +67,7 @@ export function parseEditor(EditorTxt: string): BOM[] {
 						switch (arg.substring(0, 2)) {
 							case "e:":
 								// effectivié
-								tempitem.effectivity = arg.substring(2);
+								tempitem.effectivity = ReplacewithObject(UTF8replacement,arg.substring(2));
 								break;
 							case "i:":
 								// TNR

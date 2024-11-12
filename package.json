@@ -18,18 +18,41 @@
         "title": "Hello World"
       },{
         "command": "bomarkdown.preview",
-        "title": "BoMarkdown:Preview"
+        "title": "BOM Preview",
+        "category": "BoMarkdown"
       },{
         "command": "bomarkdown.commands",
-        "title": "BoMarkdown:Commands"
+        "title": "BOM Commands",
+        "category": "BoMarkdown"
       },{
         "command": "bomarkdown.addicons",
-        "title": "BoMarkdown:AddIcons"
+        "title": "AddIcons",
+        "category": "BoMarkdown"
       },{
         "command": "bomarkdown.export",
-        "title": "BoMarkdown:Export"
+        "title": "BOM Export",
+        "category": "BoMarkdown"
       }
-    ],
+    ],    
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorLangId == markdown",
+          "command": "bomarkdown.preview",
+          "group": "bomarkdown"
+        },
+        {
+          "when": "editorLangId == markdown",
+          "command": "bomarkdown.export",
+          "group": "bomarkdown"
+        },
+        {
+          "when": "editorLangId == markdown",
+          "command": "bomarkdown.commands",
+          "group": "bomarkdown"
+        }
+      ]
+      },
     "configuration":{
       "title": "BoMarkdown",
       "properties": {        
@@ -61,19 +84,12 @@
         "bomarkdown.revision":{
           "type":"object",
           "description": "Styling to display revision",
-          "properties": {
-            "font":{
-              "type": "string",
-              "description": "Font color of the revision",
-              "default":"white"
-
-            },
-            "background":{
-              "type":"string",
-              "description":"background color of the revision box",
-              "default":"dimgrey"
-
-            }
+          "default": {
+            "font":"white",
+            "background":"dimgrey"
+          },
+          "additionalProperties": {
+            "type": "string"
           }
           
 
@@ -125,13 +141,20 @@
 
 
           },
-          "bomarkdown.defs":{
-            "type":"string",
-            "description": "SVG def includes in each rendition",
-            "default":"<!-- Defs  here are necessary for rendition -->\n<marker\n  id=\"arrow\"\n  refX=\"6\"\n  refY=\"3\"\n  markerWidth=\"6\"\n  markerHeight=\"6\"\n  orient=\"auto-start-reverse\">\n  <path d=\"M 0 0 L 6 3 L 0 6 z\" fill=\"steelblue\"/>\n</marker>\n<g id=\"undef\">\n<rect x=\"0\" y=\"0\" width=\"18\" height=\"18\" fill=\"red\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bolder\" font-style=\"normal\" font-size=\"16\" x=\"10\" y=\"11\" fill=\"white\" >\n?  \n</text>\n</g>\n\n<g id=\"placeholder\">\n<rect x=\"0\" y=\"0\" width=\"18\" height=\"18\" fill=\"LightCyan\" rx=\"4\"/>\n</g>\n\n\n\n<g id=\"eff\">\n  <circle r=\"4\" cx=\"-10\" cy=\"10\" fill=\"darkorange\" stroke=\"white\" stroke-width=\"0.25\" />\n</g>\n<g id=\"G_status\">\n<g id=\"D\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"lightgray\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nD \n</text>\n</g>\n<g id=\"IW\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"blue\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nIW\n</text>\n</g>\n<g id=\"F\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"orange\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nF\n</text>\n</g>\n<g id=\"R\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"green\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nR\n</text>\n</g>\n<g id=\"O\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"black\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nO\n</text>\n</g>\n</g>\n<!-- Defs  are Bubble definition must be consistent with Bubbles list \nPosition are relatives to an item the zero of an item is the top left of its icon \n-->\n<g id=\"G_bubbles\">\n<g id=\"matrice\">\n  <polyline fill=\"none\" stroke=\"steelblue\"  points=\"-5,17 -5,12\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n  <polyline fill=\"none\" stroke=\"steelblue\"  points=\"-5,17 0,17\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n  <polyline fill=\"none\" stroke=\"steelblue\"  points=\"-5,17 -7.5,19.5\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n</g>\n\n<g id=\"context\">\n  <circle r=\"4\" cx=\"17\" cy=\"17\" fill=\"royalblue\" stroke=\"white\" stroke-width=\"0.25\" />\n</g>\n<g id=\"lock\" >\n  <rect x=\"13\" y=\"-2\" width=\"8\" height=\"8\" fill=\"indigo\" stroke=\"white\" stroke-width=\"0.25\"/>\n  <path d=\"M 14 -2 A 3 3, 0,1,1,20 -2\" stroke-width=\"2\" fill=\"none\" stroke=\"indigo\" />\n</g>\n<g id=\"unlock\" >\n  <rect x=\"13\" y=\"-2\" width=\"8\" height=\"8\" fill=\"indigo\" stroke=\"white\" stroke-width=\"0.25\" />\n  <path d=\"M 14 -2 A 3 3, 0,1,0,8 -2\" stroke-width=\"2\" fill=\"none\" stroke=\"indigo\" />\n</g>\n<g id=\"noway\">\n  <circle r=\"7\" cx=\"20\" cy=\"0\" fill=\"red\" stroke=\"white\" stroke-width=\"0.25\"/>\n  <line x1=\"16\" y1=\"0\" x2=\"24\" y2=\"0\" stroke=\"white\" stroke-width=\"2.5\"/>\n</g>\n</g>",
-            "editPresentation": "multilineText"
-          }
+          "bomarkdown.UTF8replacement":{
+            "type":"object",
+            "description": "Replace the key in the text by an UTF8 char by default the size off the char is a M, edit Fonsize.json with the right size",
+            "default":{
+              "#OO":"&#221E",
+              "->":"&#2192",
+              "<-":"&#2190"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
 
+
+          }
         }
 
       }

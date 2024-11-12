@@ -23,10 +23,14 @@
                     <option value="italic">
                     <option value="oblique">
                     </datalist>
-                 <label for="Fsize">Quantity (between 1 and 5):</label>
+                 <label for="Fsize">Font size(between 6 and 32):</label>
                 <input type="number" id="Fsize" name="Font Size" min="6" max="32" value="12">
                 <button type="button" onclick="generateTxtbox()">Generate TXT box</button>
                 <p>
+                <p>
+                <label for="XtraUTF">Extra UTF8 code separated by a , :</label>
+                <input type="XtraUTF" id="XtraUTF" name="Xtra UTF" size="30">
+                </p>
                 <svg id="svgmain"width="300" height="400" xmlns="http://www.w3.org/2000/svg" >
                     <text id="S_32" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="50" y="15"
 				fill="black">

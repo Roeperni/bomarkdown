@@ -1,5 +1,5 @@
 import { BOM, h, panh, iconw, topoffset } from "./extension";
-import FontSizes from "./Media/Fontsize.json";
+import FontSizes from "./IconConfig/Fontsize.json";
 import * as vscode from 'vscode';
 export const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
 const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
@@ -22,6 +22,8 @@ function ComputeBBOXjson (font:string, size:number, str:string):number{
 
 
 				tmplength += sizedict[charcode];
+			} else {
+				tmplength += sizedict[77];
 			}
 	}
 }
