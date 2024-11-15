@@ -57,7 +57,7 @@ export function Computelayout(TBOM: BOM[]): BOM[] {
 			if (BOMitem.w > iBOM.maxw) { iBOM.maxw = BOMitem.w; }
 			itemcount++;
 		}
-		iBOM.y = topoffset;
+		iBOM.y = 2*panv;
 		iBOM.x = panh + iBOM.maxnegw;
 		if (iBOM.column > 0) {
 			iBOM.x = iBOM.x + panh + TBOM[iBOM.column - 1].x + TBOM[iBOM.column - 1].maxw;

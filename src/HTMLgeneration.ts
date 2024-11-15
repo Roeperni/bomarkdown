@@ -170,7 +170,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	const maxitem= Math.max(...BOMtable.map((maxitem)=>maxitem.BoMItems.length),0);
 
 	// Init du svg et ouverture des <def>
-	let tempstr:string=`<svg width="${totalw+10}" height="${maxitem*(h+panv)+2*h}" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+	let tempstr:string=`<svg width="${totalw+panh}" height="${maxitem*(h+panv)+panv}" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<defs>
 	`;
     // recuperation des def des settings
@@ -263,7 +263,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 
 			// Constrution du group avec le label
 			tempstr+=`
-			<g id="${BoMItem.id}" transform="translate(${BoMItem.x+iBOM.x},${BoMItem.y})">
+			<g id="${BoMItem.id}" transform="translate(${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y})">
 			`;
 			// test de presence d'un type et de sa validite
 			if (BoMItem.Type){

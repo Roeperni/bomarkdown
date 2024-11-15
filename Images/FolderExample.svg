@@ -1,0 +1,91 @@
+<svg width="175.0523550669352" height="130" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<defs>
+	<marker id="arrow" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
+        <g id="undef"><rect x="0" y="0" width="18" height="18" fill="red" rx="4"/><text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bolder" font-style="normal" font-size="16" x="10" y="11" fill="white" >?</text></g>
+        <g id="placeholder">
+<rect x="0" y="0" width="18" height="18" fill="LightCyan" rx="4"/>
+</g>
+        <g id="eff"><circle r="4" cx="-10" cy="10" fill="darkorange" stroke="white" stroke-width="0.25" /></g>
+        <g id="D">
+<rect x="0" y="1" width="18" height="18" fill="lightgray" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+D
+</text>
+</g>
+        <g id="IW">
+<rect x="0" y="1" width="18" height="18" fill="blue" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+IW
+</text>
+</g>
+        <g id="F">
+<rect x="0" y="1" width="18" height="18" fill="orange" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+F
+</text>
+</g>
+        <g id="R">
+<rect x="0" y="1" width="18" height="18" fill="green" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+R
+</text>
+</g>
+        <g id="O">
+<rect x="0" y="1" width="18" height="18" fill="black" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+O
+</text>
+</g>
+        <g id="matrice">   <polyline fill="none" stroke="steelblue"  points="-5,17 -5,12" stroke-width="2" stroke-linecap="round"/>   <polyline fill="none" stroke="steelblue"  points="-5,17 0,17" stroke-width="2" stroke-linecap="round"/>   <polyline fill="none" stroke="steelblue"  points="-5,17 -7.5,19.5" stroke-width="2" stroke-linecap="round"/> </g>
+        <g id="context">   <circle r="4" cx="17" cy="17" fill="royalblue" stroke="white" stroke-width="0.25" /> </g>
+        <g id="lock" >   <rect x="13" y="-2" width="8" height="8" fill="indigo" stroke="white" stroke-width="0.25"/>   <path d="M 14 -2 A 3 3, 0,1,1,20 -2" stroke-width="2" fill="none" stroke="indigo" /> </g>
+        <g id="unlock" >   <rect x="13" y="-2" width="8" height="8" fill="indigo" stroke="white" stroke-width="0.25" />   <path d="M 14 -2 A 3 3, 0,1,0,8 -2" stroke-width="2" fill="none" stroke="indigo" /> </g>
+        <g id="noway">   <circle r="7" cx="20" cy="0" fill="red" stroke="white" stroke-width="0.25"/>   <line x1="16" y1="0" x2="24" y2="0" stroke="white" stroke-width="2.5"/> </g>
+        <image  id="folder" xlink:href="data:image/png;base64,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" witdh="20" height="20" x="0" y="0"/>
+			<image  id="file" xlink:href="data:image/png;base64,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" witdh="20" height="20" x="0" y="0"/>
+			</defs> 
+	
+			<g id="0" transform="translate(20,10)">
+			<text id="L_0" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15"
+				fill="black">
+				rootfolder
+				</text>
+				<use  href="#folder" x="0" y="0"/>
+					</g>
+			<polyline fill="none" stroke="black" stroke-width="1" points="30,30 30,45 40,45"/>
+					
+			<g id="1" transform="translate(40,35)">
+			<text id="L_1" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15"
+				fill="black">
+				 subfolder1
+				</text>
+				<use  href="#folder" x="0" y="0"/>
+					</g>
+			<polyline fill="none" stroke="black" stroke-width="1" points="50,55 50,70 60,70"/>
+					
+			<g id="2" transform="translate(60,60)">
+			<text id="L_2" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15"
+				fill="black">
+				 File
+				</text>
+				<use  href="#file" x="0" y="0"/>
+					</g>
+			<polyline fill="none" stroke="black" stroke-width="1" points="50,55 50,95 60,95"/>
+					
+			<g id="3" transform="translate(60,85)">
+			<text id="L_3" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15"
+				fill="black">
+				 Another File
+				</text>
+				<use  href="#file" x="0" y="0"/>
+					</g>
+			<polyline fill="none" stroke="black" stroke-width="1" points="30,30 30,120 40,120"/>
+					
+			<g id="4" transform="translate(40,110)">
+			<text id="L_4" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15"
+				fill="black">
+				 Root File
+				</text>
+				<use  href="#file" x="0" y="0"/>
+					</g>
+			</svg>

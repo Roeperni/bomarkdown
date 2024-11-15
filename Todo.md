@@ -7,7 +7,9 @@
 []comprendre pourquoi une variable array ne se redim pas
 []implémenter le bad parsing pour les l:
 [] Scanner les def pour regarder les use invalides
-[] utiliser des methode async pour les lecture de fichier ?
+[] generaliser l'utilisation des methode workspace.fs plutot que le fs de node
+[] utiliser la notation pandoc pour la definition de block de code (et maj le parser)
+
 
 ## Configuration
 

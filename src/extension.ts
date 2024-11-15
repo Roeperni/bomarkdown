@@ -72,6 +72,10 @@ interface IconLeg {
     "scale": number;
 }
 
+type blocdelim ={
+	"begin":string;
+	"end" : string;
+}
 
 export interface Icon {
 
@@ -80,8 +84,52 @@ export interface Icon {
     "type": string;
 }
 
+interface BoMBLock{
+	"path":string;
+	"content":string;
+	"begin":number;
+	"end":number
+}
+
 export const EmptyBoMItem: string= '{"id":0,"Parentid":0,"level":0,"Label":"","badparsing":false,"x":0,"y":0,"h":0,"lblw":0,"w":0,"Type":""}'
 export const EmptyBoM: string='{"BoMItems":[],"column":0,"x":0,"y":0,"maxw":0,"maxnegw":0,"h":0}'
+
+
+function getBomBlock (line:number,editortext:string):BoMBLock{
+
+	// Split de l'editor sur les saut de ligne
+	let EditorArray: string[] = editortext.split(/\r?\n/);
+	const blocdelim: blocdelim=vscode.workspace.getConfiguration('bomarkdown').get('codeblockdelimiter')||{"begin":"","end":""};
+	const beginbloc=blocdelim.begin.split(" ");
+	const endbloc=blocdelim.end.split(" ");
+	// recherche de la limite sup du codeblock
+	let i=0;
+	let beginline=0;
+	let temppath:string[]=[];
+	for (i=line; i>=0; i--){
+		//console.log("Ligne:" + EditorArray[i] + " Bloc:" + beginbloc[0]);
+		if (beginbloc.some(bloc =>EditorArray[i].startsWith(bloc))) {
+			temppath=EditorArray[i].split(":");
+			//console.log("trouvé debut");
+			beginline=i+1;
+			break;
+
+		}
+		}
+	
+	for (i=line; i<EditorArray.length; i++){
+		console.log(endbloc.toString())
+		if (endbloc.some(fbloc =>EditorArray[i].startsWith(fbloc))) {
+			console.log("trouvé fin");
+			break;
+		}
+		}
+	const endline=i;
+	const tempblock:BoMBLock={"path":temppath[1],"content":EditorArray.slice(beginline,endline).join("\n"),"begin":beginline,"end":endline};
+	return tempblock;
+}
+
+
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -90,10 +138,12 @@ export function activate(context: vscode.ExtensionContext) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "bomarkdown" is now active!');
+	
 	context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.preview', () => {
 
 		  let Editor=vscode.window.activeTextEditor
+		  let line=vscode.window.activeTextEditor?.selection.active.line
 		  if (Editor ===undefined) {
 			vscode.window.showInformationMessage('No Active editor');
 		  } else {
@@ -104,7 +154,8 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.ViewColumn.Two, // Editor column to show the new webview panel in.
 			{} // Webview options. More on these later.
 			);
-			panel.webview.html=getpreviewhtml(context.extensionUri,panel.webview,Editor.document.getText());
+		let temptxtbloc=getBomBlock(Editor.selection.active.line,Editor.document.getText());	
+		panel.webview.html=getpreviewhtml(context.extensionUri,panel.webview,temptxtbloc.content);
 		  }
 		})
 	  );
@@ -116,7 +167,8 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showInformationMessage('No Active editor');
 		  } else {
 			// Export to file
-			let BOMtable:BOM[]= parseEditor(Editor.document.getText());
+			let temptxtbloc=getBomBlock(Editor.selection.active.line,Editor.document.getText())
+			let BOMtable:BOM[]= parseEditor(temptxtbloc.content);
 			BOMtable=Computelayout(BOMtable);
 			const txtsvg:string=generateSVG(context.extensionUri,BOMtable);
 			let activefile=Editor.document.fileName.split(".");
@@ -126,6 +178,38 @@ export function activate(context: vscode.ExtensionContext) {
 		  }
 		})
 	  );
+	  context.subscriptions.push(
+		vscode.commands.registerCommand('bomarkdown.insertassvg', () => {
+
+		  let Editor=vscode.window.activeTextEditor
+		  if (Editor ===undefined) {
+			vscode.window.showInformationMessage('No Active editor');
+		  } else {
+			// Export to file
+			const editortext=Editor.document.getText();
+			let temptxtbloc=getBomBlock(Editor.selection.active.line,editortext);
+			let BOMtable:BOM[]= parseEditor(temptxtbloc.content);
+			BOMtable=Computelayout(BOMtable);
+			const txtsvg:string=generateSVG(context.extensionUri,BOMtable);
+			let activefile=Editor.document.uri;
+			activefile=vscode.Uri.joinPath(activefile,"../"+temptxtbloc.path +".svg");
+			
+			vscode.workspace.fs.writeFile(activefile,Buffer.from(txtsvg,"utf-8"));
+			const temposition:vscode.Position=new vscode.Position(temptxtbloc.end+1,0);
+			const tempSVGmd=`![${temptxtbloc.path}](${temptxtbloc.path +".svg"} "${temptxtbloc.path}")`;
+			if (!editortext.includes(tempSVGmd)){
+			Editor.edit(editbuilder=> {
+				editbuilder.insert(temposition,"\n"+tempSVGmd+"\n");
+				vscode.window.showInformationMessage("end:"+ (temptxtbloc.end+1));
+				
+			});
+			}
+			vscode.commands.executeCommand('markdown-preview-enhanced.openPreviewToTheSide');
+			
+		  }
+		})
+	  );
+
 	context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.commands', () => {
 
@@ -188,7 +272,7 @@ export function activate(context: vscode.ExtensionContext) {
 					} else {
 						// new file add to index
 							let tempicon :Icon={
-							name:spitIconfile[0],
+							name:spitIconfile[0].toLowerCase(),
 							type:spitIconfile[1].toLowerCase(),
 							icon:`data:image/${spitIconfile[1]};base64,${tempB64}`
 
@@ -228,7 +312,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const disposable = vscode.commands.registerCommand('bomarkdown.helloWorld', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from BoMarkdown!');
+		vscode.window.showInformationMessage('Hello les guys');
 	});
 
 	context.subscriptions.push(disposable);
@@ -258,6 +342,9 @@ ${generateSVG(contexturi,BOMtable)}
 ${JSON.stringify(BOMtable,null,"\t")}
 </pre>
 </code>
+<pre>
+${EditorTxt}
+</pre>
 </body>
 </html>`;
 }
