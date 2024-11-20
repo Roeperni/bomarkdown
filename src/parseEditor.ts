@@ -1,4 +1,4 @@
-import { BOM, EmptyBoM, BoMItem, EmptyBoMItem } from "./extension";
+import { BOM, EmptyBoM, BoMItem, EmptyBoMItem ,link} from "./extension";
 import * as vscode from 'vscode';
 interface Transcoder {
 	[key:string]:string;
@@ -93,18 +93,25 @@ export function parseEditor(EditorTxt: string): BOM[] {
 										tempitem.Label = arg.substring(2);
 								}
 								break;
+							case "a:":
+								tempitem.alias=arg.substring(2);
+								break;
 							case "l:":
 								// Gesiton des lien et des ALias Alias avant le / liste d'alias en lien apres
 								let larray: string[] = [];
-								larray = arg.substring(2).split("/");
+								let templink:link={relative:"",linktype:"i"};
+								let objprelatives:link[]=[];
+								larray = arg.substring(2).split(":");
 								if (larray.length >= 1) {
-									tempitem.alias = larray[0];
+									templink.linktype = larray[0];
 								}
 								if (larray.length == 2) {
 									const temprelatives = larray[1].split(",").filter((c: string) => c !== "");
-									if (temprelatives) {
-										tempitem.relatives = temprelatives;
+									for (const alias of temprelatives){
+
+										objprelatives.push({relative:alias,linktype:larray[0]});
 									}
+									tempitem.relatives=objprelatives;
 								}
 
 								break;

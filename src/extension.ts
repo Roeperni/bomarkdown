@@ -10,17 +10,21 @@ import { generateCommandHTML , generateSVG} from './HTMLgeneration';
 
 
 
-export const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
-export const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
+const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
+const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
+const iconw:number=h;
 
-export const iconw:number=h;
-export const topoffset:number=0;
 
 
 // courbure des lien d'implement
 export const bend:number=100;
 export let extlog=vscode.window.createOutputChannel("BoMarkdownLogs");
 //Define Item interface
+
+export type link={
+	relative:string;
+	linktype:string;
+}
 
 export interface BoMItem {
 	id:number;
@@ -39,7 +43,7 @@ export interface BoMItem {
 	status?:string;
 	revision?:string;
 	bubbles?:string[];
-	relatives?:string[];
+	relatives?:link[];
 	badparsing:boolean;
 
 
@@ -65,12 +69,6 @@ export interface Implink {
 	cs:number;
 }
 
-interface IconLeg {
-
-	"name": string;
-    "icon": string;
-    "scale": number;
-}
 
 type blocdelim ={
 	"begin":string;
@@ -82,6 +80,7 @@ export interface Icon {
 	"name": string;
     "icon": string;
     "type": string;
+	"label"?:string;
 }
 
 interface BoMBLock{
@@ -129,6 +128,22 @@ function getBomBlock (line:number,editortext:string):BoMBLock{
 	return tempblock;
 }
 
+function createsvgfile (uri:vscode.Uri,path:string,txtsvg:string):void{
+	
+	if (uri.scheme !="untitled"){
+		if (path){
+			uri=vscode.Uri.joinPath(uri,"../"+path +".svg");
+		}	else {
+			
+			uri=uri.with({path:uri.path.substring(0,uri.path.lastIndexOf("."))+".svg"});
+		}
+		vscode.workspace.fs.writeFile(uri,Buffer.from(txtsvg,"utf-8"));
+		vscode.window.showInformationMessage('File created : '+ uri.toString());
+	} else {
+		vscode.window.showInformationMessage('File is not saved no svg creation');
+	}
+}
+
 
 
 // This method is called when your extension is activated
@@ -171,10 +186,9 @@ export function activate(context: vscode.ExtensionContext) {
 			let BOMtable:BOM[]= parseEditor(temptxtbloc.content);
 			BOMtable=Computelayout(BOMtable);
 			const txtsvg:string=generateSVG(context.extensionUri,BOMtable);
-			let activefile=Editor.document.fileName.split(".");
-			activefile[activefile.length-1]="svg"
-			fs.writeFileSync(activefile.join("."),txtsvg);
-			vscode.window.showInformationMessage('Exported to \n' + activefile.join("."));
+			
+			createsvgfile(Editor.document.uri,temptxtbloc.path,txtsvg);
+
 		  }
 		})
 	  );
@@ -191,17 +205,13 @@ export function activate(context: vscode.ExtensionContext) {
 			let BOMtable:BOM[]= parseEditor(temptxtbloc.content);
 			BOMtable=Computelayout(BOMtable);
 			const txtsvg:string=generateSVG(context.extensionUri,BOMtable);
-			let activefile=Editor.document.uri;
-			activefile=vscode.Uri.joinPath(activefile,"../"+temptxtbloc.path +".svg");
-			
-			vscode.workspace.fs.writeFile(activefile,Buffer.from(txtsvg,"utf-8"));
+			createsvgfile(Editor.document.uri,temptxtbloc.path,txtsvg);
 			const temposition:vscode.Position=new vscode.Position(temptxtbloc.end+1,0);
 			const tempSVGmd=`![${temptxtbloc.path}](${temptxtbloc.path +".svg"} "${temptxtbloc.path}")`;
 			if (!editortext.includes(tempSVGmd)){
 			Editor.edit(editbuilder=> {
 				editbuilder.insert(temposition,"\n"+tempSVGmd+"\n");
-				vscode.window.showInformationMessage("end:"+ (temptxtbloc.end+1));
-				
+							
 			});
 			}
 			vscode.commands.executeCommand('markdown-preview-enhanced.openPreviewToTheSide');

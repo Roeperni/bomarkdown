@@ -1,15 +1,48 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import * as path from 'path';
-import {Icon,BOM,Implink,bend, BoMItem,h, panh, iconw, topoffset,extlog} from "./extension";
-import {panv} from './Computelayout';
+import {Icon,BOM,Implink,BoMItem,extlog} from "./extension";
+import {ComputeBBOXjson} from "./Computelayout";
+
+type legenditem ={
+		type:string;
+		name:string;
+		label:string;
+		w:number;
+}
+
+type legendColumn ={
+		x:number;
+		w:number;
+		items:legenditem[];
+}
+
+type legendtable ={
+	w:number;
+	h:number;
+	columns:legendColumn[];
+}
 
 interface Objsetting {
 	[key:string]:string;
 }
+interface Linksdefinitions {
+	[key:string]:Linksdefinition
+
+}
+interface Linksdefinition {
+	label:"string";
+	arrow:"string";
+	Color: "string";
+	thickness:number;
+	dashpattern:"string";
+}
+
+interface legend {
+	types:string[];
+	links:string[];
+}
 
 const EmptyLink: string='{"spx":0,"spy":0,"fpx":0,"fpy":0,"cf":0,"cs":0}'
-const implementlinkcolor:string=vscode.workspace.getConfiguration('bomarkdown').get('ImplemColor')||"black";
 const revbackground= vscode.workspace.getConfiguration('bomarkdown').get('revision.background');
 const revfontcolor= vscode.workspace.getConfiguration('bomarkdown').get('revision.font');
 
@@ -17,6 +50,7 @@ const revfontcolor= vscode.workspace.getConfiguration('bomarkdown').get('revisio
 
 function getBOMCommandsB64(jsonpath:string):string{
     const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
+	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
 	let rawdata = fs.readFileSync(jsonpath,"utf-8");
 	let icons:Icon[] = JSON.parse(rawdata);
 	let commands:string=`
@@ -45,8 +79,12 @@ function getBOMCommandsB64(jsonpath:string):string{
 export function generateCommandHTML(jsonpath:string):string {
     const Status_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
     const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};
-    const bubbules_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('bubbules')||{};
+    const bubbles_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
     const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
+	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
+	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
+	const iconw:number=h;
+
     let comandhtml:string=`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,7 +135,7 @@ export function generateCommandHTML(jsonpath:string):string {
   </div>
   <div class="column right" >
     <h3>Mandatory Defs</h3>
-    <svg width="50%" height="${2*(h+gap)}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg width="50%" height="${h+2*gap}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
     ${MandatoryDefs_Settings["undef"]}
     <text font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15"
 				fill="black">
@@ -105,12 +143,15 @@ export function generateCommandHTML(jsonpath:string):string {
 				</text>			
     </svg>
     `;
+	comandhtml+=`<h3>Links</h3>
+    ${generateSVGforLinks(linkstyle,gap,true)}
+    `;
 
     comandhtml+=`<h3>Satus Defs</h3>
     ${generateSVGforSetting(Status_Settings,gap,"",true)}
     `;
     comandhtml+=`<h3>Bulle Defs</h3>
-    ${generateSVGforSetting(bubbules_Settings,gap+3,MandatoryDefs_Settings["placeholder"],true)}
+    ${generateSVGforSetting(bubbles_Settings,gap+3,MandatoryDefs_Settings["placeholder"],true)}
     `;
 
 
@@ -122,6 +163,8 @@ export function generateCommandHTML(jsonpath:string):string {
 }
 
 function generateSVGforSetting (obj:Objsetting,gap:number,includesvg?:string,svgheader?:boolean):string{
+	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
+	const iconw:number=h;
     let comandhtml:string="";
     if (svgheader){
     comandhtml=`<svg width="50%" height="${Object.keys(obj).length*(h+2*gap)+gap}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -142,6 +185,33 @@ function generateSVGforSetting (obj:Objsetting,gap:number,includesvg?:string,svg
     return comandhtml+ "</svg>"
 }
 
+function generateSVGforLinks (obj:Linksdefinitions,gap:number,svgheader?:boolean):string{
+	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
+	const iconw:number=h;
+    let comandhtml:string="";
+    if (svgheader){
+    comandhtml=`<svg width="50%" height="${Object.keys(obj).length*(h+2*gap)+gap}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+    `;
+    }
+    let nbkey:number=0;
+	comandhtml+=`<defs>
+	${Extractarrows(obj)}
+	</defs>`;
+    for (let key in obj){
+        comandhtml+=`<g transform="translate(15,${gap+nbkey*(h+2*gap)})">
+        <line x1="0" y1="${h/2}" x2="${iconw}" y2="${h/2}" ${lineproperties(obj[key],key)} stroke-linecap="round"/>
+        <text font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15" fill="black">
+				${key} : ${obj[key].label}
+				</text>
+                
+        </g>`;
+        nbkey ++; 
+    }
+    return comandhtml+ "</svg>"
+}
+
+
+
 function ExtractDefFromObject (obj:Objsetting):string{
     let comandhtml:string="";
     for (let key in obj){
@@ -151,16 +221,112 @@ function ExtractDefFromObject (obj:Objsetting):string{
     return comandhtml
 }
 
+function Extractarrows (linkstyle:Linksdefinitions):string {
+	let comandhtml:string="";
+	for (let key in linkstyle){
+		if (linkstyle[key].arrow){
+		comandhtml+=`${linkstyle[key].arrow}
+        `;}
+	}
+	return comandhtml
+}
+
+function lineproperties (link:Linksdefinition,key:string):string {
+	let templineprop:string=`stroke="${link.Color}" stroke-width="${link.thickness}"`;
+	if (link.dashpattern){templineprop+=' stroke-dasharray="'+link.dashpattern +'"'};
+	if (link.arrow){templineprop+=' marker-end="url(#arrow_'+key +')"'};
+	return templineprop;
+
+}
+
+function legendextract (BOMtable:BOM[]):legend {
+	
+	let templegend:legend={types:[],links:[]};
+	for (const BOM of BOMtable){
+		for( const item of BOM.BoMItems){
+			if (!templegend.types.includes(item.Type)){templegend.types.push(item.Type)}
+			if (item.relatives){
+				for (const rel of item.relatives){
+					if (!templegend.links.includes(rel.linktype)){templegend.links.push(rel.linktype)}
+				}
+			}
+		}
+	}
+	return templegend;
+}
+
+function initlegendbloc (legend:legend,nbcol:number,icons:Icon[]):legendtable{
+	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
+	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
+	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
+	const iconw:number=h;
+	const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
+	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
+
+	let templegend:legendtable;
+	let templegenditems:legenditem[]=[];
+	let templabel:string="";
+	let tempcolumns:legendColumn[];
+	for (const typ of legend.types ){
+		const typeicon :any|undefined=icons.find(i =>i.name==typ);
+		if (typeicon){
+			if (typeicon.label){
+				templabel=typeicon.label;
+			}else {
+				templabel=typeicon.name;
+			}
+			templegenditems.push({type:"object",name:typ,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap})
+		}
+	}
+	for (const typ of legend.links ){
+			if (linkstyle[typ].label){
+				templabel=linkstyle[typ].label;
+			}else {
+				templabel=typ;
+			}
+
+			templegenditems.push({type:"link",name:typ,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap})
+		}
+	const itempercolum:number=Math.ceil(templegenditems.length/nbcol);
+	tempcolumns=[];
+	for (let k=0;k<nbcol;k++){
+		let tempcolumnitems=templegenditems.slice(k*(itempercolum),(k+1)*(itempercolum))
+		let tempcolumn:legendColumn={x:0,w:0,items:[]};
+		if (k==0){
+			tempcolumn.x=0;
+		}else{
+			tempcolumn.x=tempcolumns[k-1].x + tempcolumns[k-1].w;
+		}
+		tempcolumn.w=Math.max(...tempcolumnitems.map(w =>w.w))+panh;
+		tempcolumn.items=tempcolumnitems;
+		tempcolumns.push(tempcolumn)
+	}
+
+	const tempw:number=tempcolumns[nbcol-1].x + tempcolumns[nbcol-1].w;
+
+	templegend={w:tempw,h:(itempercolum)*(h+panv),columns:tempcolumns};
+
+
+
+	return templegend;
+}
+
+
 
 export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
+	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
+	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
+	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
+	const iconw:number=h;
     const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
-    const SVGdefs:string=vscode.workspace.getConfiguration('bomarkdown').get('defs')||"";
     const Status_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
     const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};
-    const bubbules_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('bubbules')||{};
+    const bubbles_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
+	const BendFactor :number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
+	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
+	const haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
+	const legendscale:number=vscode.workspace.getConfiguration('bomarkdown').get('legendscale')||0.7;
 	let tempfinItem:number=0;
-	let statusbkgnd:string="";
-	let totalh:number=400;
 	let JsonUri =vscode.Uri.joinPath(contexturi,"src/IconConfig","UserIcons.json")
 	let rawdata = fs.readFileSync(JsonUri.fsPath,"utf-8");
 	let icons:Icon[] = JSON.parse(rawdata);
@@ -168,15 +334,27 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	// pourquoi un at(-1) fait du undefined ?
 	const totalw=BOMtable[BOMtable.length-1].x + BOMtable[BOMtable.length-1].maxw;
 	const maxitem= Math.max(...BOMtable.map((maxitem)=>maxitem.BoMItems.length),0);
-
+	
+	// extraction de la legende
+	const legende:legend=legendextract(BOMtable);
+	const legendColumns:number=BOMtable.length;
+	let legendeblock:legendtable=initlegendbloc(legende,legendColumns,icons);
+	let svgh:number;
+	if (haslegend){
+		svgh=maxitem*(h+panv)+2*panv+legendeblock.h;
+	} else {
+		svgh=maxitem*(h+panv)+2*panv;
+	}
+	
 	// Init du svg et ouverture des <def>
-	let tempstr:string=`<svg width="${totalw+panh}" height="${maxitem*(h+panv)+panv}" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+	let tempstr:string=`<svg width="${totalw+panh}" height="${ svgh }" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<defs>
 	`;
     // recuperation des def des settings
+	tempstr+=Extractarrows(linkstyle);
 	tempstr+=ExtractDefFromObject(MandatoryDefs_Settings);
     tempstr+=ExtractDefFromObject(Status_Settings);
-    tempstr+=ExtractDefFromObject(bubbules_Settings);
+    tempstr+=ExtractDefFromObject(bubbles_Settings);
 
 
 	// extraction des différents type pour le mettre dans le def du svg
@@ -201,15 +379,45 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	// Fermeture des <def>
 	tempstr+=`</defs> 
 	`;
+// creation de la legende
+if (haslegend){
+	tempstr+=`<g id="legend" transform="translate(${gap},${maxitem*(h+panv)+2*panv})">
+	<g transform="translate(0,10) scale(0.7,0.7)">
+			<rect width="${legendeblock.w + gap}" height="${legendeblock.h + panv}" x="0" y="0" fill="Gainsboro" />
+
+	`;
+	for (const c of legendeblock.columns){
+		let nbi:number=0;
+		for (const i of c.items) {
+			if (i.type=="object"){
+			tempstr+=`<use  href="#${i.name}" x="${c.x}" y="${nbi*(h+panv)}"/>
+			`;
+			} else {
+			tempstr+=`<line x1="${c.x}" y1="${nbi*(h+panv)+h/2}" x2="${c.x+iconw}" y2="${nbi*(h+panv)+h/2}" ${lineproperties(linkstyle[i.name],i.name)} stroke-linecap="round"/>
+			`;
+			}
+			tempstr+=`<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="${c.x+iconw+gap}" y="${nbi*(h+panv)+15}" fill="black">
+					${i.label}
+					</text>`;
+			nbi++;
+
+		}
+	}
+	tempstr+=`</g>
+	<text stroke="none" font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="0" y="10" fill="black" >
+	Legend
+	</text> </g>`;
+}
 
 
+// première boucle pour la creation des liens
 	for (const iBOM of BOMtable){
 		for (const BoMItem of iBOM.BoMItems){
 			// construction des lien parent / enfant on le fait en premier pour avoir les bulles sur les liens
 			if (BoMItem.Parentid>=0){
 				const papa: BoMItem|undefined=iBOM.BoMItems.find(B => B.id===BoMItem.Parentid);
 				if (papa !==undefined){
-					tempstr+=`<polyline fill="none" stroke="black" stroke-width="1" points="${papa.x+iBOM.x+h/2},${papa.y+iBOM.y+papa.h} ${papa.x+iBOM.x+h/2},${BoMItem.y+iBOM.y+BoMItem.h/2} ${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y+BoMItem.h/2}"/>
+					tempstr+=`<polyline fill="none" ${lineproperties(linkstyle["h"],"h")} points="${papa.x+iBOM.x+h/2},${papa.y+iBOM.y+papa.h} ${papa.x+iBOM.x+h/2},${BoMItem.y+iBOM.y+BoMItem.h/2} ${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y+BoMItem.h/2}"/>
 					`;
 				}
 			}
@@ -220,40 +428,40 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 					let tempImpLink:Implink=JSON.parse(EmptyLink);
 					// Boucle sur toutes les bom
 					for (const bom of BOMtable){
-					let relbomitem: BoMItem|undefined=bom.BoMItems.find( R=>R.alias===relative);
+					let relbomitem: BoMItem|undefined=bom.BoMItems.find( R=>R.alias===relative.relative);
 					if (relbomitem!==undefined){
 						if (bom.column==iBOM.column){
 							// meme colonne 
-							// attention piege le w est deja un x/ length
+							// attention piege le w le x du bord droit de l'item
 							tempImpLink.spx=iBOM.x+BoMItem.w+gap;
 							tempImpLink.spy=iBOM.y+BoMItem.y+h/2;
 							tempImpLink.fpx=bom.x+relbomitem.w+gap;
 							tempImpLink.fpy=bom.y+relbomitem.y+h/2;
-							tempImpLink.cs=bend/2;
-							tempImpLink.cf=bend/2;
+							tempImpLink.cs=(iBOM.maxw-BoMItem.w)*BendFactor+ panh;
+							tempImpLink.cf=(iBOM.maxw-relbomitem.w)*BendFactor + panh ;
 
 
 						} else if (bom.column<iBOM.column){
 							// cible a gauche
-							// attention piege le w est deja un x/ length
-							tempImpLink.spx=iBOM.x+BoMItem.x-panh;
+							// attention piege le w le x du bord droit de l'item
+							tempImpLink.spx=iBOM.x+BoMItem.x-panh/2;
 							tempImpLink.spy=iBOM.y+BoMItem.y+h/2;
 							tempImpLink.fpx=bom.x+relbomitem.w+gap;
 							tempImpLink.fpy=bom.y+relbomitem.y+h/2;
-							tempImpLink.cs=-bend;
-							tempImpLink.cf=bend;
+							tempImpLink.cs=-(tempImpLink.spx-tempImpLink.fpx)/2;
+							tempImpLink.cf=-tempImpLink.cs;
 
 						} else{
 							// cible à droite
-							// attention piege le w est deja un x/ length
+							// attention piege le w le x du bord droit de l'item
 							tempImpLink.spx=iBOM.x+BoMItem.w+gap;
 							tempImpLink.spy=iBOM.y+BoMItem.y+h/2;
-							tempImpLink.fpx=bom.x+relbomitem.x-panh;
+							tempImpLink.fpx=bom.x+relbomitem.x-panh/2;
 							tempImpLink.fpy=bom.y+relbomitem.y+h/2;
-							tempImpLink.cs=bend;
-							tempImpLink.cf=-bend;
+							tempImpLink.cs=(tempImpLink.fpx-tempImpLink.spx)/2;
+							tempImpLink.cf=-tempImpLink.cs;
 						}
-						tempstr+=`<path fill="none" stroke="${implementlinkcolor}" d="M ${tempImpLink.spx} ${tempImpLink.spy} C ${tempImpLink.spx+tempImpLink.cs} ${tempImpLink.spy} ${tempImpLink.fpx+tempImpLink.cf} ${tempImpLink.fpy} ${tempImpLink.fpx} ${tempImpLink.fpy}" marker-end="url(#arrow)"/>
+						tempstr+=`<path fill="none" ${lineproperties(linkstyle[relative.linktype],relative.linktype)} d="M ${tempImpLink.spx} ${tempImpLink.spy} C ${tempImpLink.spx+tempImpLink.cs} ${tempImpLink.spy} ${tempImpLink.fpx+tempImpLink.cf} ${tempImpLink.fpy} ${tempImpLink.fpx} ${tempImpLink.fpy}"/>
 						`;
 					}
 				}
@@ -261,6 +469,13 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 			}
 
 
+
+
+		}
+	}
+// Deuxieme boucle pour la creation des items au dessus des liens
+	for (const iBOM of BOMtable){
+		for (const BoMItem of iBOM.BoMItems){
 			// Constrution du group avec le label
 			tempstr+=`
 			<g id="${BoMItem.id}" transform="translate(${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y})">
@@ -269,8 +484,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 			if (BoMItem.Type){
 				const typeicon :any|undefined=icons.find(i =>i.name==BoMItem.Type);
 				// on fait de la place pour l'icone si il y a un type
-				tempstr+=`<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15"
-				fill="black">
+				tempstr+=`<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
 				${BoMItem.Label}
 				</text>
 				`;
@@ -287,8 +501,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 				
 			} else {
 				// si pas de type pas d'icone
-				tempstr+=`<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15"
-				fill="black">
+				tempstr+=`<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
 				${BoMItem.Label}
 				</text>
 				`;
@@ -302,7 +515,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 					tempstr+=`<use href="#eff" x="0" y="0"/>
 					`;
 				} else {
-					tempstr+=`<text id="${"e_"+BoMItem.id}" font-family="system-ui" text-anchor="end" font-weight="normal" font-style="normal" font-size="13" x="${-panh}" y="15" fill="black" >
+					tempstr+=`<text id="${"e_"+BoMItem.id}" font-family="system-ui" text-anchor="end" font-weight="normal" font-style="normal" font-size="13" x="${-panh}" y="15" fill="black" paint-order="stroke">
     				${BoMItem.effectivity}
     				</text>
 					`;
@@ -350,6 +563,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 
 		}
 	}
+
 	return tempstr + '</svg>'
 }
 

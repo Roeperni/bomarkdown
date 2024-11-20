@@ -9,6 +9,8 @@
 [] Scanner les def pour regarder les use invalides
 [] generaliser l'utilisation des methode workspace.fs plutot que le fs de node
 [] utiliser la notation pandoc pour la definition de block de code (et maj le parser)
+[] implementer le default link
+[] permettre de choisir le lien h par defaut
 
 
 ## Configuration
@@ -25,6 +27,10 @@
 [x]implémenter le nudge en setting (petit gap entre les icons defaut 2)
 [x]generer des id pour les items du groupe (pariel fait pour label et effectivité)
 [X]utiliser les defs pour les images
+[]gestion de la legende
+[]plusieur type de lien
+[] rectangle en degradé blanc transparent pour etre au dessus des fleches
+[x] detourer la matrice
 
 ## integration markdown
 

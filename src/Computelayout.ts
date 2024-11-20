@@ -1,14 +1,13 @@
-import { BOM, h, panh, iconw, topoffset } from "./extension";
+import { BOM } from "./extension";
 import FontSizes from "./IconConfig/Fontsize.json";
 import * as vscode from 'vscode';
-export const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
-const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
+
 
 interface fsize {
 	[key:number]:number;
 }
 
-function ComputeBBOXjson (font:string, size:number, str:string):number{
+export function ComputeBBOXjson (font:string, size:number, str:string):number{
 	let tmplength:number=0;
 	const Fontobj=FontSizes.find(f => f.Font==font && f.size==size);
 	if (Fontobj !==undefined){
@@ -36,6 +35,11 @@ return tmplength;
 
 
 export function Computelayout(TBOM: BOM[]): BOM[] {
+	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
+	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
+	const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
+	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
+	const iconw:number=h;
 
 	for (const iBOM of TBOM) {
 		// premier scan de toute un bom pour determiner les abcisses de chaque item, la largeur de chaque item
