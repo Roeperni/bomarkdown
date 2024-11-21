@@ -10,7 +10,7 @@ BomMarkdown is an extension that generetates a SVG representaion of a Bill of ma
  + (i:file, Root File)
 ```
 
-![Images/FolderExample](Images/FolderExample.svg "Images/FolderExample")
+![Images/FolderExample](Images/FolderExample.png "Images/FolderExample")
 
 ## Features
 
@@ -46,7 +46,7 @@ to add a new column juste type
 
 ```
 
-![BOMHierachy](BOMHierachy.svg "BOMHierachy")
+![BOMHierachy](BOMHierachy.png "BOMHierachy")
 
 
 ##### Type the items
@@ -61,7 +61,7 @@ an item can be typed by using a type block
  + (i:foo,an unkown type)
 ```
 
-![Images/typeitem](Images/typeitem.svg "Images/typeitem")
+![Images/typeitem](Images/typeitem.png "Images/typeitem")
 
 to list all the availables types reffer to [BOM Commands](#bom-commands)
 
@@ -76,7 +76,7 @@ you can define the satus of an item by adding a status block
 
 ```
 
-![Images/statusitem](Images/statusitem.svg "Images/statusitem")
+![Images/statusitem](Images/statusitem.png "Images/statusitem")
 
 ##### Define several bom in a same graph
 
@@ -96,7 +96,7 @@ The bom can be distributed in several column and several root can be stacked in 
  + (i:requirement, req4)
 ```
 
-![Images/multicolumn](Images/multicolumn.svg "Images/multicolumn")
+![Images/multicolumn](Images/multicolumn.png "Images/multicolumn")
 
 ##### Aliases and implement link
 
@@ -129,7 +129,7 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
 
 ```
 
-![Images/aliasesandlinks](Images/aliasesandlinks.svg "Images/aliasesandlinks")
+![Images/aliasesandlinks](Images/aliasesandlinks.png "Images/aliasesandlinks")
 
 ##### Bubbles
 
@@ -143,7 +143,7 @@ the Bubbles are define in a block (b:[bubble1],[bubble2],...[bubblen]) the order
  + (b:matrice,unlock)(i:component, Item with 2 Bubbles)
 ```
 
-![Images/Bubbles](Images/Bubbles.svg "Images/Bubbles")
+![Images/Bubbles](Images/Bubbles.png "Images/Bubbles")
 
 ##### Effectivity
 
@@ -156,7 +156,7 @@ Effectivity can be defined before links with an effectivity block (e:)
  + (e:[B -> #oo[)(i:component,effectivity special char can be defined)
 ```
 
-![Images/effectivity](Images/effectivity.svg "Images/effectivity")
+![Images/effectivity](Images/effectivity.png "Images/effectivity")
 
 ### BOM Export
 
@@ -173,7 +173,7 @@ On the starting block you can define an image path
 ```
 The path use forward "/" and the name is without extension
 If no block or path is detected the program will create a svg file with the same path as the current editor file 
-Ex launching the command on  "c:\myfolder\myfile.txt" will create or update the myfile.svg in the myfolder folder.
+Ex launching the command on  "c:\myfolder\myfile.txt" will create or update the myfile.png in the myfolder folder.
 
 ### Insert SVG in markdown
 
