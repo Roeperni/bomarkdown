@@ -16,6 +16,8 @@ BomMarkdown is an extension that generetates a SVG representaion of a Bill of ma
 
 ### BOM Preview
 
+launch it with the command palette or with a right click in a markdown file (*.md)
+
 #### BOM syntax
 
 ##### Introduction
@@ -44,7 +46,8 @@ to add a new column juste type
 
 ```
 
-![Hierarchy](.)(l:i:Images/bomheirachy.png "BomMarkdown Hierachy")
+![BOMHierachy](BOMHierachy.svg "BOMHierachy")
+
 
 ##### Type the items
 
@@ -134,6 +137,7 @@ On top of the type icon you can add a bubble to define a special characteristic 
 the Bubbles are define in a block (b:[bubble1],[bubble2],...[bubblen]) the order in the list define the drawing order with the last being drawn on the top.
 
 ```BoMMarkdown:Images/Bubbles
+
 + (b:lock)(i:component, Locked item)
  + (b:matrice)(i:component, Item with a position matrix)
  + (b:matrice,unlock)(i:component, Item with 2 Bubbles)
@@ -156,9 +160,32 @@ Effectivity can be defined before links with an effectivity block (e:)
 
 ### BOM Export
 
-The export commands generetates a svg file
+launch it with the command palette or with a right click in a markdown file (*.md)
+
+The export commands generates a svg file
+You must have your textfile saved on your computer.
+the program tries to detect code block delimited by start and end point. Start and en point can de defined in the settings
+On the starting block you can define an image path 
+```code
+<!---BoMardown:[path to the svg file]
+[BOM code here]
+--->
+```
+The path use forward "/" and the name is without extension
+If no block or path is detected the program will create a svg file with the same path as the current editor file 
+Ex launching the command on  "c:\myfolder\myfile.txt" will create or update the myfile.svg in the myfolder folder.
+
+### Insert SVG in markdown
+
+launch it with the command palette or with a right click in a markdown file (*.md)
+
+Like the export the command will generate or update a svg file from the current code block
+It will also insert an image markdown element below the code block and refresh the markdown preview enhanced window.
+
 
 ### BOM Commands
+
+launch it with the command palette or with a right click in a markdown file (*.md)
 
 This commands displays all the types (even those added by the user) links and bubbles.
 Names can be copy pasted in your markdown
@@ -167,20 +194,140 @@ Names can be copy pasted in your markdown
 
 ### Addicon
 
+The add icon command is only in the command palette.
+The command will ask a folder to the user and import all the image file of the folder in the Usericons.json file.
+During the import it will convert the image files (png or jpg) in base64 format in order to be abble to embed icons in the svg.
+The name of the icon is the filename in lowercase and with no extension.
+You can update the icon by performing a new import of the folder with modified image files.
+You can also edit the UserIcons.json to remove unwanted types and a folder with the default icons is packaged with the exentsion.
+
 ## Requirements
 
 No dependencies. Works well with [Markdown Preview enhanced](https:)(l:i:)(l:i:marketplace.visualstudio.com)(l:i:items?itemName=shd101wyy.markdown-preview-enhanced)
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### Simple settings
 
-For example:
+bomarkdown.h : Default Item height
+bomarkdown.gap : space between element on a line
+bomarkdown.panh : Horizontal pan distance between items
+bomarkdown.panv : Vertical pan distance between items
+bomarkdown.legendscale : scale of the legend
+bomarkdown.renderlegend : Specifies if a legend block is computed and added a the bottom of the svg
 
-This extension contributes the following settings:
+### Complex settings:
 
-* `myExtension.enable`: Enable)(l:i:disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+#### bomarkdown.Linksdefinition
+
+            "h":{
+              "label":"Child",
+              "arrow":"",
+              "Color": "black",
+              "thickness":1,
+              "dashpattern":""
+              },
+            "i":{
+            "label":"implement",
+            "arrow":"<marker id=\"arrow_i\" refX=\"6\" refY=\"3\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">  <path d=\"M 0 0 L 6 3 L 0 6 z\" fill=\"steelblue\"/></marker>",
+            "Color": "steelblue",
+            "thickness":1,
+            "dashpattern":""
+            },
+            "c":{
+              "label":"coverage",
+              "arrow":"<marker id=\"arrow_c\" refX=\"6\" refY=\"3\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">  <path d=\"M 0 0 L 6 3 L 0 6 z\" fill=\"hotpink\"/></marker>",
+              "Color": "hotpink",
+              "thickness":1,
+              "dashpattern":""
+            }
+
+          
+
+#### bomarkdown.revision
+
+          "type":"object",
+          "description": "Styling to display revision",
+          "order":10,
+          "default": {
+            "font":"white",
+            "background":"dimgrey"
+          },
+          "additionalProperties": false
+          
+#### bomarkdown.codeblockdelimiter
+
+            "type":"object",
+            "description": "Delimiter for codeblock in markdown",
+            "order":100,
+            "default": {
+              "begin":"<!---BoMMarkdown ```BoMMarkdown",
+              "end":"---> ```"
+            },
+            "additionalProperties": false
+                       
+#### bomarkdown.bubbles
+
+            "type":"object",
+            "description": "List of available bubbles",
+            "order":22,
+            "default":{
+                "matrice": "<g id=\"matrice\">    <polyline fill=\"none\" stroke=\"white\"  points=\"-5,17 -7.5,19.5\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>    <polyline fill=\"none\" stroke=\"white\"  points=\"-5,17 -5,12\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>    <polyline fill=\"none\" stroke=\"white\"  points=\"-5,17 0,17\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>    <polyline fill=\"none\" stroke=\"steelblue\"  points=\"-5,17 -5,12\" stroke-width=\"2\" stroke-linecap=\"round\"/>    <polyline fill=\"none\" stroke=\"steelblue\"  points=\"-5,17 0,17\" stroke-width=\"2\" stroke-linecap=\"round\"/>    <polyline fill=\"none\" stroke=\"steelblue\"  points=\"-5,17 -7.5,19.5\" stroke-width=\"2\" stroke-linecap=\"round\"/></g>",
+                "context": "<g id=\"context\">   <circle r=\"4\" cx=\"17\" cy=\"17\" fill=\"royalblue\" stroke=\"white\" stroke-width=\"0.25\" /> </g>",
+                "lock": "<g id=\"lock\" >   <rect x=\"13\" y=\"-2\" width=\"8\" height=\"8\" fill=\"indigo\" stroke=\"white\" stroke-width=\"0.25\"/>   <path d=\"M 14 -2 A 3 3, 0,1,1,20 -2\" stroke-width=\"2\" fill=\"none\" stroke=\"indigo\" /> </g>",
+                "unlock": "<g id=\"unlock\" >   <rect x=\"13\" y=\"-2\" width=\"8\" height=\"8\" fill=\"indigo\" stroke=\"white\" stroke-width=\"0.25\" />   <path d=\"M 14 -2 A 3 3, 0,1,0,8 -2\" stroke-width=\"2\" fill=\"none\" stroke=\"indigo\" /> </g>",
+                "noway": "<g id=\"noway\">   <circle r=\"7\" cx=\"20\" cy=\"0\" fill=\"red\" stroke=\"white\" stroke-width=\"0.25\"/>   <line x1=\"16\" y1=\"0\" x2=\"24\" y2=\"0\" stroke=\"white\" stroke-width=\"2.5\"/> </g>"
+              },
+            "additionalProperties": {
+              "type": "string"
+            }    
+#### bomarkdown.satus
+
+            "type":"object",
+            "description": "List of available status",
+            "order":21,
+            "default":{
+              "D":"<g id=\"D\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"lightgray\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nD\n</text>\n</g>",
+              "IW":"<g id=\"IW\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"blue\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nIW\n</text>\n</g>",
+              "F":"<g id=\"F\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"orange\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nF\n</text>\n</g>",
+              "R":"<g id=\"R\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"green\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nR\n</text>\n</g>",
+              "O":"<g id=\"O\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"black\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nO\n</text>\n</g>"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+
+
+          
+#### bomarkdown.MandatoryDefs
+
+            "type":"object",
+            "description": "Def used for the rendition : /!\\ do not remove any values",
+            "order":20,
+            "default":{
+              "undef":"<g id=\"undef\"><rect x=\"0\" y=\"0\" width=\"18\" height=\"18\" fill=\"red\" rx=\"4\"/><text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bolder\" font-style=\"normal\" font-size=\"16\" x=\"10\" y=\"11\" fill=\"white\" >?</text></g>",
+              "placeholder":"<g id=\"placeholder\">\n<rect x=\"0\" y=\"0\" width=\"18\" height=\"18\" fill=\"LightCyan\" rx=\"4\"/>\n</g>",
+              "eff":"<g id=\"eff\"><circle r=\"4\" cx=\"-10\" cy=\"10\" fill=\"darkorange\" stroke=\"white\" stroke-width=\"0.25\" /></g>"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+
+
+        
+#### bomarkdown.UTF8replacement":
+
+            "type":"object",
+            "description": "Replace the key in the text by an UTF8 char by default the size off the char is a M, edit Fonsize.json with the right size",
+            "Order":4,
+            "default":{
+              "#oo":"&#x221E;",
+              "->":"&#x2192;",
+              "<-":"&#x2190;"
+            },
+            "additionalProperties": {
+              "type": "string"
+
 
 ## Known Issues
 

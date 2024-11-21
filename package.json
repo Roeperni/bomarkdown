@@ -3,6 +3,12 @@
   "displayName": "BoMarkdown",
   "description": "BoM in markdown",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Roeperni/bomarkdown"
+
+  },
+  "icon": "Images/bomarkdownlogo.png",
   "engines": {
     "vscode": "^1.94.0"
   },

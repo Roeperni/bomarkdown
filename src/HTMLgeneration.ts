@@ -341,7 +341,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	let legendeblock:legendtable=initlegendbloc(legende,legendColumns,icons);
 	let svgh:number;
 	if (haslegend){
-		svgh=maxitem*(h+panv)+2*panv+legendeblock.h;
+		svgh=maxitem*(h+panv)+3*panv+legendeblock.h + 16;
 	} else {
 		svgh=maxitem*(h+panv)+2*panv;
 	}
@@ -370,7 +370,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	for (const typ of UniqueType){
 		const typeicon =icons.find(i =>i.name==typ);
 		if (typeicon !==undefined){
-			tempstr+=`<image  id="${typ}" xlink:href="${typeicon.icon}" witdh="${h}" height="${h}" x="0" y="0"/>
+			tempstr+=`<image  id="${typ}" witdh="${h}" height="${h}" x="0" y="0" xlink:href="${typeicon.icon}"/>
 			`;
 		} 
 
@@ -381,10 +381,9 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	`;
 // creation de la legende
 if (haslegend){
-	tempstr+=`<g id="legend" transform="translate(${gap},${maxitem*(h+panv)+2*panv})">
-	<g transform="translate(0,10) scale(0.7,0.7)">
-			<rect width="${legendeblock.w + gap}" height="${legendeblock.h + panv}" x="0" y="0" fill="Gainsboro" />
-
+	tempstr+=`<g id="legend" transform="translate(${gap},${maxitem*(h+panv)+2*panv}) scale(${legendscale},${legendscale})">
+	<rect width="${legendeblock.w + gap}" height="${legendeblock.h + panv+8}" x="0" y="12" fill="none" stroke="gray" stroke-width="1"/>
+	<g transform="translate(5,${panv+h})">		
 	`;
 	for (const c of legendeblock.columns){
 		let nbi:number=0;
@@ -404,9 +403,10 @@ if (haslegend){
 		}
 	}
 	tempstr+=`</g>
-	<text stroke="none" font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="0" y="10" fill="black" >
+	<rect x="18" y="10" width="45" height="5" fill="white"/>
+	<text stroke="none" font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="20" y="16" fill="grey" >
 	Legend
-	</text> </g>`;
+	</text></g>`;
 }
 
 
