@@ -230,7 +230,7 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.ViewColumn.Two, // Editor column to show the new webview panel in.
 			{} // Webview options. More on these later.
 			);
-			let JsonUri =vscode.Uri.joinPath(context.extensionUri,"src/IconConfig","UserIcons.json");
+			let JsonUri =vscode.Uri.joinPath(context.extensionUri,"IconConfig","UserIcons.json");
 			let jsonpath=JsonUri.fsPath;		
 			panel.webview.html=generateCommandHTML(jsonpath); 
 			
@@ -249,7 +249,7 @@ export function activate(context: vscode.ExtensionContext) {
 				canSelectFolders: true
 			};
 			// uri for the file
-			let JsonUri =vscode.Uri.joinPath(context.extensionUri,"src/IconConfig","UserIcons.json");
+			let JsonUri =vscode.Uri.joinPath(context.extensionUri,"IconConfig","UserIcons.json");
 			// convertion of the uri in path
 			let jsonpath=JsonUri.fsPath;
 			// read json and convert to object

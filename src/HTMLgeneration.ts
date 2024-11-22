@@ -327,7 +327,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	const haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
 	const legendscale:number=vscode.workspace.getConfiguration('bomarkdown').get('legendscale')||0.7;
 	let tempfinItem:number=0;
-	let JsonUri =vscode.Uri.joinPath(contexturi,"src/IconConfig","UserIcons.json")
+	let JsonUri =vscode.Uri.joinPath(contexturi,"IconConfig","UserIcons.json")
 	let rawdata = fs.readFileSync(JsonUri.fsPath,"utf-8");
 	let icons:Icon[] = JSON.parse(rawdata);
 	// calcul de la taille du graph

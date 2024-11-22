@@ -1,5 +1,5 @@
 import { BOM } from "./extension";
-import FontSizes from "./IconConfig/Fontsize.json";
+import FontSizes from "../IconConfig/Fontsize.json";
 import * as vscode from 'vscode';
 
 // interface used for the font size

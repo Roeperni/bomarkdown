@@ -1,4 +1,4 @@
-# bomarkdown README
+# BomMarkdown README
 
 BomMarkdown is an extension that generetates a SVG representaion of a Bill of material (like a tree) from a textual description. It is inspired by other text to graph tools like plantuml or mermaid.js
 
@@ -28,7 +28,7 @@ Each line of the bom is an item. Items can be linked either by a hiearchy link o
 
 To create a BOM you must use the following notation:
 
-```BoMMarkdown:BOMHierachy
+```BoMMarkdown:Images/BOMHierachy
 
 + first root first column
 -+ Child
@@ -46,7 +46,7 @@ to add a new column juste type
 
 ```
 
-![BOMHierachy](BOMHierachy.png "BOMHierachy")
+![BOMHierachy](Images/BOMHierachy.png "BOMHierachy")
 
 ##### Type the items
 
