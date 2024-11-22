@@ -370,7 +370,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	for (const typ of UniqueType){
 		const typeicon =icons.find(i =>i.name==typ);
 		if (typeicon !==undefined){
-			tempstr+=`<image  id="${typ}" witdh="${h}" height="${h}" x="0" y="0" xlink:href="${typeicon.icon}"/>
+			tempstr+=`<image  id="${typ}" witdh="${h}" height="${h}" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="${typeicon.icon}"/>
 			`;
 		} 
 
@@ -484,7 +484,8 @@ if (haslegend){
 			if (BoMItem.Type){
 				const typeicon :any|undefined=icons.find(i =>i.name==BoMItem.Type);
 				// on fait de la place pour l'icone si il y a un type
-				tempstr+=`<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				tempstr+=`<rect width="${BoMItem.lblw+iconw}" height="${h}" x="${iconw+gap}" fill="url(#grad)" />
+				<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				${BoMItem.Label}
 				</text>
 				`;
@@ -501,7 +502,8 @@ if (haslegend){
 				
 			} else {
 				// si pas de type pas d'icone
-				tempstr+=`<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				tempstr+=`<rect width="${BoMItem.lblw}" height="${h}" x="${gap}" fill="url(#grad)" />
+				<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${gap}" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
 				${BoMItem.Label}
 				</text>
 				`;

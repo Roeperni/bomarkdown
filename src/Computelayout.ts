@@ -27,7 +27,7 @@ export function ComputeBBOXjson (font:string, size:number, str:string):number{
 			}
 	}
 }
-return tmplength;
+return Math.round(tmplength);
 
 }
 
