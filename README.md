@@ -48,7 +48,6 @@ to add a new column juste type
 
 ![BOMHierachy](BOMHierachy.png "BOMHierachy")
 
-
 ##### Type the items
 
 an item can be typed by using a type block
@@ -67,7 +66,7 @@ to list all the availables types reffer to [BOM Commands](#bom-commands)
 
 ##### Define the status of the item
 
-you can define the satus of an item by adding a status block 
+you can define the satus of an item by adding a status block
 
 ```BoMMarkdown:Images/statusitem
 + (i:assembly,In Work Assembly,1)(s:IW)
@@ -165,14 +164,16 @@ launch it with the command palette or with a right click in a markdown file (*.m
 The export commands generates a svg file
 You must have your textfile saved on your computer.
 the program tries to detect code block delimited by start and end point. Start and en point can de defined in the settings
-On the starting block you can define an image path 
+On the starting block you can define an image path
+
 ```code
 <!---BoMardown:[path to the svg file]
 [BOM code here]
 --->
 ```
+
 The path use forward "/" and the name is without extension
-If no block or path is detected the program will create a svg file with the same path as the current editor file 
+If no block or path is detected the program will create a svg file with the same path as the current editor file.
 Ex launching the command on  "c:\myfolder\myfile.txt" will create or update the myfile.png in the myfolder folder.
 
 ### Insert SVG in markdown
@@ -181,7 +182,6 @@ launch it with the command palette or with a right click in a markdown file (*.m
 
 Like the export the command will generate or update a svg file from the current code block
 It will also insert an image markdown element below the code block and refresh the markdown preview enhanced window.
-
 
 ### BOM Commands
 
