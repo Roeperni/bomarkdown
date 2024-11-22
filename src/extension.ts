@@ -267,7 +267,7 @@ export function activate(context: vscode.ExtensionContext) {
 					// extension detection
 					const spitIconfile=Iconfile.split(".")
 					if (spitIconfile[1].toLowerCase()=="jpg" || spitIconfile[1].toLowerCase()=="png"|| spitIconfile[1].toLowerCase()=="jpeg"){
-					const Iconindex =icons.findIndex(i =>i.name==spitIconfile[0]);
+					const Iconindex =icons.findIndex(i =>i.name==spitIconfile[0].toLowerCase());
 					extlog.appendLine(fileUri[0].fsPath + " | " +Iconfile);
 					extlog.appendLine(path.join(fileUri[0].fsPath,Iconfile));
 					// converstion of the file in B64
