@@ -2,11 +2,12 @@ import { BOM } from "./extension";
 import FontSizes from "./IconConfig/Fontsize.json";
 import * as vscode from 'vscode';
 
-
+// interface used for the font size
 interface fsize {
 	[key:number]:number;
 }
 
+// fuction that computes a bbobx size using a string and a font definition
 export function ComputeBBOXjson (font:string, size:number, str:string):number{
 	let tmplength:number=0;
 	const Fontobj=FontSizes.find(f => f.Font==font && f.size==size);
@@ -30,10 +31,7 @@ return tmplength;
 
 }
 
-
-
-
-
+// first pass on the BOMs to compute the position of each items
 export function Computelayout(TBOM: BOM[]): BOM[] {
 	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
 	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;

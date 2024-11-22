@@ -118,7 +118,6 @@
 
                         
                     }
-                    alert("loop out");
                     var txtboxbyid=document.getElementById("S_32");
                     var bboxbyid=txtboxbyid.getBBox();
                     //char.id=32;
@@ -126,7 +125,7 @@
                     tempsizes[32]=(bboxbyid.width-tempsizes[97]*10)/9;
                     //chartable.Sizes=tempsizes;
                     const pre=document.createElement("pre");
-                    pre.appendChild(document.createTextNode(JSON.stringify(tempsizes,null,'\t')))
+                    pre.appendChild(document.createTextNode(JSON.stringify({Font:Font,size:Fsize,style:Fstyle,weight:Fweight,sizes:tempsizes},null,'\t')))
                     document.body.appendChild(pre);
                     
 

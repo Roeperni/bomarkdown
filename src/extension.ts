@@ -332,6 +332,9 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {}
 
 
+
+
+// function that generates the preview html
 function getpreviewhtml(contexturi:vscode.Uri ,wv: vscode.Webview,EditorTxt:string){
 
 let BOMtable:BOM[]= parseEditor(EditorTxt);

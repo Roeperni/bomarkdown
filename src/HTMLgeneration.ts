@@ -75,7 +75,7 @@ function getBOMCommandsB64(jsonpath:string):string{
 
 
 
-
+// Function to generate the HTML of the command BOM Command
 export function generateCommandHTML(jsonpath:string):string {
     const Status_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
     const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};

@@ -5,7 +5,7 @@ interface Transcoder {
 }
 
 
-
+// in a string replace each key with its value
 function ReplacewithObject (transcoder:Transcoder,str:string):string{
 	let tempreturn:string=str;
 	for (let key in transcoder){
@@ -14,6 +14,7 @@ function ReplacewithObject (transcoder:Transcoder,str:string):string{
 	return tempreturn;
 }
 
+// parse the text bloc into a BOM[] object
 export function parseEditor(EditorTxt: string): BOM[] {
 	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
 
