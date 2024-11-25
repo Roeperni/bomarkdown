@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import {Icon,BOM,Implink,BoMItem,extlog} from "./extension";
+import {Icon,BOM,Implink,BoMItem,extlog,Objsetting,BOMdata} from "./extension";
 import {ComputeBBOXjson} from "./Computelayout";
 
 type legenditem ={
@@ -22,9 +22,7 @@ type legendtable ={
 	columns:legendColumn[];
 }
 
-interface Objsetting {
-	[key:string]:string;
-}
+
 interface Linksdefinitions {
 	[key:string]:Linksdefinition
 
@@ -313,7 +311,7 @@ function initlegendbloc (legend:legend,nbcol:number,icons:Icon[]):legendtable{
 
 
 
-export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
+export function generateSVG(contexturi:vscode.Uri ,BOMdata:BOMdata):string{
 	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
 	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
 	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
@@ -324,20 +322,26 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
     const bubbles_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
 	const BendFactor :number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
-	const haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
+	let haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
+	let verbose:boolean=false;
 	const legendscale:number=vscode.workspace.getConfiguration('bomarkdown').get('legendscale')||0.7;
+	if ("haslegend" in BOMdata.params){
+		haslegend=BOMdata.params.haslegend;
+	}
+
 	let tempfinItem:number=0;
 	let JsonUri =vscode.Uri.joinPath(contexturi,"IconConfig","UserIcons.json")
 	let rawdata = fs.readFileSync(JsonUri.fsPath,"utf-8");
 	let icons:Icon[] = JSON.parse(rawdata);
+	if ("verbose" in BOMdata.params){extlog.appendLine('Icon charged');}
 	// calcul de la taille du graph
 	// pourquoi un at(-1) fait du undefined ?
-	const totalw=BOMtable[BOMtable.length-1].x + BOMtable[BOMtable.length-1].maxw;
-	const maxitem= Math.max(...BOMtable.map((maxitem)=>maxitem.BoMItems.length),0);
+	const totalw=BOMdata.BOMs[BOMdata.BOMs.length-1].x + BOMdata.BOMs[BOMdata.BOMs.length-1].maxw;
+	const maxitem= Math.max(...BOMdata.BOMs.map((maxitem)=>maxitem.BoMItems.length),0);
 	
 	// extraction de la legende
-	const legende:legend=legendextract(BOMtable);
-	const legendColumns:number=BOMtable.length;
+	const legende:legend=legendextract(BOMdata.BOMs);
+	const legendColumns:number=BOMdata.BOMs.length;
 	let legendeblock:legendtable=initlegendbloc(legende,legendColumns,icons);
 	let svgh:number;
 	if (haslegend){
@@ -345,7 +349,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	} else {
 		svgh=maxitem*(h+panv)+2*panv;
 	}
-	
+	if ("verbose" in BOMdata.params){extlog.appendLine('legend computed');}
 	// Init du svg et ouverture des <def>
 	let tempstr:string=`<svg width="${totalw+panh}" height="${ svgh }" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<defs>
@@ -359,12 +363,12 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 
 	// extraction des différents type pour le mettre dans le def du svg
 	let listtype:string[]=[];
-	for (const bom of BOMtable) {
+	for (const bom of BOMdata.BOMs) {
 		let listtypperbom=bom.BoMItems.map(item=> item.Type).filter((value,index,self)=>self.indexOf(value) ===index);
 		listtype=listtype.concat(listtypperbom);
 	}
 	let UniqueType:string[]=listtype.filter((value,index,array)=>array.indexOf(value)===index);
-	extlog.appendLine("liste des types :"+UniqueType.join(","));
+	extlog.appendLine("liste des types : "+UniqueType.join(","));
 
 	// creation d'un def pour chaque type
 	for (const typ of UniqueType){
@@ -379,6 +383,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMtable:BOM[]):string{
 	// Fermeture des <def>
 	tempstr+=`</defs> 
 	`;
+	if ("verbose" in BOMdata.params){extlog.appendLine('Def defined');}
 // creation de la legende
 if (haslegend){
 	tempstr+=`<g id="legend" transform="translate(${gap},${maxitem*(h+panv)+2*panv}) scale(${legendscale},${legendscale})">
@@ -407,11 +412,12 @@ if (haslegend){
 	<text stroke="none" font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="20" y="16" fill="grey" >
 	Legend
 	</text></g>`;
+	if ("verbose" in BOMdata.params){extlog.appendLine('legend inserted');}
 }
 
 
 // première boucle pour la creation des liens
-	for (const iBOM of BOMtable){
+	for (const iBOM of BOMdata.BOMs){
 		for (const BoMItem of iBOM.BoMItems){
 			// construction des lien parent / enfant on le fait en premier pour avoir les bulles sur les liens
 			if (BoMItem.Parentid>=0){
@@ -427,7 +433,7 @@ if (haslegend){
 				for (const relative of BoMItem.relatives){
 					let tempImpLink:Implink=JSON.parse(EmptyLink);
 					// Boucle sur toutes les bom
-					for (const bom of BOMtable){
+					for (const bom of BOMdata.BOMs){
 					let relbomitem: BoMItem|undefined=bom.BoMItems.find( R=>R.alias===relative.relative);
 					if (relbomitem!==undefined){
 						if (bom.column==iBOM.column){
@@ -472,9 +478,10 @@ if (haslegend){
 
 
 		}
+		if ("verbose" in BOMdata.params){extlog.appendLine('Relationned');}
 	}
 // Deuxieme boucle pour la creation des items au dessus des liens
-	for (const iBOM of BOMtable){
+	for (const iBOM of BOMdata.BOMs){
 		for (const BoMItem of iBOM.BoMItems){
 			// Constrution du group avec le label
 			tempstr+=`
@@ -484,7 +491,7 @@ if (haslegend){
 			if (BoMItem.Type){
 				const typeicon :any|undefined=icons.find(i =>i.name==BoMItem.Type);
 				// on fait de la place pour l'icone si il y a un type
-				tempstr+=`<rect width="${BoMItem.lblw+iconw}" height="${h}" x="${iconw+gap}" fill="url(#grad)" />
+				tempstr+=`<rect width="${BoMItem.lblw}" height="${h}" x="${iconw+gap}" fill="url(#grad)" />
 				<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				${BoMItem.Label}
 				</text>
@@ -564,6 +571,7 @@ if (haslegend){
 			`;
 
 		}
+		if ("verbose" in BOMdata.params){extlog.appendLine('itemed');}
 	}
 
 	return tempstr + '</svg>'

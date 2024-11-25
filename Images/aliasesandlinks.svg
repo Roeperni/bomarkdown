@@ -1,4 +1,4 @@
-<svg width="448" height="398" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="448" height="272" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<defs>
 	<marker id="arrow_i" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
         <marker id="arrow_c" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="hotpink"/></marker>
@@ -49,35 +49,7 @@ O
 			<image  id="specification" witdh="20" height="20" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
 			<image  id="requirement" witdh="20" height="20" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
 			</defs> 
-	<g id="legend" transform="translate(2,272) scale(0.8,0.8)">
-	<rect width="209" height="118" x="0" y="12" fill="none" stroke="gray" stroke-width="1"/>
-	<g transform="translate(5,26)">		
-	<use  href="#assembly" x="0" y="0"/>
-			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="22" y="15" fill="black">
-					assembly
-					</text><use  href="#component" x="0" y="26"/>
-			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="22" y="41" fill="black">
-					component
-					</text><use  href="#specification" x="0" y="52"/>
-			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="22" y="67" fill="black">
-					specification
-					</text><use  href="#requirement" x="0" y="78"/>
-			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="22" y="93" fill="black">
-					requirement
-					</text><line x1="108" y1="10" x2="128" y2="10" stroke="darkgreen" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_a)" stroke-linecap="round"/>
-			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="130" y="15" fill="black">
-					Alternate
-					</text><line x1="108" y1="36" x2="128" y2="36" stroke="steelblue" stroke-width="1" marker-end="url(#arrow_i)" stroke-linecap="round"/>
-			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="130" y="41" fill="black">
-					implement
-					</text><line x1="108" y1="62" x2="128" y2="62" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" stroke-linecap="round"/>
-			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="130" y="67" fill="black">
-					coverage
-					</text></g>
-	<rect x="18" y="10" width="45" height="5" fill="white"/>
-	<text stroke="none" font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="20" y="16" fill="grey" >
-	Legend
-	</text></g><polyline fill="none" stroke="black" stroke-width="1" points="30,32 30,48 40,48"/>
+	<polyline fill="none" stroke="black" stroke-width="1" points="30,32 30,48 40,48"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="30,32 30,74 40,74"/>
 					<path fill="none" stroke="darkgreen" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_a)" d="M 161 100 C 243 100 243 48 205 48"/>
 						<path fill="none" stroke="darkgreen" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_a)" d="M 161 126 C 243 126 243 48 205 48"/>
@@ -94,8 +66,9 @@ O
 						<polyline fill="none" stroke="black" stroke-width="1" points="271,188 271,230 281,230"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="271,188 271,256 281,256"/>
 					
-			<g id="0" transform="translate(20,12)">
-			<text id="L_0" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="3" transform="translate(20,12)">
+			<rect width="75" height="20" x="22" fill="url(#grad)" />
+				<text id="L_3" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				Assembly
 				</text>
 				<use  href="#assembly" x="0" y="0"/>
@@ -106,8 +79,9 @@ O
 				<use href="#IW" x="101" />
 				</g>
 			
-			<g id="1" transform="translate(40,38)">
-			<text id="L_1" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="4" transform="translate(40,38)">
+			<rect width="117" height="20" x="22" fill="url(#grad)" />
+				<text id="L_4" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				 First component
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -118,8 +92,9 @@ O
 				<use href="#R" x="143" />
 				</g>
 			
-			<g id="2" transform="translate(40,64)">
-			<text id="L_2" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="5" transform="translate(40,64)">
+			<rect width="135" height="20" x="22" fill="url(#grad)" />
+				<text id="L_5" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				 Second component
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -130,8 +105,9 @@ O
 				<use href="#F" x="161" />
 				</g>
 			
-			<g id="3" transform="translate(20,90)">
-			<text id="L_3" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="6" transform="translate(20,90)">
+			<rect width="115" height="20" x="22" fill="url(#grad)" />
+				<text id="L_6" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				Alternate 1 of c1
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -141,8 +117,9 @@ O
 				</text>
 				</g>
 			
-			<g id="4" transform="translate(20,116)">
-			<text id="L_4" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="7" transform="translate(20,116)">
+			<rect width="115" height="20" x="22" fill="url(#grad)" />
+				<text id="L_7" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				Alternate 2 of c1
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -152,8 +129,9 @@ O
 				</text>
 				</g>
 			
-			<g id="5" transform="translate(20,142)">
-			<text id="L_5" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="8" transform="translate(20,142)">
+			<rect width="141" height="20" x="22" fill="url(#grad)" />
+				<text id="L_8" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				provided component
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -164,72 +142,81 @@ O
 				<use href="#R" x="167" />
 				</g>
 			
-			<g id="7" transform="translate(261,12)">
-			<text id="L_7" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="10" transform="translate(261,12)">
+			<rect width="146" height="20" x="22" fill="url(#grad)" />
+				<text id="L_10" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				First Component Spec
 				</text>
 				<use  href="#specification" x="0" y="0"/>
 					</g>
 			
-			<g id="8" transform="translate(281,38)">
-			<text id="L_8" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="11" transform="translate(281,38)">
+			<rect width="50" height="20" x="22" fill="url(#grad)" />
+				<text id="L_11" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				 req1
 				</text>
 				<use  href="#requirement" x="0" y="0"/>
 					</g>
 			
-			<g id="9" transform="translate(281,64)">
-			<text id="L_9" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="12" transform="translate(281,64)">
+			<rect width="50" height="20" x="22" fill="url(#grad)" />
+				<text id="L_12" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				 req2
 				</text>
 				<use  href="#requirement" x="0" y="0"/>
 					</g>
 			
-			<g id="10" transform="translate(261,90)">
-			<rect width="300" height="20" x="22" fill="url(#grad)" />
-			<text id="L_10" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="13" transform="translate(261,90)">
+			<rect width="165" height="20" x="22" fill="url(#grad)" />
+				<text id="L_13" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				Second Component Spec
 				</text>
 				<use  href="#specification" x="0" y="0"/>
 					</g>
 			
-			<g id="11" transform="translate(281,116)">
-			<text id="L_11" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="14" transform="translate(281,116)">
+			<rect width="50" height="20" x="22" fill="url(#grad)" />
+				<text id="L_14" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				 req3
 				</text>
 				<use  href="#requirement" x="0" y="0"/>
 					</g>
 			
-			<g id="12" transform="translate(281,142)">
-			<text id="L_12" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="15" transform="translate(281,142)">
+			<rect width="50" height="20" x="22" fill="url(#grad)" />
+				<text id="L_15" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				 req4
 				</text>
 				<use  href="#requirement" x="0" y="0"/>
 					</g>
 			
-			<g id="13" transform="translate(261,168)">
-			<text id="L_13" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="16" transform="translate(261,168)">
+			<rect width="125" height="20" x="22" fill="url(#grad)" />
+				<text id="L_16" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				Procurement Spec
 				</text>
 				<use  href="#specification" x="0" y="0"/>
 					</g>
 			
-			<g id="14" transform="translate(281,194)">
-			<text id="L_14" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="17" transform="translate(281,194)">
+			<rect width="50" height="20" x="22" fill="url(#grad)" />
+				<text id="L_17" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				 req5
 				</text>
 				<use  href="#requirement" x="0" y="0"/>
 					</g>
 			
-			<g id="15" transform="translate(281,220)">
-			<text id="L_15" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="18" transform="translate(281,220)">
+			<rect width="50" height="20" x="22" fill="url(#grad)" />
+				<text id="L_18" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				 req6
 				</text>
 				<use  href="#requirement" x="0" y="0"/>
 					</g>
 			
-			<g id="16" transform="translate(281,246)">
-			<text id="L_16" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+			<g id="19" transform="translate(281,246)">
+			<rect width="50" height="20" x="22" fill="url(#grad)" />
+				<text id="L_19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
 				 req7
 				</text>
 				<use  href="#requirement" x="0" y="0"/>

@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { Computelayout } from './Computelayout';
-import { parseEditor } from './parseEditor';
+import { parseEditor,leg_parseEditor } from './parseEditor';
 import { generateCommandHTML , generateSVG} from './HTMLgeneration';
 
 
@@ -59,6 +59,14 @@ export interface BOM {
 
 }
 
+export interface Objsetting {
+	[key:string]:any;
+}
+
+export interface BOMdata {
+	BOMs:BOM[];
+	params:Objsetting;
+}
 
 export interface Implink {
 	spx:number;
@@ -183,10 +191,12 @@ export function activate(context: vscode.ExtensionContext) {
 		  } else {
 			// Export to file
 			let temptxtbloc=getBomBlock(Editor.selection.active.line,Editor.document.getText())
-			let BOMtable:BOM[]= parseEditor(temptxtbloc.content);
-			BOMtable=Computelayout(BOMtable);
+			let BOMtable:BOMdata= parseEditor(temptxtbloc.content);
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('parsed');}
+			BOMtable.BOMs=Computelayout(BOMtable.BOMs);
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Layouted');}
 			const txtsvg:string=generateSVG(context.extensionUri,BOMtable);
-			
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('SVGed');}
 			createsvgfile(Editor.document.uri,temptxtbloc.path,txtsvg);
 
 		  }
@@ -202,10 +212,14 @@ export function activate(context: vscode.ExtensionContext) {
 			// Export to file
 			const editortext=Editor.document.getText();
 			let temptxtbloc=getBomBlock(Editor.selection.active.line,editortext);
-			let BOMtable:BOM[]= parseEditor(temptxtbloc.content);
-			BOMtable=Computelayout(BOMtable);
+			let BOMtable:BOMdata= parseEditor(temptxtbloc.content);
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Parsed');}
+			BOMtable.BOMs=Computelayout(BOMtable.BOMs);
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Layouted');}
 			const txtsvg:string=generateSVG(context.extensionUri,BOMtable);
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('SVGed');}
 			createsvgfile(Editor.document.uri,temptxtbloc.path,txtsvg);
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Exported');}
 			const temposition:vscode.Position=new vscode.Position(temptxtbloc.end+1,0);
 			const tempSVGmd=`![${temptxtbloc.path}](${temptxtbloc.path +".svg"} "${temptxtbloc.path}")`;
 			if (!editortext.includes(tempSVGmd)){
@@ -214,7 +228,9 @@ export function activate(context: vscode.ExtensionContext) {
 							
 			});
 			}
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Inserted');}
 			vscode.commands.executeCommand('markdown-preview-enhanced.openPreviewToTheSide');
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Preview refreshed');}
 			
 		  }
 		})
@@ -337,8 +353,10 @@ export function deactivate() {}
 // function that generates the preview html
 function getpreviewhtml(contexturi:vscode.Uri ,wv: vscode.Webview,EditorTxt:string){
 
-let BOMtable:BOM[]= parseEditor(EditorTxt);
-BOMtable=Computelayout(BOMtable);
+let BOMtable:BOMdata= parseEditor(EditorTxt);
+if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('parsed');}
+BOMtable.BOMs=Computelayout(BOMtable.BOMs);
+if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Layouted');}
 	return `<!DOCTYPE html>
 <html lang="en">
 <head>

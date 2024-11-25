@@ -104,7 +104,10 @@ the link block is in 2 parts (s:[alias])(l:i:[aliases of linked element separate
 the link is drawn from the item to the ones in the (l:) block. you can have several (l:) block on an item to draw several link types
 
 ```BoMMarkdown:Images/aliasesandlinks
-
+${
+  "haslegend":false,
+  "verbose":true
+}$
 + (i:assembly,Assembly,1)(s:IW)
  + (i:component, First component,A)(s:R)(a:c1)
  + (i:component, Second component,A)(s:F)(a:c2)
