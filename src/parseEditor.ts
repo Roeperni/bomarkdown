@@ -1,12 +1,12 @@
 import { BOM, EmptyBoM, BoMItem, EmptyBoMItem ,link,BOMdata,Objsetting} from "./extension";
 import * as vscode from 'vscode';
-interface Transcoder {
+export interface Transcoder {
 	[key:string]:string;
 }
 
 
 // in a string replace each key with its value
-function ReplacewithObject (transcoder:Transcoder,str:string):string{
+export function ReplacewithObject (transcoder:Transcoder,str:string):string{
 	let tempreturn:string=str;
 	for (let key in transcoder){
 	tempreturn=tempreturn.replace(key,transcoder[key]);

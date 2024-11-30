@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import {Icon,BOM,Implink,BoMItem,extlog,Objsetting,BOMdata} from "./extension";
+import {Icon,BOM,Implink,BoMItem,extlog,Objsetting,BOMdata,blocdelim} from "./extension";
 import {ComputeBBOXjson} from "./Computelayout";
+import {ReplacewithObject, Transcoder} from "./parseEditor"
 
 type legenditem ={
 		type:string;
@@ -81,6 +82,7 @@ export function generateCommandHTML(jsonpath:string):string {
     const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
 	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
+	const blocdelim: blocdelim=vscode.workspace.getConfiguration('bomarkdown').get('codeblockdelimiter')||{"begin":"","end":""};
 	const iconw:number=h;
 
     let comandhtml:string=`<!DOCTYPE html>
@@ -92,8 +94,6 @@ export function generateCommandHTML(jsonpath:string):string {
 * {
   box-sizing: border-box;
 }
-
-/* Create two unequal columns that floats next to each other */
 .column {
   float: left;
   padding: 10px;
@@ -120,11 +120,24 @@ export function generateCommandHTML(jsonpath:string):string {
 <h2>Bom Markdown Commands</h2>    
 <div class="row">
   <div class="column left" >
+	<h3>Block delimiter</h3>
+	<table>
+  <tr>
+    <th>begin</th>
+    <th>end</th>
+  </tr>
+	`;
+	const tablebegin=blocdelim.begin.split(" ");
+	const tablefin=blocdelim.end.split(" ")
+	for (let i=0;i<tablebegin.length;i++){
+		comandhtml+=`<tr>
+			<td><code> ${ReplacewithObject({"<":"&lt;",">":"&gt;"},tablebegin[i])} </code> </td>
+			<td> <code> ${ReplacewithObject({"<":"&lt;",">":"&gt;"},tablefin[i])}</code></td>
+		</tr>`
+	}
+	comandhtml+=`
+	</table>
     <h3>Icons</h3>
-
-
-
-
 `;
     
     comandhtml+=getBOMCommandsB64(jsonpath);

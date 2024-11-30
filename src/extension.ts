@@ -78,7 +78,7 @@ export interface Implink {
 }
 
 
-type blocdelim ={
+export type blocdelim ={
 	"begin":string;
 	"end" : string;
 }
@@ -100,6 +100,18 @@ interface BoMBLock{
 
 export const EmptyBoMItem: string= '{"id":0,"Parentid":0,"level":0,"Label":"","badparsing":false,"x":0,"y":0,"h":0,"lblw":0,"w":0,"Type":""}'
 export const EmptyBoM: string='{"BoMItems":[],"column":0,"x":0,"y":0,"maxw":0,"maxnegw":0,"h":0}'
+
+function B64slicer(str :string, size:number) :string[]{
+	const numChunks = Math.ceil(str.length / size)
+	const chunks = new Array(numChunks)
+  
+	for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+	  chunks[i] = str.substring(o, size)
+	}
+  
+	return chunks
+  }
+
 
 
 function getBomBlock (line:number,editortext:string):BoMBLock{
@@ -287,8 +299,8 @@ export function activate(context: vscode.ExtensionContext) {
 					extlog.appendLine(fileUri[0].fsPath + " | " +Iconfile);
 					extlog.appendLine(path.join(fileUri[0].fsPath,Iconfile));
 					// converstion of the file in B64
-					const tempB64=fs.readFileSync(path.join(fileUri[0].fsPath,Iconfile), { encoding: 'base64' });
-					
+					let tempB64:string =fs.readFileSync(path.join(fileUri[0].fsPath,Iconfile), { encoding: 'base64' });
+					tempB64=B64slicer(tempB64,76).join("&#10;");
 					if (Iconindex > -1){
 						// If the icon is already in the index udate the image
 						extlog.appendLine("Update :"+spitIconfile[0]);
