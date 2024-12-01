@@ -89,6 +89,7 @@ export interface Icon {
     "icon": string;
     "type": string;
 	"label"?:string;
+	"iconsliced"?:string[];
 }
 
 interface BoMBLock{
@@ -104,9 +105,10 @@ export const EmptyBoM: string='{"BoMItems":[],"column":0,"x":0,"y":0,"maxw":0,"m
 function B64slicer(str :string, size:number) :string[]{
 	const numChunks = Math.ceil(str.length / size)
 	const chunks = new Array(numChunks)
-  
-	for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-	  chunks[i] = str.substring(o, size)
+	let start:number=0;
+	for (let i = 0; i < numChunks; i++) {
+	  chunks[i] = str.substring(start, start+size)
+	  start +=size;
 	}
   
 	return chunks
@@ -300,19 +302,22 @@ export function activate(context: vscode.ExtensionContext) {
 					extlog.appendLine(path.join(fileUri[0].fsPath,Iconfile));
 					// converstion of the file in B64
 					let tempB64:string =fs.readFileSync(path.join(fileUri[0].fsPath,Iconfile), { encoding: 'base64' });
-					tempB64=B64slicer(tempB64,76).join("&#10;");
+					const tempB64sliced:string[]=B64slicer(tempB64,76);
 					if (Iconindex > -1){
 						// If the icon is already in the index udate the image
 						extlog.appendLine("Update :"+spitIconfile[0]);
 						icons[Iconindex].type=spitIconfile[1].toLowerCase();
-						icons[Iconindex].icon=`data:image/${spitIconfile[1]};base64,${tempB64}`;
+						icons[Iconindex].icon=`data:image/${spitIconfile[1]};base64,${tempB64sliced.join("&#10;")}`;
+						icons[Iconindex].iconsliced=tempB64sliced;
 
 					} else {
 						// new file add to index
 							let tempicon :Icon={
 							name:spitIconfile[0].toLowerCase(),
 							type:spitIconfile[1].toLowerCase(),
-							icon:`data:image/${spitIconfile[1]};base64,${tempB64}`
+							icon:`data:image/${spitIconfile[1]};base64,${tempB64}`,
+							iconsliced:tempB64sliced
+
 
 						};
 						extlog.appendLine("Add :"+spitIconfile[0]);
