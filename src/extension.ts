@@ -302,13 +302,13 @@ export function activate(context: vscode.ExtensionContext) {
 					extlog.appendLine(path.join(fileUri[0].fsPath,Iconfile));
 					// converstion of the file in B64
 					let tempB64:string =fs.readFileSync(path.join(fileUri[0].fsPath,Iconfile), { encoding: 'base64' });
-					const tempB64sliced:string[]=B64slicer(tempB64,76);
+					//const tempB64sliced:string[]=B64slicer(tempB64,76);
 					if (Iconindex > -1){
 						// If the icon is already in the index udate the image
 						extlog.appendLine("Update :"+spitIconfile[0]);
 						icons[Iconindex].type=spitIconfile[1].toLowerCase();
-						icons[Iconindex].icon=`data:image/${spitIconfile[1]};base64,${tempB64sliced.join("&#10;")}`;
-						icons[Iconindex].iconsliced=tempB64sliced;
+						icons[Iconindex].icon=`data:image/${spitIconfile[1]};base64,${tempB64}`;
+						//icons[Iconindex].iconsliced=tempB64sliced;
 
 					} else {
 						// new file add to index
@@ -316,7 +316,7 @@ export function activate(context: vscode.ExtensionContext) {
 							name:spitIconfile[0].toLowerCase(),
 							type:spitIconfile[1].toLowerCase(),
 							icon:`data:image/${spitIconfile[1]};base64,${tempB64}`,
-							iconsliced:tempB64sliced
+							//iconsliced:tempB64sliced
 
 
 						};
