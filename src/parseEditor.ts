@@ -187,6 +187,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 
 		} 
 	}
+	// Boucle sur toutes les ligne de l'editor
 	for (const item of EditorArray) {
 
 		let tempitem: BoMItem = JSON.parse(EmptyBoMItem);
@@ -205,11 +206,6 @@ export function parseEditor(EditorTxt: string): BOMdata{
 				tempitem.id = tempid;
 				let tempargs: string = tempArray[1];
 
-				//			if (tempArray[0].length>tempparentid.length-1>){
-				//				tempparentid.push(tempid-1)
-				//				tempitem.level=tempArray[0].length;
-				//			} else{
-				// C'est un enfant
 				tempitem.level = tempArray[0].length;
 				tempitem.Parentid = tempparentid[tempitem.level];
 				tempparentid[tempitem.level + 1] = tempid;
@@ -284,16 +280,14 @@ export function parseEditor(EditorTxt: string): BOMdata{
 								// Si on n'est pas dans les pattern d'avant
 								if (tempArray.length > 1) {
 									// il il y a quand meme des ()
-									delete tempitem.revision;
-									delete tempitem.alias;
-									delete tempitem.relatives;
-									delete tempitem.effectivity;
-									delete tempitem.status;
-									tempitem.badparsing = true;
-								}
-								// si il n'y a rien on a juste un label
-								tempitem.Label = tempargs;
-								break argparsing;
+									//delete tempitem.revision;
+									//delete tempitem.alias;
+									//delete tempitem.relatives;
+									//delete tempitem.effectivity;
+									//delete tempitem.status;
+									//tempitem.badparsing = true;
+								
+								break ;
 
 
 

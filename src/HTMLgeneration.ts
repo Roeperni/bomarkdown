@@ -290,6 +290,7 @@ function initlegendbloc (legend:legend,nbcol:number,icons:Icon[]):legendtable{
 		}
 	}
 	for (const typ of legend.links ){
+			if (typ in linkstyle){
 			if (linkstyle[typ].label){
 				templabel=linkstyle[typ].label;
 			}else {
@@ -298,6 +299,7 @@ function initlegendbloc (legend:legend,nbcol:number,icons:Icon[]):legendtable{
 
 			templegenditems.push({type:"link",name:typ,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap})
 		}
+	}
 	const itempercolum:number=Math.ceil(templegenditems.length/nbcol);
 	tempcolumns=[];
 	for (let k=0;k<nbcol;k++){
@@ -482,6 +484,7 @@ if (haslegend){
 						}
 						tempstr+=`<path fill="none" ${lineproperties(linkstyle[relative.linktype],relative.linktype)} d="M ${tempImpLink.spx} ${tempImpLink.spy} C ${tempImpLink.spx+tempImpLink.cs} ${tempImpLink.spy} ${tempImpLink.fpx+tempImpLink.cf} ${tempImpLink.fpy} ${tempImpLink.fpx} ${tempImpLink.fpy}"/>
 						`;
+					}
 					}
 				}
 				}
