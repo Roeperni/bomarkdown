@@ -1,0 +1,373 @@
+<svg width="832" height="476" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<defs>
+	<marker id="arrow_i" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
+        <marker id="arrow_c" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="hotpink"/></marker>
+        <marker id="arrow_c" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="hotpink"/></marker>
+        <g id="undef"><rect x="0" y="0" width="18" height="18" fill="red" rx="4"/><text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bolder" font-style="normal" font-size="16" x="10" y="11" fill="white" >?</text></g>
+        <g id="placeholder">
+<rect x="0" y="0" width="18" height="18" fill="LightCyan" rx="4"/>
+</g>
+        <g id="eff"><circle r="4" cx="-10" cy="10" fill="darkorange" stroke="white" stroke-width="0.25" /></g>
+        	        <linearGradient id="grad" x1="0"  x2="0" y1="0" y2="100" >             <stop offset="0%" stop-color="white" stop-opacity="0"/>             <stop offset="0%" stop-color="white" stop-opacity="100"/>             <stop offset="0%" stop-color="white" stop-opacity="0"/>         </linearGradient>
+        <g id="D">
+<rect x="0" y="1" width="18" height="18" fill="lightgray" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+D
+</text>
+</g>
+        <g id="IW">
+<rect x="0" y="1" width="18" height="18" fill="blue" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+IW
+</text>
+</g>
+        <g id="F">
+<rect x="0" y="1" width="18" height="18" fill="orange" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+F
+</text>
+</g>
+        <g id="R">
+<rect x="0" y="1" width="18" height="18" fill="green" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+R
+</text>
+</g>
+        <g id="O">
+<rect x="0" y="1" width="18" height="18" fill="black" rx="4"/>
+<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="10" y="11" fill="white" >
+O
+</text>
+</g>
+        <g id="matrice">    <polyline fill="none" stroke="white"  points="-5,17 -7.5,19.5" stroke-width="2.5" stroke-linecap="round"/>    <polyline fill="none" stroke="white"  points="-5,17 -5,12" stroke-width="2.5" stroke-linecap="round"/>    <polyline fill="none" stroke="white"  points="-5,17 0,17" stroke-width="2.5" stroke-linecap="round"/>    <polyline fill="none" stroke="steelblue"  points="-5,17 -5,12" stroke-width="2" stroke-linecap="round"/>    <polyline fill="none" stroke="steelblue"  points="-5,17 0,17" stroke-width="2" stroke-linecap="round"/>    <polyline fill="none" stroke="steelblue"  points="-5,17 -7.5,19.5" stroke-width="2" stroke-linecap="round"/></g>
+        <g id="context">   <circle r="4" cx="17" cy="17" fill="royalblue" stroke="white" stroke-width="0.25" /> </g>
+        <g id="lock" >   <rect x="13" y="-2" width="8" height="8" fill="indigo" stroke="white" stroke-width="0.25"/>   <path d="M 14 -2 A 3 3, 0,1,1,20 -2" stroke-width="2" fill="none" stroke="indigo" /> </g>
+        <g id="unlock" >   <rect x="13" y="-2" width="8" height="8" fill="indigo" stroke="white" stroke-width="0.25" />   <path d="M 14 -2 A 3 3, 0,1,0,8 -2" stroke-width="2" fill="none" stroke="indigo" /> </g>
+        <g id="noway">   <circle r="7" cx="20" cy="0" fill="red" stroke="white" stroke-width="0.25"/>   <line x1="16" y1="0" x2="24" y2="0" stroke="white" stroke-width="2.5"/> </g>
+        <image  id="folder" witdh="20" height="20" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
+			<image  id="file" witdh="20" height="20" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
+			<image  id="assembly" witdh="20" height="20" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
+			<image  id="component" witdh="20" height="20" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
+			<image  id="specification" witdh="20" height="20" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
+			<image  id="requirement" witdh="20" height="20" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
+			</defs> 
+	<g id="legend" transform="translate(2,402) scale(0.8,0.8)">
+	<rect width="286" height="66" x="0" y="12" fill="none" stroke="gray" stroke-width="1"/>
+	<g transform="translate(5,26)">		
+	<use  href="#folder" x="0" y="0"/>
+			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="22" y="15" fill="black">
+					folder
+					</text><use  href="#file" x="0" y="26"/>
+			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="22" y="41" fill="black">
+					file
+					</text><use  href="#assembly" x="73" y="0"/>
+			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="95" y="15" fill="black">
+					assembly
+					</text><use  href="#component" x="73" y="26"/>
+			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="95" y="41" fill="black">
+					component
+					</text><use  href="#specification" x="176" y="0"/>
+			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="198" y="15" fill="black">
+					specification
+					</text><use  href="#requirement" x="176" y="26"/>
+			<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="198" y="41" fill="black">
+					requirement
+					</text></g>
+	<rect x="18" y="10" width="45" height="5" fill="white"/>
+	<text stroke="none" font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="20" y="16" fill="grey" >
+	Legend
+	</text></g><polyline fill="none" stroke="black" stroke-width="1" points="30,32 30,48 40,48"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="50,58 50,74 60,74"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="50,58 50,100 60,100"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="30,32 30,126 40,126"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="30,162 30,178 40,178"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="30,162 30,204 40,204"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="30,162 30,230 40,230"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="50,240 50,256 60,256"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,32 396,48 406,48"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,84 396,100 406,100"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,136 396,152 406,152"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,136 396,178 406,178"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,136 396,204 406,204"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,136 396,230 406,230"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,266 396,282 406,282"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,266 396,308 406,308"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,344 396,360 406,360"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="396,344 396,386 406,386"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="655,32 655,48 665,48"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="655,32 655,74 665,74"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="655,110 655,126 665,126"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="655,110 655,152 665,152"/>
+					
+			<g id="4" transform="translate(20,12)">
+			<rect width="58" height="20" x="22" fill="url(#grad)" />
+				<text id="L_4" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				rootfolder
+				</text>
+				<use  href="#folder" x="0" y="0"/>
+					</g>
+			
+			<g id="5" transform="translate(40,38)">
+			<rect width="65" height="20" x="22" fill="url(#grad)" />
+				<text id="L_5" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 subfolder1
+				</text>
+				<use  href="#folder" x="0" y="0"/>
+					</g>
+			
+			<g id="6" transform="translate(60,64)">
+			<rect width="23" height="20" x="22" fill="url(#grad)" />
+				<text id="L_6" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 File
+				</text>
+				<use  href="#file" x="0" y="0"/>
+					</g>
+			
+			<g id="7" transform="translate(60,90)">
+			<rect width="73" height="20" x="22" fill="url(#grad)" />
+				<text id="L_7" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 Another File
+				</text>
+				<use  href="#file" x="0" y="0"/>
+					</g>
+			
+			<g id="8" transform="translate(40,116)">
+			<rect width="54" height="20" x="22" fill="url(#grad)" />
+				<text id="L_8" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 Root File
+				</text>
+				<use  href="#file" x="0" y="0"/>
+					</g>
+			
+			<g id="22" transform="translate(20,142)">
+			<rect width="121" height="20" x="2" fill="url(#grad)" />
+				<text id="L_22" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				first root first column
+				</text>
+				</g>
+			
+			<g id="23" transform="translate(40,168)">
+			<rect width="29" height="20" x="2" fill="url(#grad)" />
+				<text id="L_23" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				Child
+				</text>
+				</g>
+			
+			<g id="24" transform="translate(40,194)">
+			<rect width="306" height="20" x="2" fill="url(#grad)" />
+				<text id="L_24" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				It works as long as there is a plus followed by a space
+				</text>
+				</g>
+			
+			<g id="25" transform="translate(40,220)">
+			<rect width="226" height="20" x="2" fill="url(#grad)" />
+				<text id="L_25" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				but space is more convinient in vs code
+				</text>
+				</g>
+			
+			<g id="26" transform="translate(60,246)">
+			<rect width="77" height="20" x="2" fill="url(#grad)" />
+				<text id="L_26" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				new sub level
+				</text>
+				</g>
+			
+			<g id="30" transform="translate(386,12)">
+			<rect width="149" height="20" x="2" fill="url(#grad)" />
+				<text id="L_30" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				second root new ncolumn
+				</text>
+				</g>
+			
+			<g id="31" transform="translate(406,38)">
+			<rect width="43" height="20" x="2" fill="url(#grad)" />
+				<text id="L_31" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				 A child
+				</text>
+				</g>
+			
+			<g id="32" transform="translate(386,64)">
+			<rect width="188" height="20" x="2" fill="url(#grad)" />
+				<text id="L_32" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				several root on the same column
+				</text>
+				</g>
+			
+			<g id="33" transform="translate(406,90)">
+			<rect width="76" height="20" x="2" fill="url(#grad)" />
+				<text id="L_33" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				another child
+				</text>
+				</g>
+			
+			<g id="41" transform="translate(386,116)">
+			<rect width="75" height="20" x="22" fill="url(#grad)" />
+				<text id="L_41" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				A folder item
+				</text>
+				<use  href="#folder" x="0" y="0"/>
+					</g>
+			
+			<g id="42" transform="translate(406,142)">
+			<rect width="62" height="20" x="22" fill="url(#grad)" />
+				<text id="L_42" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 A file item
+				</text>
+				<use  href="#file" x="0" y="0"/>
+					</g>
+			
+			<g id="43" transform="translate(406,168)">
+			<rect width="138" height="20" x="22" fill="url(#grad)" />
+				<text id="L_43" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 A file item with revision
+				</text>
+				<use  href="#file" x="0" y="0"/>
+					<rect x="162" y="1" width="18" height="18" fill="dimgrey" rx="4"/>
+				<text font-family="system-ui" textLength="15" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="172" y="11" fill="white" >
+				A 
+				</text>
+				</g>
+			
+			<g id="44" transform="translate(406,194)">
+			<rect width="153" height="20" x="2" fill="url(#grad)" />
+				<text id="L_44" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="2" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
+				an item block with no type
+				</text>
+				</g>
+			
+			<g id="45" transform="translate(406,220)">
+			<rect width="92" height="20" x="22" fill="url(#grad)" />
+				<text id="L_45" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				an unkown type
+				</text>
+				<use href="#undef" x="0" y="0"/>
+					</g>
+			
+			<g id="54" transform="translate(386,246)">
+			<rect width="103" height="20" x="22" fill="url(#grad)" />
+				<text id="L_54" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				In Work Assembly
+				</text>
+				<use  href="#assembly" x="0" y="0"/>
+					<rect x="127" y="1" width="18" height="18" fill="dimgrey" rx="4"/>
+				<text font-family="system-ui" textLength="15" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="137" y="11" fill="white" >
+				1 
+				</text>
+				<use href="#IW" x="149" />
+				</g>
+			
+			<g id="55" transform="translate(406,272)">
+			<rect width="133" height="20" x="22" fill="url(#grad)" />
+				<text id="L_55" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 A released component
+				</text>
+				<use  href="#component" x="0" y="0"/>
+					<rect x="157" y="1" width="18" height="18" fill="dimgrey" rx="4"/>
+				<text font-family="system-ui" textLength="15" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="167" y="11" fill="white" >
+				1 
+				</text>
+				<use href="#R" x="179" />
+				</g>
+			
+			<g id="56" transform="translate(406,298)">
+			<rect width="121" height="20" x="22" fill="url(#grad)" />
+				<text id="L_56" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 A frozen component
+				</text>
+				<use  href="#component" x="0" y="0"/>
+					<rect x="145" y="1" width="18" height="18" fill="dimgrey" rx="4"/>
+				<text font-family="system-ui" textLength="15" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="155" y="11" fill="white" >
+				A 
+				</text>
+				<use href="#F" x="167" />
+				</g>
+			
+			<g id="64" transform="translate(386,324)">
+			<rect width="55" height="20" x="22" fill="url(#grad)" />
+				<text id="L_64" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				Assembly
+				</text>
+				<use  href="#assembly" x="0" y="0"/>
+					<rect x="79" y="1" width="18" height="18" fill="dimgrey" rx="4"/>
+				<text font-family="system-ui" textLength="15" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="89" y="11" fill="white" >
+				1 
+				</text>
+				<use href="#IW" x="101" />
+				</g>
+			
+			<g id="65" transform="translate(406,350)">
+			<rect width="97" height="20" x="22" fill="url(#grad)" />
+				<text id="L_65" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 First component
+				</text>
+				<use  href="#component" x="0" y="0"/>
+					<rect x="121" y="1" width="18" height="18" fill="dimgrey" rx="4"/>
+				<text font-family="system-ui" textLength="15" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="131" y="11" fill="white" >
+				1 
+				</text>
+				<use href="#R" x="143" />
+				</g>
+			
+			<g id="66" transform="translate(406,376)">
+			<rect width="115" height="20" x="22" fill="url(#grad)" />
+				<text id="L_66" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 Second component
+				</text>
+				<use  href="#component" x="0" y="0"/>
+					<rect x="139" y="1" width="18" height="18" fill="dimgrey" rx="4"/>
+				<text font-family="system-ui" textLength="15" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="149" y="11" fill="white" >
+				A 
+				</text>
+				<use href="#F" x="161" />
+				</g>
+			
+			<g id="68" transform="translate(645,12)">
+			<rect width="126" height="20" x="22" fill="url(#grad)" />
+				<text id="L_68" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				First Component Spec
+				</text>
+				<use  href="#specification" x="0" y="0"/>
+					</g>
+			
+			<g id="69" transform="translate(665,38)">
+			<rect width="30" height="20" x="22" fill="url(#grad)" />
+				<text id="L_69" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 req1
+				</text>
+				<use  href="#requirement" x="0" y="0"/>
+					</g>
+			
+			<g id="70" transform="translate(665,64)">
+			<rect width="30" height="20" x="22" fill="url(#grad)" />
+				<text id="L_70" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 req2
+				</text>
+				<use  href="#requirement" x="0" y="0"/>
+					</g>
+			
+			<g id="71" transform="translate(645,90)">
+			<rect width="145" height="20" x="22" fill="url(#grad)" />
+				<text id="L_71" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				Second Component Spec
+				</text>
+				<use  href="#specification" x="0" y="0"/>
+					</g>
+			
+			<g id="72" transform="translate(665,116)">
+			<rect width="30" height="20" x="22" fill="url(#grad)" />
+				<text id="L_72" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 req3
+				</text>
+				<use  href="#requirement" x="0" y="0"/>
+					</g>
+			
+			<g id="73" transform="translate(665,142)">
+			<rect width="30" height="20" x="22" fill="url(#grad)" />
+				<text id="L_73" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 req4
+				</text>
+				<use  href="#requirement" x="0" y="0"/>
+					</g>
+			</svg>

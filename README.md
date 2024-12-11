@@ -166,7 +166,9 @@ Effectivity can be defined before links with an effectivity block (e:)
  + (e:o)(i:component,Use o to display an effetivity bubble)
  + (e:[A -> B[)(i:component,effectivity can be a range)
  + (e:[B -> #oo[)(i:component,effectivity special char can be defined)
+ + (b:eff)(e:[C -> #oo[)(i:component,A trick to have bubble and text)
 ```
+
 ````
 
 ![Images/effectivity](Images/effectivity.png "Images/effectivity")
@@ -320,5 +322,10 @@ None yet
 ### 0.1.0
 
 Initial release of BoMarkdown
+
+### 0.2.0
+
+Bug fix 
+Support for bubbles and status in the legend
 
 ---
