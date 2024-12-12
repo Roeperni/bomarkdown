@@ -482,6 +482,7 @@ if (haslegend){
 							tempImpLink.cs=(tempImpLink.fpx-tempImpLink.spx)/2;
 							tempImpLink.cf=-tempImpLink.cs;
 						}
+						if (relative.linktype in linkstyle){
 						tempstr+=`<path fill="none" ${lineproperties(linkstyle[relative.linktype],relative.linktype)} d="M ${tempImpLink.spx} ${tempImpLink.spy} C ${tempImpLink.spx+tempImpLink.cs} ${tempImpLink.spy} ${tempImpLink.fpx+tempImpLink.cf} ${tempImpLink.fpy} ${tempImpLink.fpx} ${tempImpLink.fpy}"/>
 						`;
 					}

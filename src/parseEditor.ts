@@ -177,7 +177,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 	tempBOM.BoMItems = [];
 	// test de la presence d'un bloc de param
 	if (EditorArray[0]=="${"){
-	// Boucle sur toutes les ligne de l'editor
+	
 		const endparambloc=EditorArray.findIndex((end)=>end=="}$");
 		//un bloc de param a été trouvé
 		if (endparambloc>0){
@@ -201,7 +201,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 			// on detecte le niveau	
 			let tempArray: string[] = [];
 			tempArray = item.split("+ ");
-			// on ignore les ligne qui n'ont pas de +
+			// on ignore les ligne qui n'ont pas de +, le + est aussi un caractère interdit dans la ligne
 			if (tempArray.length == 2) {
 				tempitem.id = tempid;
 				let tempargs: string = tempArray[1];
@@ -278,7 +278,11 @@ export function parseEditor(EditorTxt: string): BOMdata{
 								break;
 							default:
 								// Si on n'est pas dans les pattern d'avant
-								if (tempArray.length > 1) {
+								if (tempArray.length == 1) {
+									// si il n'y a rien on a juste un label
+
+									tempitem.Label = tempargs;
+								}
 									// il il y a quand meme des ()
 									//delete tempitem.revision;
 									//delete tempitem.alias;
