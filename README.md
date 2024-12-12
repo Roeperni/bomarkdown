@@ -115,6 +115,9 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
 
 ````text
 ```bomarkdown:Images/aliasesandlinks
+{
+  "verbose":true
+}
 
 + (i:assembly,Assembly,1)(s:IW)
  + (i:component, First component,A)(s:R)(a:c1)

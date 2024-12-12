@@ -89,6 +89,7 @@ export interface Icon {
     "icon": string;
     "type": string;
 	"label"?:string;
+	"iconsliced"?:string[];
 }
 
 interface BoMBLock{
@@ -104,9 +105,10 @@ export const EmptyBoM: string='{"BoMItems":[],"column":0,"x":0,"y":0,"maxw":0,"m
 function B64slicer(str :string, size:number) :string[]{
 	const numChunks = Math.ceil(str.length / size)
 	const chunks = new Array(numChunks)
-  
-	for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-	  chunks[i] = str.substring(o, size)
+	let start:number=0;
+	for (let i = 0; i < numChunks; i++) {
+	  chunks[i] = str.substring(start, start+size)
+	  start +=size;
 	}
   
 	return chunks
