@@ -500,6 +500,7 @@ if (haslegend){
 		}
 		if ("verbose" in BOMdata.params){extlog.appendLine('Relationned');}
 	}
+}
 // Deuxieme boucle pour la creation des items au dessus des liens
 	for (const iBOM of BOMdata.BOMs){
 		for (const BoMItem of iBOM.BoMItems){
