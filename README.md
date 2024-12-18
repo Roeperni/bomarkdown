@@ -119,7 +119,11 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
   "verbose":true
 }
 
-+ (i:assembly,Assembly,1)(s:IW)
++ (i:assembly,Assembly (avec parenthèse),1)(e:)(s:IW)(l:a:s1,s2)(l:c:s3)(b:context)(b:noway)ignored comment
+ + (i:zob,plop)(s:D)(s:F)c'est un comment
+ +
+ + (i:)
+ wesh le comment
  + (i:component, First component,A)(s:R)(a:c1)
  + (i:component, Second component,A)(s:F)(a:c2)
 + (i:component,Alternate 1 of c1,A)(a:a1)(l:a:c1)

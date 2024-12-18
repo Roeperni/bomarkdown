@@ -158,6 +158,38 @@ export function leg_parseEditor(EditorTxt: string): BOM[] {
 	return BOMtable;
 }
 
+function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):string[]{
+	let tempbloctable:string[]=[];
+	let Bindex:number=-1;
+	for (let i=0;i<inputtable.length-1;i++){
+		if (inputtable[i].match(startbloc)){
+			if (Bindex>=0){
+				if (inputtable[i-1].match(endbloc)){
+					tempbloctable.push(inputtable.slice(Bindex,i-1).join(""));
+
+				}else{
+					tempbloctable.push(inputtable.slice(Bindex,i).join(""));
+				}			
+		}
+
+		Bindex=i;
+		inputtable[i]=inputtable[i].substring(1);
+		}
+	}
+	let i=inputtable.length-1
+	while (i>Bindex && !inputtable[i].match(endbloc)){
+		i--;
+	}
+	if (i>Bindex){
+		tempbloctable.push(inputtable.slice(Bindex,i).join(""));
+
+	}else{
+		tempbloctable.push(inputtable.slice(Bindex).join(""));
+
+	}
+
+	return tempbloctable;
+}
 
 export function parseEditor(EditorTxt: string): BOMdata{
 	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
@@ -213,9 +245,13 @@ export function parseEditor(EditorTxt: string): BOMdata{
 				tempArray = [];
 				// Parsing du texte a droite des +
 				tempArray = tempargs.split(/\(|\)/).filter((c: string) => c !== "");
+				let tempArray2=tempargs.split(/(\([ialbse]\:|\))/).filter((c: string) => c !== "");
+				tempArray2=blockparser(tempArray2,/\([ialbse]\:/,/\)/).filter((c: string) => c !== "");
+				//console.log(tempArray2.join("|"))
+
 				// Block pour sortir en cas d'erreur de parsing
 				argparsing: {
-					for (const arg of tempArray) {
+					for (const arg of tempArray2) {
 						// test sur les 2 premier char de chaque bloc
 						switch (arg.substring(0, 2)) {
 							case "e:":
@@ -254,6 +290,12 @@ export function parseEditor(EditorTxt: string): BOMdata{
 								let larray: string[] = [];
 								let templink:link={relative:"",linktype:"i"};
 								let objprelatives:link[]=[];
+								if (tempitem.relatives)
+									{
+										objprelatives=tempitem.relatives;
+									}
+
+
 								larray = arg.substring(2).split(":");
 								if (larray.length >= 1) {
 									templink.linktype = larray[0];
@@ -270,7 +312,11 @@ export function parseEditor(EditorTxt: string): BOMdata{
 								break;
 							case "b:":
 								// liste des bulles
-								tempitem.bubbles = arg.substring(2).split(",");
+								if (tempitem.bubbles) {
+									tempitem.bubbles = tempitem.bubbles?.concat(arg.substring(2).split(","));
+								} else{
+									tempitem.bubbles =arg.substring(2).split(",");
+								}
 								break;
 							case "s:":
 								// status
