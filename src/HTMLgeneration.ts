@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import {Icon,BOM,Implink,BoMItem,extlog,Objsetting,BOMdata,blocdelim} from "./extension";
+import {Icon,BOM,Implink,BoMItem,extlog,Objsetting,ObjsettingWlabel,BOMdata,blocdelim} from "./extension";
 import {ComputeBBOXjson} from "./Computelayout";
 import {ReplacewithObject, Transcoder} from "./parseEditor"
 
@@ -39,6 +39,8 @@ interface Linksdefinition {
 interface legend {
 	types:string[];
 	links:string[];
+	status:string[];
+	bubbles:string[];
 }
 
 const EmptyLink: string='{"spx":0,"spy":0,"fpx":0,"fpy":0,"cf":0,"cs":0}'
@@ -76,9 +78,9 @@ function getBOMCommandsB64(jsonpath:string):string{
 
 // Function to generate the HTML of the command BOM Command
 export function generateCommandHTML(jsonpath:string):string {
-    const Status_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
+    const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
     const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};
-    const bubbles_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
+    const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
     const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
 	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
@@ -173,7 +175,7 @@ export function generateCommandHTML(jsonpath:string):string {
 
 }
 
-function generateSVGforSetting (obj:Objsetting,gap:number,includesvg?:string,svgheader?:boolean):string{
+function generateSVGforSetting (obj:ObjsettingWlabel,gap:number,includesvg?:string,svgheader?:boolean):string{
 	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
 	const iconw:number=h;
     let comandhtml:string="";
@@ -185,9 +187,9 @@ function generateSVGforSetting (obj:Objsetting,gap:number,includesvg?:string,svg
     for (let key in obj){
         comandhtml+=`<g transform="translate(15,${gap+nbkey*(h+2*gap)})">
         ${includesvg}
-        ${obj[key]}
+        ${obj[key].svg}
         <text font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15" fill="black">
-				${key}
+				${key} ,Label: ${obj[key].label}
 				</text>
                 
         </g>`;
@@ -232,6 +234,15 @@ function ExtractDefFromObject (obj:Objsetting):string{
     return comandhtml
 }
 
+function ExtractDefFromObjectWlabel (obj:ObjsettingWlabel):string{
+    let comandhtml:string="";
+    for (let key in obj){
+        comandhtml+=`${obj[key].svg}
+        `;
+         }
+    return comandhtml
+}
+
 function Extractarrows (linkstyle:Linksdefinitions):string {
 	let comandhtml:string="";
 	for (let key in linkstyle){
@@ -252,7 +263,7 @@ function lineproperties (link:Linksdefinition,key:string):string {
 
 function legendextract (BOMtable:BOM[]):legend {
 	
-	let templegend:legend={types:[],links:[]};
+	let templegend:legend={types:[],links:[],status:[],bubbles:[]};
 	for (const BOM of BOMtable){
 		for( const item of BOM.BoMItems){
 			if (!templegend.types.includes(item.Type)){templegend.types.push(item.Type)}
@@ -261,6 +272,16 @@ function legendextract (BOMtable:BOM[]):legend {
 					if (!templegend.links.includes(rel.linktype)){templegend.links.push(rel.linktype)}
 				}
 			}
+			if (item.bubbles){
+				for (const bub of item.bubbles){
+					if (!templegend.bubbles.includes(bub)){templegend.bubbles.push(bub)}
+				}
+			}
+			if (item.status){
+				
+					if (!templegend.status.includes(item.status)){templegend.status.push(item.status)}
+				
+			}
 		}
 	}
 	return templegend;
@@ -268,6 +289,8 @@ function legendextract (BOMtable:BOM[]):legend {
 
 function initlegendbloc (legend:legend,nbcol:number,icons:Icon[]):legendtable{
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
+	const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
+    const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
 	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
 	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
 	const iconw:number=h;
@@ -301,6 +324,20 @@ function initlegendbloc (legend:legend,nbcol:number,icons:Icon[]):legendtable{
 			templegenditems.push({type:"link",name:typ,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap})
 		}
 		}
+		for (const status of legend.status ){
+			if (status in Status_Settings){
+				templabel=Status_Settings[status].label;
+				templegenditems.push({type:"status",name:status,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap});
+			}
+		}
+		for (const bub of legend.bubbles ){
+			if (bub in bubbles_Settings){
+				templabel=bubbles_Settings[bub].label;
+				templegenditems.push({type:"bubble",name:bub,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap});
+
+
+			}
+		}
 	const itempercolum:number=Math.ceil(templegenditems.length/nbcol);
 	tempcolumns=[];
 	for (let k=0;k<nbcol;k++){
@@ -333,9 +370,9 @@ export function generateSVG(contexturi:vscode.Uri ,BOMdata:BOMdata):string{
 	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
 	const iconw:number=h;
     const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
-    const Status_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
+    const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
     const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};
-    const bubbles_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
+    const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
 	const BendFactor :number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
 	let haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
@@ -373,8 +410,8 @@ export function generateSVG(contexturi:vscode.Uri ,BOMdata:BOMdata):string{
     // recuperation des def des settings
 	tempstr+=Extractarrows(linkstyle);
 	tempstr+=ExtractDefFromObject(MandatoryDefs_Settings);
-    tempstr+=ExtractDefFromObject(Status_Settings);
-    tempstr+=ExtractDefFromObject(bubbles_Settings);
+    tempstr+=ExtractDefFromObjectWlabel(Status_Settings);
+    tempstr+=ExtractDefFromObjectWlabel(bubbles_Settings);
 
 
 	// extraction des différents type pour le mettre dans le def du svg
@@ -409,13 +446,30 @@ if (haslegend){
 	for (const c of legendeblock.columns){
 		let nbi:number=0;
 		for (const i of c.items) {
-			if (i.type=="object"){
-			tempstr+=`<use  href="#${i.name}" x="${c.x}" y="${nbi*(h+panv)}"/>
-			`;
-			} else {
-			tempstr+=`<line x1="${c.x}" y1="${nbi*(h+panv)+h/2}" x2="${c.x+iconw}" y2="${nbi*(h+panv)+h/2}" ${lineproperties(linkstyle[i.name],i.name)} stroke-linecap="round"/>
-			`;
+			switch (i.type){
+
+				case "object":
+				case "status":
+					tempstr+=`<use  href="#${i.name}" x="${c.x}" y="${nbi*(h+panv)}"/>
+					`;
+					break;
+				case "link" :
+					tempstr+=`<line x1="${c.x}" y1="${nbi*(h+panv)+h/2}" x2="${c.x+iconw}" y2="${nbi*(h+panv)+h/2}" ${lineproperties(linkstyle[i.name],i.name)} stroke-linecap="round"/>
+					`;
+					break;
+				case "bubble":
+					tempstr+=`<use  href="#placeholder" x="${c.x}" y="${nbi*(h+panv)}"/>
+					<use  href="#${i.name}" x="${c.x}" y="${nbi*(h+panv)}"/>
+					`;
+
+					break;
+				
+
 			}
+
+
+
+
 			tempstr+=`<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="${c.x+iconw+gap}" y="${nbi*(h+panv)+15}" fill="black">
 					${i.label}
 					</text>`;

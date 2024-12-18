@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { Computelayout } from './Computelayout';
-import { parseEditor,leg_parseEditor } from './parseEditor';
+import { parseEditor } from './parseEditor';
 import { generateCommandHTML , generateSVG} from './HTMLgeneration';
 
 
@@ -61,6 +61,13 @@ export interface BOM {
 
 export interface Objsetting {
 	[key:string]:any;
+}
+
+export interface ObjsettingWlabel {
+	[key:string]:{
+		svg:string;
+		label:string;
+	};
 }
 
 export interface BOMdata {
