@@ -11,7 +11,6 @@ BoMarkdown is an extension that generetates a SVG representaion of a Bill of mat
  + (i:file, Root File)
 ```
 ````
-
 ![Images/FolderExample](Images/FolderExample.png "Images/FolderExample")
 
 ## Features
@@ -24,7 +23,7 @@ launch it with the command palette or with a right click in a markdown file (*.m
 
 ##### Introduction
 
-Each line of the bom is an item. Items can be linked either by a hiearchy link or a transversal (implement) link.
+Each line of the bom is an item. Items can be linked either by a hiearchy link or a transversal(s) link(s).
 
 ##### Heirachy
 
@@ -57,13 +56,19 @@ to add a new column juste type
 an item can be typed by using a type block
 ````text
 ```bomarkdown:Images/typeitem
-+ (i:folder,A folder item)
- + (i:file, A file item)
- + (i:file, A file item with revision,A)
++ (i:folder,A folder item) As long as there is a block text after blocks is ignored  
+ + (i:file, A file item) so it can be use as a comment
+ + (i:file, A file item with revision (label supports parenthesis),A)
  + (i:an item block with no type)
  + (i:foo,an unkown type)
+ + (z:Block with wrong identifier)
+ + (z:Block with wrong identifier)(i:but with a valid block afterwards)
+ + no bloc but (parenthesis)
+
 ```
 ````
+
+
 
 
 ![Images/typeitem](Images/typeitem.png "Images/typeitem")
@@ -119,26 +124,23 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
   "verbose":true
 }
 
-+ (i:assembly,Assembly (avec parenthèse),1)(e:)(s:IW)(l:a:s1,s2)(l:c:s3)(b:context)(b:noway)ignored comment
- + (i:zob,plop)(s:D)(s:F)c'est un comment
- +
- + (i:)
- wesh le comment
++ (i:assembly,Assembly (avec parenthèse),1)(s:IW)
  + (i:component, First component,A)(s:R)(a:c1)
  + (i:component, Second component,A)(s:F)(a:c2)
 + (i:component,Alternate 1 of c1,A)(a:a1)(l:a:c1)
 + (i:component,Alternate 2 of c1,A)(a:a2)(l:a:c1)
 + (i:component,provided component,A)(s:R)(a:c3)
++ (i:component,Provided component 2,A)(s:IW)(a:c4)
 
 +newcolumn
 + (i:specification,First Component Spec)(a:s1)(l:i:c1)
  + (i:requirement, req1)(a:specreq1)
- + (i:requirement, req2)
+ + (i:requirement, req2)(a:specreq2)
 + (i:specification,Second Component Spec)(a:s2)(l:i:c2)
  + (i:requirement, req3)
  + (i:requirement, req4)(a:dum)
-+ (i:specification,Procurement Spec)(a:s3)(l:i:c3,a1)
- + (i:requirement, req5)(a:procreq1)(l:c:specreq1,specreq2)
++ (i:specification,Procurement Spec)(a:s3)(l:i:a2,a1)
+ + (i:requirement, req5)(a:procreq1)(l:c:specreq1,specreq2)(l:i:c4)
  + (i:requirement, req6)
  + (i:requirement, req7)
 ```
@@ -226,7 +228,7 @@ You can also edit the UserIcons.json to remove unwanted types and a folder with 
 
 ## Requirements
 
-No dependencies. Works well with [Markdown Preview enhanced](https:)(l:i:)(l:i:marketplace.visualstudio.com)(l:i:items?itemName=shd101wyy.markdown-preview-enhanced)
+No dependencies. Works well with [Markdown Preview enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
 
 ## Extension Settings
 
@@ -289,8 +291,13 @@ it's and object witch each key is a bubble, the value is a svg element with an i
 
 ```json
             "bomarkdown.bubbles":{
-                "[keyname1]": "<g id=\"[keyname1]\">[SVG elements]</g>",
-                "[keyname2]": "<image  id="[keyname2]" witdh="[max 10]" height="[max 10]" x="[top left corner x]" y="[top left corner y]" preserveAspectRatio="xMinYMid" xlink:href="[base 64 encoding of the image with the mime]"/>"
+                "[keyname1]": {
+                  "svg":"<g id=\"[keyname1]\">[SVG elements]</g>",
+                  "label":[label of the bubble]
+                  },
+                "[keyname2]": {
+                  "svg":"<image  id="[keyname2]" witdh="[max 10]" height="[max 10]" x="[top left corner x]" y="[top left corner y]" preserveAspectRatio="xMinYMid" xlink:href="[base 64 encoding of the image with the mime]"/>",
+                  "label":"label of the bubble"}
               } 
 ```
 
@@ -302,7 +309,10 @@ it's and object witch each key is a status, the value is a svg element with an i
 
 ```json
             "bomarkdown.satus":{
-              "[status]":"<g id=\"[status]\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"lightgray\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nD\n</text>\n</g>",
+              "[status]":{
+                "svg":"<g id=\"[status]\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"lightgray\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nD\n</text>\n</g>",
+                "label":[label of the status]
+                },
             }
 ```
 
@@ -334,5 +344,6 @@ Initial release of BoMarkdown
 
 Bug fix 
 Support for bubbles and status in the legend
+Change in the parsing text after the last block is ignored and considered as comment
 
 ---

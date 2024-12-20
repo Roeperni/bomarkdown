@@ -38,12 +38,17 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 	while (i>Bindex && !inputtable[i].match(endbloc)){
 		i--;
 	}
-	if (i>Bindex){
-		tempbloctable.push(inputtable.slice(Bindex,i).join(""));
+	if (Bindex==-1){
+		tempbloctable.push(inputtable.join(""));
 
-	}else{
-		tempbloctable.push(inputtable.slice(Bindex).join(""));
+	} else {
+		if (i>Bindex){
+			tempbloctable.push(inputtable.slice(Bindex,i).join(""));
 
+		}else{
+			tempbloctable.push(inputtable.slice(Bindex).join(""));
+
+		}
 	}
 
 	return tempbloctable;
@@ -182,7 +187,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 								break;
 							default:
 								// Si on n'est pas dans les pattern d'avant
-								if (tempArray.length == 1) {
+								if (tempArray2.length == 1) {
 									// si il n'y a rien on a juste un label
 
 									tempitem.Label = tempargs;
