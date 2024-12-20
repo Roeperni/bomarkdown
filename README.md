@@ -336,14 +336,15 @@ None yet
 
 ## Release Notes
 
-### 0.1.0
+### 0.0.1
 
 Initial release of BoMarkdown
 
-### 0.2.0
+### 0.1.0
 
+first stable release in the markeplace
 Bug fix 
-Support for bubbles and status in the legend
+Support for bubbles and status in the legend (setting datamodel modification)
 Change in the parsing text after the last block is ignored and considered as comment
 
 ---
