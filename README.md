@@ -92,7 +92,7 @@ you can define the satus of an item by adding a status block
 
 ##### Define several bom in a same graph
 
-The bom can be distributed in several column and several root can be stacked in the same columm
+The bom can be distributed in several column and several root can be stacked in the same columm. You also can increase the space with the previous column.
 
 ````text
 ```bomarkdown:Images/multicolumn
@@ -107,6 +107,11 @@ The bom can be distributed in several column and several root can be stacked in 
 + (i:specification,Second Component Spec)
  + (i:requirement, req3)
  + (i:requirement, req4)
+
+you can define an additional gap between column 
+
++newcolumn 100
++(i:logical,Logical)
 ```
 ````
 

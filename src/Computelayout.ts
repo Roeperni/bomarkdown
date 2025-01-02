@@ -60,9 +60,11 @@ export function Computelayout(TBOM: BOM[]): BOM[] {
 			itemcount++;
 		}
 		iBOM.y = 2*panv;
-		iBOM.x = panh + iBOM.maxnegw;
+		
 		if (iBOM.column > 0) {
 			iBOM.x = iBOM.x + panh + TBOM[iBOM.column - 1].x + TBOM[iBOM.column - 1].maxw;
+		} else {
+			iBOM.x = panh + iBOM.maxnegw;
 		}
 
 	}
