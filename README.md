@@ -6,7 +6,7 @@ BoMarkdown is an extension that generetates a SVG representaion of a Bill of mat
 ```bomarkdown:Images/FolderExample
 + (i:folder,rootfolder)
  + (i:folder, subfolder1)
-  + (i:file, File)
+  + (i:file, Fil>e)
   + (i:file, Another File)
  + (i:file, Root File)
 ```
@@ -17,7 +17,7 @@ BoMarkdown is an extension that generetates a SVG representaion of a Bill of mat
 
 ### BOM Preview
 
-launch it with the command palette or with a right click in a markdown file (*.md)
+launch it with the command palette (crtl + shift + p) or with a right click in a markdown file (*.md)
 
 #### BOM syntax
 
@@ -225,11 +225,36 @@ Names can be copy pasted in your markdown
 ### Addicon
 
 The add icon command is only in the command palette.
+
 The command will ask a folder to the user and import all the image file of the folder in the Usericons.json file.
 During the import it will convert the image files (png or jpg) in base64 format in order to be abble to embed icons in the svg.
 The name of the icon is the filename in lowercase and with no extension.
 You can update the icon by performing a new import of the folder with modified image files.
 You can also edit the UserIcons.json to remove unwanted types and a folder with the default icons is packaged with the exentsion.
+
+### Edit UserIcons.json
+This command is only in the command palette.
+Open the UserIcons.json file in the editor.
+
+you can add a label to a icon for the legend :
+
+```json
+[
+  {
+    "name": "assembly",
+    "type": "png",
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEU...ZMAAAAASUVORK5CYII="
+  },
+  {
+    "name": "chapter",
+    "label": "Chapitre",
+    "type": "png",
+    "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAw...BJRU5ErkJggg=="
+  }
+]
+```
+When you are done don't forget to save the file
+
 
 ## Requirements
 

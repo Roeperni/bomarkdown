@@ -43,6 +43,10 @@
         "command": "bomarkdown.insertassvg",
         "title": "Insert as SVG",
         "category": "BoMarkdown"
+      },{
+        "command": "bomarkdown.editusericon",
+        "title": "Edit UserIcons.json",
+        "category": "BoMarkdown"
       }
     ],    
     "menus": {

@@ -276,6 +276,16 @@ export function activate(context: vscode.ExtensionContext) {
 	  );
 
 	  context.subscriptions.push(
+		vscode.commands.registerCommand('bomarkdown.editusericon', () => {
+
+		 	
+			let JsonUri =vscode.Uri.joinPath(context.extensionUri,"IconConfig","UserIcons.json");
+			vscode.window.showTextDocument(JsonUri)
+		  
+		})
+	  );
+
+	  context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.addicons', () => {
 
 			// option for the folder picker

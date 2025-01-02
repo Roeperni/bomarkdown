@@ -27,18 +27,18 @@
 [x]implémenter le nudge en setting (petit gap entre les icons defaut 2)
 [x]generer des id pour les items du groupe (pariel fait pour label et effectivité)
 [X]utiliser les defs pour les images
-[]gestion de la legende
-[]plusieur type de lien
-[] rectangle en degradé blanc transparent pour etre au dessus des fleches
+[x]gestion de la legende
+[x]plusieur type de lien
+[x] rectangle en degradé blanc transparent pour etre au dessus des fleches
 [x] detourer la matrice
 
 ## integration markdown
 
 [] integartion markdown preview ? (cf plantuml)
-[] extration des bloc de code pour perview plusieurs diagramme dans un md
+[x] extration des bloc de code pour perview plusieurs diagramme dans un md
 
 ## packaging
 
-[] ecrire l'aide
-[] faire un package
-[] publier l'extension sur markplace
+[x] ecrire l'aide
+[x] faire un package
+[x] publier l'extension sur markplace

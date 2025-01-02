@@ -56,14 +56,14 @@ function getBOMCommandsB64(jsonpath:string):string{
 	let icons:Icon[] = JSON.parse(rawdata);
 	let commands:string=`
 
-<svg width="50%" height="${icons.length*(h+gap)}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">	
+<svg width="90%" height="${icons.length*(h+gap)}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">	
 `;
 	let nbicon:number=0;
 	for (const icon of icons){
 		commands+=`<g transform="translate(0,${nbicon*(h+gap)})">
-		<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="25" y="15"
+		<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="13" x="25" y="15"
      fill="black">
-     ${icon.name}
+     ${icon.name} ${icon.label==undefined?"":`: <tspan  font-weight="normal" font-style="italic"> ${icon.label}</tspan>`}
     </text>
 	<image  xlink:href="${icon.icon}" witdh="20" height="20" x="0" y="0"/>
 	</g>
@@ -98,7 +98,7 @@ export function generateCommandHTML(jsonpath:string):string {
 }
 .column {
   float: left;
-  padding: 10px;
+  padding: 1px;
   }
 
 .left {
@@ -148,9 +148,9 @@ export function generateCommandHTML(jsonpath:string):string {
   </div>
   <div class="column right" >
     <h3>Mandatory Defs</h3>
-    <svg width="50%" height="${h+2*gap}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg width="90%" height="${h+2*gap}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
     ${MandatoryDefs_Settings["undef"]}
-    <text font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15"
+    <text font-family="system-ui" font-weight="bold" font-style="normal" font-size="13" x="${iconw+gap}" y="15"
 				fill="black">
 				Undef
 				</text>			
@@ -180,7 +180,7 @@ function generateSVGforSetting (obj:ObjsettingWlabel,gap:number,includesvg?:stri
 	const iconw:number=h;
     let comandhtml:string="";
     if (svgheader){
-    comandhtml=`<svg width="50%" height="${Object.keys(obj).length*(h+2*gap)+gap}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+    comandhtml=`<svg width="90%" height="${Object.keys(obj).length*(h+2*gap)+gap}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
     `;
     }
     let nbkey:number=0;
@@ -188,8 +188,8 @@ function generateSVGforSetting (obj:ObjsettingWlabel,gap:number,includesvg?:stri
         comandhtml+=`<g transform="translate(15,${gap+nbkey*(h+2*gap)})">
         ${includesvg}
         ${obj[key].svg}
-        <text font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15" fill="black">
-				${key} ,Label: ${obj[key].label}
+        <text font-family="system-ui" font-weight="bold" font-style="normal" font-size="13" x="${iconw+gap}" y="15" fill="black">
+				${key} ${obj[key].label==undefined?"":`: <tspan  font-weight="normal" font-style="italic"> ${obj[key].label}</tspan>`}
 				</text>
                 
         </g>`;
@@ -203,7 +203,7 @@ function generateSVGforLinks (obj:Linksdefinitions,gap:number,svgheader?:boolean
 	const iconw:number=h;
     let comandhtml:string="";
     if (svgheader){
-    comandhtml=`<svg width="50%" height="${Object.keys(obj).length*(h+2*gap)+gap}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+    comandhtml=`<svg width="90%" height="${Object.keys(obj).length*(h+2*gap)+gap}px" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
     `;
     }
     let nbkey:number=0;
@@ -213,8 +213,8 @@ function generateSVGforLinks (obj:Linksdefinitions,gap:number,svgheader?:boolean
     for (let key in obj){
         comandhtml+=`<g transform="translate(15,${gap+nbkey*(h+2*gap)})">
         <line x1="0" y1="${h/2}" x2="${iconw}" y2="${h/2}" ${lineproperties(obj[key],key)} stroke-linecap="round"/>
-        <text font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15" fill="black">
-				${key} : ${obj[key].label}
+        <text font-family="system-ui" font-weight="bold" font-style="normal" font-size="13" x="${iconw+gap}" y="15" fill="black">
+			${key} ${obj[key].label==undefined?"":`: <tspan  font-weight="normal" font-style="italic"> ${obj[key].label}</tspan>`}
 				</text>
                 
         </g>`;
