@@ -87,10 +87,13 @@ export function parseEditor(EditorTxt: string): BOMdata{
 
 		let tempitem: BoMItem = JSON.parse(EmptyBoMItem);
 		// test de la comande new column
-		if (item == "+newcolumn") {
+		if (item.substring(0,10) == "+newcolumn") {
 			tempBOM.column = tempcolumn;
 			BOMtable.push(tempBOM);
 			tempBOM = JSON.parse(EmptyBoM);
+			// detection d'un gap suppplémentaire pour la nouvelle colonne
+			let tempcolumngap=item.substring(11);
+			if (tempcolumngap){tempBOM.x=Number(tempcolumngap)}
 			tempcolumn++;
 		} else {
 			// on detecte le niveau	
