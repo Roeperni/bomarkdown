@@ -67,11 +67,31 @@ an item can be typed by using a type block
 
 ```
 ````
-
-
-
-
 ![Images/typeitem](Images/typeitem.png "Images/typeitem")
+
+The legend is automatically generated depending on a [global parameter](#legend)
+
+it can be forced using a parameter definition
+
+````text
+```bomarkdown:Images/typeitem-nolegend
+${
+  "haslegend":false
+}$
++ (i:folder,A folder item) As long as there is a block text after blocks is ignored  
+ + (i:file, A file item) so it can be use as a comment
+ + (i:file, A file item with revision (label supports parenthesis),A)
+ + (i:an item block with no type)
+ + (i:foo,an unkown type)
+ + (z:Block with wrong identifier)
+ + (z:Block with wrong identifier)(i:but with a valid block afterwards)
+ + no bloc but (parenthesis)
+
+```
+````
+![Images/typeitem-nolegend](Images/typeitem-nolegend.png "Images/typeitem-nolegend")
+
+
 
 to list all the availables types reffer to [BOM Commands](#bom-commands)
 
@@ -89,6 +109,8 @@ you can define the satus of an item by adding a status block
 ````
 
 ![Images/statusitem](Images/statusitem.png "Images/statusitem")
+
+Status rendition is customizable in the [settings](#bubbles)
 
 ##### Define several bom in a same graph
 
@@ -125,9 +147,7 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
 
 ````text
 ```bomarkdown:Images/aliasesandlinks
-{
-  "verbose":true
-}
+
 
 + (i:assembly,Assembly (avec parenthèse),1)(s:IW)
  + (i:component, First component,A)(s:R)(a:c1)
@@ -153,6 +173,8 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
 
 
 ![Images/aliasesandlinks](Images/aliasesandlinks.png "Images/aliasesandlinks")
+
+links types and definition are customizable in the [settings](#bomarkdownlinksdefinition-linkdef)
 
 ##### Bubbles
 
@@ -184,8 +206,8 @@ Effectivity can be defined before links with an effectivity block (e:)
 ```
 
 ````
-
 ![Images/effectivity](Images/effectivity.png "Images/effectivity")
+special char replacement are define in the [settings](#bomarkdownutf8replacement)
 
 ### BOM Export
 
@@ -193,7 +215,7 @@ launch it with the command palette or with a right click in a markdown file (*.m
 
 The export commands generates a svg file
 You must have your textfile saved on your computer.
-the program tries to detect code block delimited by start and end point. Start and en point can de defined in the settings
+the program tries to detect code block delimited by start and end point. Start and en point can de defined in the [settings](#bomarkdowncodeblockdelimiter-codeblockdelimiter)
 On the starting block you can define an image path
 
 ```code
@@ -213,7 +235,7 @@ launch it with the command palette or with a right click in a markdown file (*.m
 Like the export the command will generate or update a svg file from the current code block
 It will also insert an image markdown element below the code block and refresh the markdown preview enhanced window.
 
-### BOM Commands
+### BOM Commands {#bom-commands}
 
 launch it with the command palette or with a right click in a markdown file (*.md)
 
@@ -262,7 +284,7 @@ No dependencies. Works well with [Markdown Preview enhanced](https://marketplace
 
 ## Extension Settings
 
-### Simple settings
+### Simple settings {#simplesetting}
 
 bomarkdown.h : Default Item height
 bomarkdown.gap : space between element on a line
@@ -273,7 +295,7 @@ bomarkdown.renderlegend : Specifies if a legend block is computed and added a th
 
 ### Complex settings:
 
-#### bomarkdown.Linksdefinition
+#### bomarkdown.Linksdefinition {#linkdef}
 
 This setting is used to define the links of the bom. Its a dictionnary of objects defined by 5 properties
 
@@ -290,7 +312,7 @@ This setting is used to define the links of the bom. Its a dictionnary of object
 Beware to escape the " in the marker svg definition
 The dasharray definition can be found [here](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray)
 
-#### bomarkdown.revision
+#### bomarkdown.revision {#revision}
 
 It's a simple object with 2 properties with html color that defines the background and the font color of the revision block
 
@@ -303,7 +325,7 @@ It's a simple object with 2 properties with html color that defines the backgrou
 
 ```
           
-#### bomarkdown.codeblockdelimiter
+#### bomarkdown.codeblockdelimiter {#codeblockdelimiter}
 
 it defines the possible begining and ending identifier of a code block.
 the identifiers can't contain space, the begin and end propeties contains a string with the identifiers seperated by a string
@@ -315,7 +337,7 @@ the identifiers can't contain space, the begin and end propeties contains a stri
             }
 ```
 
-#### bomarkdown.bubbles
+#### bomarkdown.bubbles {#bubbles}
 
 it's and object witch each key is a bubble, the value is a svg element with an id equal to the bubble key
 
@@ -333,7 +355,7 @@ it's and object witch each key is a bubble, the value is a svg element with an i
 
 The bubble is positioned in regards of the top left corner of the type icon
 
-#### bomarkdown.satus
+#### bomarkdown.satus {#status}
 
 it's and object witch each key is a status, the value is a svg element with an id equal to the status key
 
@@ -376,5 +398,12 @@ first stable release in the markeplace
 Bug fix 
 Support for bubbles and status in the legend (setting datamodel modification)
 Change in the parsing text after the last block is ignored and considered as comment
+
+### 0.1.1
+
+- Edit Json
+- Readme update
+- Add the ability to increase the gap between columm
+
 
 ---
