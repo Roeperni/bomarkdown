@@ -21,9 +21,6 @@
   "contributes": {
     "commands": [
       {
-        "command": "bomarkdown.helloWorld",
-        "title": "Hello World"
-      },{
         "command": "bomarkdown.preview",
         "title": "BOM Preview",
         "category": "BoMarkdown"
@@ -176,6 +173,16 @@
             
   
             },
+          "bomarkdown.IconJson":{
+            "type":"array",
+            "items" :{
+              "type":"string"
+            
+            },
+            "uniqueItems": true,
+            "description": "Path of the Json Icon files",
+            "default":["[embedded]"]
+          },
           "bomarkdown.bubbles":{
             "type":"object",
             "description": "List of available bubbles",

@@ -77,7 +77,7 @@ function getBOMCommandsB64(jsonpath:string):string{
 
 
 // Function to generate the HTML of the command BOM Command
-export function generateCommandHTML(jsonpath:string):string {
+export function generateCommandHTML(jsonpaths:string[]):string {
     const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
     const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};
     const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
@@ -141,8 +141,13 @@ export function generateCommandHTML(jsonpath:string):string {
 	</table>
     <h3>Icons</h3>
 `;
-    
-    comandhtml+=getBOMCommandsB64(jsonpath);
+    for (let jsonpath of jsonpaths){
+		comandhtml+=`<h4>${jsonpath}</h4>
+		`;
+
+    		comandhtml+=getBOMCommandsB64(jsonpath);
+		
+	}
 
     comandhtml+=`
   </div>
@@ -378,14 +383,30 @@ export function generateSVG(contexturi:vscode.Uri ,BOMdata:BOMdata):string{
 	let haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
 	let verbose:boolean=false;
 	const legendscale:number=vscode.workspace.getConfiguration('bomarkdown').get('legendscale')||0.7;
+	let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
 	if ("haslegend" in BOMdata.params){
 		haslegend=BOMdata.params.haslegend;
 	}
 
 	let tempfinItem:number=0;
-	let JsonUri =vscode.Uri.joinPath(contexturi,"IconConfig","UserIcons.json")
-	let rawdata = fs.readFileSync(JsonUri.fsPath,"utf-8");
-	let icons:Icon[] = JSON.parse(rawdata);
+	// load all the icons from all the files
+	if ("IconJsons" in BOMdata.params) {
+		iconJSONS=BOMdata.params.iconJSONS;
+	} 
+	let icons:Icon[]=[];
+	for (let Iconjson of iconJSONS){
+		if (Iconjson=="[embedded]"){
+
+			Iconjson=vscode.Uri.joinPath(contexturi,"IconConfig","DefaultIcons.json").fsPath
+			}
+	
+		let rawdata = fs.readFileSync(Iconjson,"utf-8");
+		icons.push(...JSON.parse(rawdata));
+
+	}
+
+
+
 	if ("verbose" in BOMdata.params){extlog.appendLine('Icon charged');}
 	// calcul de la taille du graph
 	// pourquoi un at(-1) fait du undefined ?

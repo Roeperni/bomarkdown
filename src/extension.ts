@@ -12,6 +12,7 @@ import { generateCommandHTML , generateSVG} from './HTMLgeneration';
 
 const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
 const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
+
 const iconw:number=h;
 
 
@@ -95,8 +96,9 @@ export interface Icon {
 	"name": string;
     "icon": string;
     "type": string;
+	"filename":string;
+	"source"?:string;
 	"label"?:string;
-	"iconsliced"?:string[];
 }
 
 interface BoMBLock{
@@ -106,8 +108,33 @@ interface BoMBLock{
 	"end":number
 }
 
+
+
+
 export const EmptyBoMItem: string= '{"id":0,"Parentid":0,"level":0,"Label":"","badparsing":false,"x":0,"y":0,"h":0,"lblw":0,"w":0,"Type":""}'
 export const EmptyBoM: string='{"BoMItems":[],"column":0,"x":0,"y":0,"maxw":0,"maxnegw":0,"h":0}'
+
+function QPIfromTable(table:string[],exturi:vscode.Uri,preselect:boolean):vscode.QuickPickItem[]{
+	let tempitemtable:vscode.QuickPickItem[]=[]
+	
+	for (let item of table){
+		let tempqpi:vscode.QuickPickItem={label:"",picked:preselect}
+		if (item=="[embedded]"){
+			tempqpi.label=item
+			tempqpi.description=vscode.Uri.joinPath(exturi,"IconConfig","DefaultIcons.json").fsPath
+		} else {
+			tempqpi.label=item.substring(item.lastIndexOf("\\")+1)
+			tempqpi.description=item
+
+		}
+		tempitemtable.push(tempqpi)
+	}
+
+return tempitemtable
+
+}
+
+
 
 function B64slicer(str :string, size:number) :string[]{
 	const numChunks = Math.ceil(str.length / size)
@@ -120,6 +147,8 @@ function B64slicer(str :string, size:number) :string[]{
   
 	return chunks
   }
+
+
 
 
 
@@ -258,7 +287,7 @@ export function activate(context: vscode.ExtensionContext) {
 	  );
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('bomarkdown.commands', () => {
+		vscode.commands.registerCommand('bomarkdown.commands',async () => {
 
 		 	// Create and show a new webview
 			const panel = vscode.window.createWebviewPanel(
@@ -267,22 +296,37 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.ViewColumn.Two, // Editor column to show the new webview panel in.
 			{} // Webview options. More on these later.
 			);
-			let JsonUri =vscode.Uri.joinPath(context.extensionUri,"IconConfig","UserIcons.json");
-			let jsonpath=JsonUri.fsPath;		
-			panel.webview.html=generateCommandHTML(jsonpath); 
-			
+			let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
+			let selectedJsons= await vscode.window.showQuickPick(QPIfromTable(iconJSONS,context.extensionUri,true),
+				{ placeHolder: 'Select to Json to display',canPickMany:true });
+				
+			if (selectedJsons!==undefined){
+				let selectedjsonpath:string[]=[];
+				for (let selectedjson of selectedJsons){
+					if (selectedjson.description){
+						selectedjsonpath.push(selectedjson.description)
+					}
+				}
+				panel.webview.html=generateCommandHTML(selectedjsonpath); 
+		
+			}
 		  
 		})
 	  );
 
 	  context.subscriptions.push(
-		vscode.commands.registerCommand('bomarkdown.editusericon', () => {
+		vscode.commands.registerCommand('bomarkdown.editusericon',async ()  =>  {
+			let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
+			let selectedJson=await vscode.window.showQuickPick(QPIfromTable(iconJSONS,context.extensionUri,false),
+			{ placeHolder: 'Select to Json to display',canPickMany:false });
+			// search if embedded json icon is still thee
+		 	if (selectedJson?.description){
 
-		 	
-			let JsonUri =vscode.Uri.joinPath(context.extensionUri,"IconConfig","UserIcons.json");
-			vscode.window.showTextDocument(JsonUri)
+				vscode.workspace.openTextDocument(vscode.Uri.file(selectedJson.description)).then(doc => {
+					vscode.window.showTextDocument(doc,vscode.ViewColumn.Two); });
 		  
-		})
+		}
+	})
 	  );
 
 	  context.subscriptions.push(
@@ -295,26 +339,33 @@ export function activate(context: vscode.ExtensionContext) {
 				canSelectFiles: false,
 				canSelectFolders: true
 			};
-			// uri for the file
-			let JsonUri =vscode.Uri.joinPath(context.extensionUri,"IconConfig","UserIcons.json");
-			// convertion of the uri in path
-			let jsonpath=JsonUri.fsPath;
-			// read json and convert to object
-			let rawdata = fs.readFileSync(jsonpath,"utf-8");
-			let icons:Icon[] = JSON.parse(rawdata);
-			extlog.appendLine("Json Location :"+jsonpath);
+			let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
+			let icons:Icon[]=[];
 			
 			// diplay of the file dialog
 			vscode.window.showOpenDialog(options).then(fileUri => {
 			   if (fileUri && fileUri[0]) {
+				// Jsonpath
+				const jsonpath:string=fileUri[0].fsPath + "_Icons.json"
 				extlog.appendLine("liste des types :"+fileUri[0].fsPath);
 				// read the folder
+				// load the json if it exists 
+				if (fs.existsSync(jsonpath)){
+					let rawdata = fs.readFileSync(jsonpath,"utf-8");
+					icons = JSON.parse(rawdata);
+
+				}
+				
+
+				extlog.appendLine("Json Location :"+jsonpath);
+
 				const IconFiles=fs.readdirSync(fileUri[0].fsPath)
+
 				for (const Iconfile of IconFiles){
 					// extension detection
 					const spitIconfile=Iconfile.split(".")
 					if (spitIconfile[1].toLowerCase()=="jpg" || spitIconfile[1].toLowerCase()=="png"|| spitIconfile[1].toLowerCase()=="jpeg"){
-					const Iconindex =icons.findIndex(i =>i.name==spitIconfile[0].toLowerCase());
+					const Iconindex =icons.findIndex(i =>i.filename==Iconfile);
 					extlog.appendLine(fileUri[0].fsPath + " | " +Iconfile);
 					extlog.appendLine(path.join(fileUri[0].fsPath,Iconfile));
 					// converstion of the file in B64
@@ -323,14 +374,16 @@ export function activate(context: vscode.ExtensionContext) {
 					if (Iconindex > -1){
 						// If the icon is already in the index udate the image
 						extlog.appendLine("Update :"+spitIconfile[0]);
-						icons[Iconindex].type=spitIconfile[1].toLowerCase();
+						
 						icons[Iconindex].icon=`data:image/${spitIconfile[1]};base64,${tempB64}`;
 						//icons[Iconindex].iconsliced=tempB64sliced;
 
 					} else {
 						// new file add to index
 							let tempicon :Icon={
-							name:spitIconfile[0].toLowerCase(),
+							filename:Iconfile,
+							name:spitIconfile[0].toLowerCase().replace(" ",""),
+							label:spitIconfile[0].charAt(0).toUpperCase() + spitIconfile[0].slice(1),
 							type:spitIconfile[1].toLowerCase(),
 							icon:`data:image/${spitIconfile[1]};base64,${tempB64}`,
 							//iconsliced:tempB64sliced
@@ -345,6 +398,11 @@ export function activate(context: vscode.ExtensionContext) {
 				// save the object in the json
 				let rawdata2 = JSON.stringify(icons, null, 2);
 				fs.writeFileSync(jsonpath, rawdata2);
+				
+				if (iconJSONS.find(i=>i==jsonpath)==undefined){
+					iconJSONS.push(jsonpath)
+					vscode.workspace.getConfiguration('bomarkdown').update("IconJson",iconJSONS,vscode.ConfigurationTarget.Global)
+				}
 				// display the new icons
 				const panel = vscode.window.createWebviewPanel(
 					'bomcommands', // Identifies the type of the webview. Used internally
@@ -352,7 +410,12 @@ export function activate(context: vscode.ExtensionContext) {
 					vscode.ViewColumn.Two, // Editor column to show the new webview panel in.
 					{} // Webview options. More on these later.
 					);	
-				panel.webview.html=generateCommandHTML(jsonpath); 
+					const idembedded=iconJSONS.findIndex(i=>i=="[embedded]");
+					if (idembedded>-1){
+						iconJSONS[idembedded]=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath;
+					}
+				
+				panel.webview.html=generateCommandHTML(iconJSONS); 
 
 
 			   }
@@ -362,20 +425,6 @@ export function activate(context: vscode.ExtensionContext) {
 		  
 		})
 	  );
-
-
-
-	
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('bomarkdown.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello les guys');
-	});
-
-	context.subscriptions.push(disposable);
 }
 
 // This method is called when your extension is deactivated
