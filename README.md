@@ -219,7 +219,7 @@ the program tries to detect code block delimited by start and end point. Start a
 On the starting block you can define an image path
 
 ```code
-<!---BoMardown:[path to the svg file]
+<!---bomarkdown:[path to the svg file]
 [BOM code here]
 --->
 ```
@@ -251,12 +251,43 @@ The add icon command is only in the command palette.
 The command will ask a folder to the user and import all the image file of the folder in the Usericons.json file.
 During the import it will convert the image files (png or jpg) in base64 format in order to be abble to embed icons in the svg.
 The name of the icon is the filename in lowercase and with no extension.
-You can update the icon by performing a new import of the folder with modified image files.
+You can update the icon by performing a new import of the folder with modified image files. The addicon command is based on the filename :if the filename exists in the json only b64 encoding is updated
+At the end of the import an json file is created and added to the **IconJson** setting
+
+<!---bomarkdown:Images/addicon
+
+${
+"haslegend":false
+}$
++ before import
++ (i:folder,Parent folder)
+ + (i:folder,Image Folder)
+  + (i:spec,Image1)
+  + (i:spec,Image2)
+  + (i:spec,Image3)
+  + ...
++newcolumn
++ after import
++ (i:folder,Parent folder)
+ + (i:folder,Image Folder)
+  + (i:spec,Image1)
+  + (i:spec,Image2)
+  + (i:spec,Image3)
+  + ...
+ + (i:file,Image Folder_icons.json)
+--->
+
+![Images/addicon](Images/addicon.svg "Images/addicon")
+
+
+
 You can also edit the UserIcons.json to remove unwanted types and a folder with the default icons is packaged with the exentsion.
 
 ### Edit UserIcons.json
 This command is only in the command palette.
-Open the UserIcons.json file in the editor.
+It opens the selected json icon file for edition
+
+![bomarkdown](Images/EditJson%20select.png "Json Selection")
 
 you can add a label to a icon for the legend :
 
