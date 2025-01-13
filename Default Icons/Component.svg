@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 110 110">
+<g transform="translate(5,5)">
+<polygon points="50,0 100,25 50,50 0,25 " fill="hsl(0,0%,100%)"/>
+<polygon points="0,75 50,100 50,50 0,25 " fill="hsl(0,0%,20%)"/>
+<polygon points="100,75 50,100 50,50 100,25 " fill="hsl(0,0%,60%)"/> 
+<polygon points="0,75 0,25 50,0 100,25 100,75 50,100 " stroke="black" stroke-linejoin="round" stro fill="none"/>
+</g>
+</svg>

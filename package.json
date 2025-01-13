@@ -173,6 +173,35 @@
             
   
             },
+            "bomarkdown.emphasis":{
+              "type":"array",
+              "description": "Emphasis formatting for Label",
+              "order":101,
+              "default":[
+                {
+                "regex":"***(.*?)***",
+                "expression":"***",
+                "svgparam":"",
+                "weight":"bold",
+                "style": "italic"
+              },{                
+                "regex":"**(.*?)**",
+                "expression":"**",
+                "svgparam":"",
+                "weight":"bold",
+                "style": "normal"
+              },{                
+                "regex":"*(.*?)*",
+                "expression":"*",
+                "svgparam":"",
+                "weight":"normal",
+                "style": "italic"
+              }
+            ]
+              
+              
+    
+              },
           "bomarkdown.IconJson":{
             "type":"array",
             "items" :{

@@ -1,4 +1,4 @@
-import { BOM, EmptyBoM, BoMItem, EmptyBoMItem ,link,BOMdata,Objsetting} from "./extension";
+import { BOM, EmptyBoM, BoMItem, emphasis,EmptyBoMItem ,link,BOMdata,Objsetting} from "./extension";
 import * as vscode from 'vscode';
 export interface Transcoder {
 	[key:string]:string;
@@ -53,6 +53,8 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 
 	return tempbloctable;
 }
+
+
 // parse the text bloc into a BOM[] object
 export function parseEditor(EditorTxt: string): BOMdata{
 	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
@@ -211,6 +213,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 
 					}
 				}
+
 
 				tempBOM.BoMItems.push(tempitem);
 			}

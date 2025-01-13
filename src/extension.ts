@@ -27,6 +27,14 @@ export type link={
 	linktype:string;
 }
 
+export type emphasis={
+	regex:string;
+	expression:string;
+	svgparam:string;
+	style:string;
+	weight:string
+}
+
 export interface BoMItem {
 	id:number;
 	Parentid:number;

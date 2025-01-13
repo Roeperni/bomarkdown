@@ -67,6 +67,13 @@ an item can be typed by using a type block
 
 ```
 ````
+<!---bomarkdown:Images/typeitemtest
++ (i:folder,A *folder and **item** wesh*)
++ (i:folder,A *folder and **item***)
++ (i:folder,A ***folder*** and **item** wesh)
++ (i:folder,A *folder and ***item wesh****)
+--->
+
 ![Images/typeitem](Images/typeitem.png "Images/typeitem")
 
 The legend is automatically generated depending on a [global parameter](#legend)
