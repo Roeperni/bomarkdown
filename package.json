@@ -13,12 +13,25 @@
     "vscode": "^1.94.0"
   },
   "categories": [
-    "Other"
+    "Other","Snippets"
   ],
   "activationEvents": ["onEditSession:file"],
   "publisher": "Roeperni",
   "main": "./out/extension.js",
   "contributes": {
+    "grammars": [
+      {
+        "injectTo": ["text.html.markdown"],
+        "scopeName": "bomarkdown.injection",
+        "path": ".syntaxes/Bomarkdown-grammar.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "markdown",
+        "path": "./bomarkdownSnippets.json"
+      }
+    ],
     "commands": [
       {
         "command": "bomarkdown.preview",
@@ -43,6 +56,10 @@
       },{
         "command": "bomarkdown.editusericon",
         "title": "Edit UserIcons.json",
+        "category": "BoMarkdown"
+      },{
+        "command": "bomarkdown.updatesnippets",
+        "title": "Update snippets with User Settings",
         "category": "BoMarkdown"
       }
     ],    
@@ -109,6 +126,12 @@
           "description": "render the legend block",
           "order":5
         },
+        "bomarkdown.bend":{
+          "type":"number",
+          "default":1,
+          "description": "Bending of the links",
+          "order":9
+        },
         "bomarkdown.Linksdefinition":{
           "type":"object",
           "default":{
@@ -152,7 +175,7 @@
         "bomarkdown.revision":{
           "type":"object",
           "description": "Styling to display revision",
-          "order":10,
+          "order":11,
           "default": {
             "font":"white",
             "background":"dimgrey"
@@ -166,8 +189,8 @@
             "description": "Delimiter for codeblock in markdown",
             "order":100,
             "default": {
-              "begin":"<!---bomarkdown ```bomarkdown",
-              "end":"---> ```"
+              "begin":"<!--bomarkdown ```bomarkdown",
+              "end":"--> ```"
             },
             "additionalProperties": false
             
@@ -179,19 +202,19 @@
               "order":101,
               "default":[
                 {
-                "regex":"***(.*?)***",
+                "regex":"\\*\\*\\*(.*?)\\*\\*\\*",
                 "expression":"***",
                 "svgparam":"",
                 "weight":"bold",
                 "style": "italic"
               },{                
-                "regex":"**(.*?)**",
+                "regex":"\\*\\*(.*?)\\*\\*",
                 "expression":"**",
                 "svgparam":"",
                 "weight":"bold",
                 "style": "normal"
               },{                
-                "regex":"*(.*?)*",
+                "regex":"\\*(.*?)\\*",
                 "expression":"*",
                 "svgparam":"",
                 "weight":"normal",
@@ -243,8 +266,6 @@
             "additionalProperties": {
               "type": "object"
             }
-
-
           },
           "bomarkdown.MandatoryDefs":{
             "type":"object",

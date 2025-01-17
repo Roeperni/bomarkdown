@@ -2,7 +2,7 @@
 
 BoMarkdown is an extension that generetates a SVG representaion of a Bill of material (like a tree) from a textual description. It is inspired by other text to graph tools like plantuml or mermaid.js
 
-````text
+````
 ```bomarkdown:Images/FolderExample
 + (i:folder,rootfolder)
  + (i:folder, subfolder1)
@@ -11,6 +11,7 @@ BoMarkdown is an extension that generetates a SVG representaion of a Bill of mat
  + (i:file, Root File)
 ```
 ````
+
 ![Images/FolderExample](Images/FolderExample.png "Images/FolderExample")
 
 ## Features
@@ -67,14 +68,11 @@ an item can be typed by using a type block
 
 ```
 ````
-<!---bomarkdown:Images/typeitemtest
-+ (i:folder,A *folder and **item** wesh*)
-+ (i:folder,A *folder and **item***)
-+ (i:folder,A ***folder*** and **item** wesh)
-+ (i:folder,A *folder and ***item wesh****)
---->
+
+
 
 ![Images/typeitem](Images/typeitem.png "Images/typeitem")
+
 
 The legend is automatically generated depending on a [global parameter](#legend)
 
@@ -98,6 +96,64 @@ ${
 ````
 ![Images/typeitem-nolegend](Images/typeitem-nolegend.png "Images/typeitem-nolegend")
 
+you can use markdown emphasis to highlight word in the label
+````text
+```bomarkdown:Images/typeitem-emphasis
+${
+  "haslegend":false 
+}$
++ (i:folder,A folder item)  
+ + (i:file, ***Emphase all the label***) 
+ + (i:file, A file item with revision (*Emphase just a part of it*))
+ + (i:file,*it also can be **nested***)
+  
+```
+````
+![Images/typeitem-emphasis](Images/typeitem-emphasis.svg "Images/typeitem-emphasis")
+
+````text
+```bomarkdown:Images/typeitem-emphasis-custom
+${
+  "haslegend":false,
+  "emphasis":
+    [
+                {
+                "regex":"\\*\\*\\*(.*?)\\*\\*\\*",
+                "expression":"***",
+                "svgparam":"fill=\"green\"",
+                "weight":"bold",
+                "style": "italic"
+              },{                
+                "regex":"\\*\\*(.*?)\\*\\*",
+                "expression":"**",
+                "svgparam":"",
+                "weight":"bold",
+                "style": "normal"
+              },{                
+                "regex":"\\*(.*?)\\*",
+                "expression":"*",
+                "svgparam":"",
+                "weight":"normal",
+                "style": "italic"
+              },{                
+                "regex":"#(.*?)#",
+                "expression":"#",
+                "svgparam":"stroke=\"blue\" stroke-width=\"1\" fill=\"white\"",
+                "weight":"normal",
+                "style": "normal"
+              }
+            ]
+  
+}$
++ (i:folder,A folder item)  
+ + (i:file, ***Emphase all the label***) 
+ + (i:file, A file item with revision (*Emphase just a part of it*))
+ + (i:file,*it also can be **nested***)
+  + (i:file,#use of custom marker#)
+
+```
+````
+![Images/typeitem-emphasis-custom](Images/typeitem-emphasis-custom.svg "Images/typeitem-emphasis-custom")
 
 
 to list all the availables types reffer to [BOM Commands](#bom-commands)
@@ -261,7 +317,7 @@ The name of the icon is the filename in lowercase and with no extension.
 You can update the icon by performing a new import of the folder with modified image files. The addicon command is based on the filename :if the filename exists in the json only b64 encoding is updated
 At the end of the import an json file is created and added to the **IconJson** setting
 
-<!---bomarkdown:Images/addicon
+<!--bomarkdown:Images/addicon
 
 ${
 "haslegend":false
@@ -281,11 +337,10 @@ ${
   + (i:spec,Image2)
   + (i:spec,Image3)
   + ...
- + (i:file,Image Folder_icons.json)
---->
++ (i:file,Image Folder_icons.json)
+-->
 
-![Images/addicon](Images/addicon.svg "Images/addicon")
-
+![Images/addicon](Images/addicon.png "Images/addicon")
 
 
 You can also edit the UserIcons.json to remove unwanted types and a folder with the default icons is packaged with the exentsion.
@@ -319,6 +374,8 @@ When you are done don't forget to save the file
 ## Requirements
 
 No dependencies. Works well with [Markdown Preview enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
+
+## Extension Snippets
 
 ## Extension Settings
 

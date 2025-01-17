@@ -1,0 +1,16 @@
+{
+    "scopeName":"bomarkdown.injection",
+    "injectionSelector": "L:markup.fenced_code.block.markdown",
+    "patterns": [
+      {
+        "include": "#bomarkdownkeyword"
+      }
+    ],
+    "repository": {
+      "bomarkdownkeyords": {
+        "begin": "```bomarkdown",
+        "end" : "```",
+        "name": "bomarkdown.fenced_code.block.markdown"
+      }
+    }
+}

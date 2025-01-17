@@ -9,8 +9,7 @@ interface fsize {
 }
 
 
-function labelparser(Bomitem:BoMItem):BoMItem{
-	const emphasises:emphasis[]=vscode.workspace.getConfiguration('bomarkdown').get('emphasis')||[];
+function labelparser(Bomitem:BoMItem,emphasises:emphasis[]):BoMItem{
 	Bomitem.lblw=ComputeBBOXjson("system-ui", 13,Bomitem.Label)
 	for (let emph of emphasises){
 		const re:RegExp=new RegExp(emph.regex,"g")
@@ -55,7 +54,7 @@ return Math.round(tmplength);
 }
 
 // first pass on the BOMs to compute the position of each items
-export function Computelayout(TBOM: BOM[]): BOM[] {
+export function Computelayout(TBOM: BOM[],emphasises:emphasis[]): BOM[] {
 	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
 	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
 	const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
@@ -66,7 +65,7 @@ export function Computelayout(TBOM: BOM[]): BOM[] {
 		// premier scan de toute un bom pour determiner les abcisses de chaque item, la largeur de chaque item
 		let itemcount = 0;
 		for (let BOMitem of iBOM.BoMItems) {
-			BOMitem=labelparser(BOMitem);
+			BOMitem=labelparser(BOMitem,emphasises);
 			BOMitem.y = itemcount * (h + panv);
 			BOMitem.x = BOMitem.level * panh;
 			//todo le support du multiligne dans la description

@@ -378,7 +378,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMdata:BOMdata):string{
     const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
     const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};
     const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
-	const BendFactor :number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
+	let BendFactor :number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
 	let haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
 	let verbose:boolean=false;
@@ -393,6 +393,9 @@ export function generateSVG(contexturi:vscode.Uri ,BOMdata:BOMdata):string{
 	if ("IconJsons" in BOMdata.params) {
 		iconJSONS=BOMdata.params.iconJSONS;
 	} 
+	if ("bend" in BOMdata.params){
+		BendFactor=BOMdata.params.bend;
+	}
 	let icons:Icon[]=[];
 	for (let Iconjson of iconJSONS){
 		if (Iconjson=="[embedded]"){
