@@ -1,6 +1,6 @@
 # BoMarkdown README
 
-BoMarkdown is an extension that generetates a SVG representaion of a Bill of material (like a tree) from a textual description. It is inspired by other text to graph tools like plantuml or mermaid.js
+BoMarkdown is an extension that generetates a SVG representation of a Bill of material (like a tree) from a textual description. It is inspired by other text to graph tools like plantuml or mermaid.js
 
 ````text
 ```bomarkdown:Images/FolderExample
@@ -17,7 +17,7 @@ BoMarkdown is an extension that generetates a SVG representaion of a Bill of mat
 
 ### BOM Preview
 
-launch it with the command palette (crtl + shift + p) or with a right click in a markdown file (*.md)
+Launch it with the command palette (crtl + shift + p) or with a right click in a markdown file (*.md)
 
 #### BOM syntax
 
@@ -25,7 +25,7 @@ launch it with the command palette (crtl + shift + p) or with a right click in a
 
 Each line of the bom is an item. Items can be linked either by a hiearchy link or a transversal(s) link(s).
 
-##### Heirachy
+##### Hierarchy
 
 To create a BOM you must use the following notation:
 
