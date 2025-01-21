@@ -388,6 +388,8 @@ ${
 
 You can also edit the UserIcons.json to remove unwanted types and a folder with the default icons is packaged with the exentsion.
 
+After an icon update you can launch the bomarkdown.updatesnippets command to update the item type in the snippet
+
 ### Edit UserIcons.json
 This command is only in the command palette.
 It opens the selected json icon file for edition
@@ -419,6 +421,8 @@ When you are done don't forget to save the file
 No dependencies. Works well with [Markdown Preview enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
 
 ## Extension Snippets
+
+If settings are modified or type added snippets can be updated with the command : bomarkdown.updatesnippets
 
 ### Codeblock snippet
 
@@ -569,5 +573,9 @@ Change in the parsing text after the last block is ignored and considered as com
 - Readme update
 - Add the ability to increase the gap between columm
 
+### 0.2.0
+  - emphasis support
+  - snippets
+  - bugfix
 
 ---
