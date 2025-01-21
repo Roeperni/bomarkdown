@@ -19,11 +19,10 @@
   "publisher": "Roeperni",
   "main": "./out/extension.js",
   "contributes": {
-    "grammars": [
+    "languages":[
       {
-        "injectTo": ["text.html.markdown"],
-        "scopeName": "bomarkdown.injection",
-        "path": ".syntaxes/Bomarkdown-grammar.json"
+        "id": "bomarkdown-injection"
+
       }
     ],
     "snippets": [

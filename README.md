@@ -49,8 +49,33 @@ to add a new column juste type
 
 ```
 ````
-
 ![BOMHierachy](Images/BOMHierachy.png "BOMHierachy")
+
+In order to be detected in the editor you should use code block delimiter either the regular fenced code block of markdown or a comment with a special keyword. 
+with the fenced code block your code will be rendered in the markdown document, with the commment the code will not be displayed.
+Right now the bomarkdown syntax is not supported in markdown as a workaround the bomarkdown code generates a svg and the svg can be integrated in the markdown document see [export](#bom-export) or [insertSVG](#insert-svg-in-markdown) for more information
+
+
+**Example of a redenred code with its svg graph**
+````text
+
+```bomarkdown:<Images folder>/<image name>
+[bomarkdown code]
+
+```
+![<image name>](<image folder>/<image name>.svg "<image name>")
+````
+
+**Example of a not redenred code with its svg graph**
+```
+<!--bomarkdown:<Images folder>/<image name>
+[bomarkdown code]
+
+-->
+![<image name>](<image folder>/<image name>.svg "<image name>")
+```
+
+
 
 ##### Type the items
 
@@ -69,10 +94,9 @@ an item can be typed by using a type block
 ```
 ````
 
-
-
 ![Images/typeitem](Images/typeitem.png "Images/typeitem")
 
+A snippet can be used to help [item block](#item-snippet) definition
 
 The legend is automatically generated depending on a [global parameter](#legend)
 
@@ -109,7 +133,7 @@ ${
   
 ```
 ````
-![Images/typeitem-emphasis](Images/typeitem-emphasis.svg "Images/typeitem-emphasis")
+![Images/typeitem-emphasis](Images/typeitem-emphasis.png "Images/typeitem-emphasis")
 
 ````text
 ```bomarkdown:Images/typeitem-emphasis-custom
@@ -153,10 +177,12 @@ ${
 
 ```
 ````
-![Images/typeitem-emphasis-custom](Images/typeitem-emphasis-custom.svg "Images/typeitem-emphasis-custom")
+![Images/typeitem-emphasis-custom](Images/typeitem-emphasis-custom.png "Images/typeitem-emphasis-custom")
 
 
 to list all the availables types reffer to [BOM Commands](#bom-commands)
+
+to add new type reffer to the [addicon](#addicon) command
 
 ##### Define the status of the item
 
@@ -173,7 +199,10 @@ you can define the satus of an item by adding a status block
 
 ![Images/statusitem](Images/statusitem.png "Images/statusitem")
 
-Status rendition is customizable in the [settings](#bubbles)
+A snippet can be used to help [status block](#status-snippet) definition
+
+
+Status rendition is customizable in the [settings](#bomarkdownsatus)
 
 ##### Define several bom in a same graph
 
@@ -192,6 +221,7 @@ The bom can be distributed in several column and several root can be stacked in 
 + (i:specification,Second Component Spec)
  + (i:requirement, req3)
  + (i:requirement, req4)
+ + (i:comment,Label,Revision)
 
 you can define an additional gap between column 
 
@@ -201,6 +231,7 @@ you can define an additional gap between column
 ````
 
 ![Images/multicolumn](Images/multicolumn.png "Images/multicolumn")
+
 
 ##### Aliases and implement link
 
@@ -237,7 +268,12 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
 
 ![Images/aliasesandlinks](Images/aliasesandlinks.png "Images/aliasesandlinks")
 
-links types and definition are customizable in the [settings](#bomarkdownlinksdefinition-linkdef)
+A snippet can be used to help [link block](#link-snippet) definition
+A snippet can be used to help [alias block](#alias-snippet) definition
+
+
+
+links types and definition are customizable in the [settings](#bomarkdownlinksdefinition)
 
 ##### Bubbles
 
@@ -255,6 +291,10 @@ the Bubbles are define in a block (b:[bubble1],[bubble2],...[bubblen]) the order
 
 ![Images/Bubbles](Images/Bubbles.png "Images/Bubbles")
 
+A snippet can be used to help [bubble block](#bubble-snippet) definition
+
+Bullbes definitions are customizable in the [settings](#bomarkdownbubbles)
+
 ##### Effectivity
 
 Effectivity can be defined before links with an effectivity block (e:)
@@ -270,6 +310,9 @@ Effectivity can be defined before links with an effectivity block (e:)
 
 ````
 ![Images/effectivity](Images/effectivity.png "Images/effectivity")
+A snippet can be used to help [effectivity block](#effectivity-snippet) definition
+
+
 special char replacement are define in the [settings](#bomarkdownutf8replacement)
 
 ### BOM Export
@@ -377,6 +420,32 @@ No dependencies. Works well with [Markdown Preview enhanced](https://marketplace
 
 ## Extension Snippets
 
+### Codeblock snippet
+
+code block snippet can be triggered with ''' for standard markdown code block
+
+or <! for the commented codeblock
+
+Note : those snippet are not automatic and the use of the crt+ space shortcut is recommended
+
+### Item snippet
+item snippet is triggered by (i:
+
+### Link snippet
+link snippet is triggered by (l:
+
+### Effectivity snippet
+Effectivity snippet is triggered by (e:
+
+### Bubble snippet
+Bubble snippet is triggered by (b:
+### Status snippet
+Status snippet is triggered by (s:
+### Alias snippet
+Alias snippet is triggered by (a:
+
+
+
 ## Extension Settings
 
 ### Simple settings {#simplesetting}
@@ -390,7 +459,7 @@ bomarkdown.renderlegend : Specifies if a legend block is computed and added a th
 
 ### Complex settings:
 
-#### bomarkdown.Linksdefinition {#linkdef}
+#### bomarkdown.Linksdefinition
 
 This setting is used to define the links of the bom. Its a dictionnary of objects defined by 5 properties
 
@@ -407,7 +476,7 @@ This setting is used to define the links of the bom. Its a dictionnary of object
 Beware to escape the " in the marker svg definition
 The dasharray definition can be found [here](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray)
 
-#### bomarkdown.revision {#revision}
+#### bomarkdown.revision
 
 It's a simple object with 2 properties with html color that defines the background and the font color of the revision block
 
@@ -420,7 +489,7 @@ It's a simple object with 2 properties with html color that defines the backgrou
 
 ```
           
-#### bomarkdown.codeblockdelimiter {#codeblockdelimiter}
+#### bomarkdown.codeblockdelimiter
 
 it defines the possible begining and ending identifier of a code block.
 the identifiers can't contain space, the begin and end propeties contains a string with the identifiers seperated by a string
@@ -432,7 +501,7 @@ the identifiers can't contain space, the begin and end propeties contains a stri
             }
 ```
 
-#### bomarkdown.bubbles {#bubbles}
+#### bomarkdown.bubbles
 
 it's and object witch each key is a bubble, the value is a svg element with an id equal to the bubble key
 
@@ -450,7 +519,7 @@ it's and object witch each key is a bubble, the value is a svg element with an i
 
 The bubble is positioned in regards of the top left corner of the type icon
 
-#### bomarkdown.satus {#status}
+#### bomarkdown.satus
 
 it's and object witch each key is a status, the value is a svg element with an id equal to the status key
 
@@ -473,7 +542,7 @@ Object containing svg element mandatory for the rendition
 - eff : element displayed on a link with the (e:o) block
 - grad : gradient drawn behind each item label text block
 
-#### bomarkdown.UTF8replacement":
+#### bomarkdown.UTF8replacement
 
 Objet used to replace a string by an utf8 symbol in the effectivity. For instance #00 is redenred as &#x221E; or -> as &#x2192;
 

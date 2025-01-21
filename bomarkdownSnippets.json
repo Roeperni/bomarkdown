@@ -3,7 +3,6 @@
 		"prefix": "(e:",
 		"body": "(e:[${2}->${3}${4|[,]|}",
 		"description": "Define effectivity expression of bomardown"
-		
 	},
 	"alias": {
 		"prefix": "(a:",
@@ -18,7 +17,7 @@
 			"```"
 		],
 		"description": "visible bomardown codeblock",
-		"scope":"markdown"
+		"scope": "markdown"
 	},
 	"codeblock": {
 		"prefix": "<!",
@@ -28,7 +27,7 @@
 			"--"
 		],
 		"description": "Invisible bomardown codeblock",
-		"scope":"markdown"
+		"scope": "markdown"
 	},
 	"link": {
 		"prefix": "(l:",
@@ -47,7 +46,7 @@
 	},
 	"item": {
 		"prefix": "(i:",
-		"body": "(i:${1|assembly,chapter,comment,component,file,folder,function,logical,mitem,plant,req,resource,routing,spec,worker|},${2:Label},${3:Revision}",
+		"body": "(i:${1|assembly,chapter,comment,component,file,folder,function,logical,mitem,plant,req,resource,routing,spec,worker,3dxlogo,3dxlogo2,mastershiphybrid,tclogo,tccn,tccr,tcpart,tcrf,tcstd,ca,class,co,fbook,lib,mod,Baseline,pc,pl,3dshp,book,ci,coremat,cos,covmat,crep,ctx,doc,dp,drw,ep,eps,filter,fpipe,gbn,image51,isr,mei,ope,phy,rpipe,sam,sn,spart,stddoc,cont,generalop,indusdoc,kit,mass,mat,mcell,methodcont,method,prov,routing,tool,workcenter,worker|},${2:Label},${3:Revision}",
 		"description": "bomarkdown item block"
 	}
 }

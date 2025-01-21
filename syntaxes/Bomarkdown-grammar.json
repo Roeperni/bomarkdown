@@ -1,16 +1,29 @@
 {
-    "scopeName":"bomarkdown.injection",
-    "injectionSelector": "L:markup.fenced_code.block.markdown",
+    "scopeName": "source.bomarkdowngrammar",
     "patterns": [
-      {
-        "include": "#bomarkdownkeyword"
-      }
-    ],
-    "repository": {
-      "bomarkdownkeyords": {
-        "begin": "```bomarkdown",
-        "end" : "```",
-        "name": "bomarkdown.fenced_code.block.markdown"
-      }
+    {
+        "name": "entity.name.custom.b",
+        "match": "\\(b:.*?\\)"
+    },
+    {
+        "name": "entity.name.custom.i",
+        "match": "\\(i:.*?\\)"
+    },
+    {
+        "name": "entity.name.custom.e",
+        "match": "\\(e:.*?\\)"
+    },
+    {
+        "name": "entity.name.custom.s",
+        "match": "\\(s:.*?\\)"
+    },
+    {
+        "name": "entity.name.custom.a",
+        "match": "\\(a:.*?\\)"
+    },
+    {
+        "name": "entity.name.custom.l",
+        "match": "\\(l:.*?\\)"
     }
+    ]
 }
