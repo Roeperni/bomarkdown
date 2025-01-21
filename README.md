@@ -358,7 +358,7 @@ The command will ask a folder to the user and import all the image file of the f
 During the import it will convert the image files (png or jpg) in base64 format in order to be abble to embed icons in the svg.
 The name of the icon is the filename in lowercase and with no extension.
 You can update the icon by performing a new import of the folder with modified image files. The addicon command is based on the filename :if the filename exists in the json only b64 encoding is updated
-At the end of the import an json file is created and added to the **IconJson** setting
+At the end of the import an json file is created and added to the [IconJson](#bomarkdowniconjson) setting
 
 <!--bomarkdown:Images/addicon
 
@@ -462,6 +462,12 @@ bomarkdown.legendscale : scale of the legend
 bomarkdown.renderlegend : Specifies if a legend block is computed and added a the bottom of the svg
 
 ### Complex settings:
+
+#### bomarkdown.iconjson
+This settings list the path off all the icon json of the database. 
+You can add or remove a path here.
+In order for the addicon update feature to work you should name the json file \<icon folder name>_Icons.json and store it next to your icon folder.
+
 
 #### bomarkdown.Linksdefinition
 
