@@ -3,7 +3,7 @@
 BoMarkdown is an extension that generetates a SVG representaion of a Bill of material (like a tree) from a textual description. It is inspired by other text to graph tools like plantuml or mermaid.js
 
 ````
-```bomarkdown:Images/FolderExample
+```bomarkdown Images/FolderExample
 + (i:folder,rootfolder)
  + (i:folder, subfolder1)
   + (i:file, Fil>e)
@@ -31,7 +31,7 @@ Each line of the bom is an item. Items can be linked either by a hiearchy link o
 To create a BOM you must use the following notation:
 
 ````text
-```bomarkdown:Images/BOMHierachy
+```bomarkdown Images/BOMHierachy
 
 + first root first column
 -+ Child
@@ -59,7 +59,7 @@ Right now the bomarkdown syntax is not supported in markdown as a workaround the
 **Example of a redenred code with its svg graph**
 ````text
 
-```bomarkdown:<Images folder>/<image name>
+```bomarkdown <Images folder>/<image name>
 [bomarkdown code]
 
 ```
@@ -68,7 +68,7 @@ Right now the bomarkdown syntax is not supported in markdown as a workaround the
 
 **Example of a not redenred code with its svg graph**
 ```
-<!--bomarkdown:<Images folder>/<image name>
+<!--bomarkdown <Images folder>/<image name>
 [bomarkdown code]
 
 -->
@@ -81,7 +81,7 @@ Right now the bomarkdown syntax is not supported in markdown as a workaround the
 
 an item can be typed by using a type block
 ````text
-```bomarkdown:Images/typeitem
+```bomarkdown Images/typeitem
 + (i:folder,A folder item) As long as there is a block text after blocks is ignored  
  + (i:file, A file item) so it can be use as a comment
  + (i:file, A file item with revision (label supports parenthesis),A)
@@ -103,7 +103,7 @@ The legend is automatically generated depending on a [global parameter](#legend)
 it can be forced using a parameter definition
 
 ````text
-```bomarkdown:Images/typeitem-nolegend
+```bomarkdown Images/typeitem-nolegend
 ${{
   "haslegend":false
 }}$
@@ -122,7 +122,7 @@ ${{
 
 you can use markdown emphasis to highlight word in the label
 ````text
-```bomarkdown:Images/typeitem-emphasis
+```bomarkdown Images/typeitem-emphasis
 ${{
   "haslegend":false 
 }}$
@@ -136,7 +136,7 @@ ${{
 ![Images/typeitem-emphasis](Images/typeitem-emphasis.png "Images/typeitem-emphasis")
 
 ````text
-```bomarkdown:Images/typeitem-emphasis-custom
+```bomarkdown Images/typeitem-emphasis-custom
 ${{
   "haslegend":false,
   "emphasis":
@@ -189,7 +189,7 @@ to add new type reffer to the [addicon](#addicon) command
 you can define the satus of an item by adding a status block
 
 ````text
-```bomarkdown:Images/statusitem
+```bomarkdown Images/statusitem
 + (i:assembly,In Work Assembly,1)(s:IW)
  + (i:component, A released component,1)(s:R)
  + (i:component, A frozen component,A)(s:F)
@@ -209,7 +209,7 @@ Status rendition is customizable in the [settings](#bomarkdownsatus)
 The bom can be distributed in several column and several root can be stacked in the same columm. You also can increase the space with the previous column.
 
 ````text
-```bomarkdown:Images/multicolumn
+```bomarkdown Images/multicolumn
 + (i:assembly,Assembly,1)(s:IW)
  + (i:component, First component,1)(s:R)
  + (i:component, Second component,A)(s:F)
@@ -240,7 +240,7 @@ the link block is in 2 parts (s:[alias])(l:i:[aliases of linked element separate
 the link is drawn from the item to the ones in the (l:) block. you can have several (l:) block on an item to draw several link types
 
 ````text
-```bomarkdown:Images/aliasesandlinks
+```bomarkdown Images/aliasesandlinks
 
 
 + (i:assembly,Assembly (avec parenthèse),1)(s:IW)
@@ -281,7 +281,7 @@ On top of the type icon you can add a bubble to define a special characteristic 
 the Bubbles are define in a block (b:[bubble1],[bubble2],...[bubblen]) the order in the list define the drawing order with the last being drawn on the top.
 
 ````text
-```bomarkdown:Images/Bubbles
+```bomarkdown Images/Bubbles
 
 + (b:lock)(i:component, Locked item)
  + (b:matrice)(i:component, Item with a position matrix)
@@ -300,7 +300,7 @@ Bullbes definitions are customizable in the [settings](#bomarkdownbubbles)
 Effectivity can be defined before links with an effectivity block (e:)
 
 ````text
-```bomarkdown:Images/effectivity
+```bomarkdown Images/effectivity
 + (b:context)(i:component,Unvariable Component)
  + (e:o)(i:component,Use o to display an effetivity bubble)
  + (e:[A -> B[)(i:component,effectivity can be a range)
@@ -325,7 +325,7 @@ the program tries to detect code block delimited by start and end point. Start a
 On the starting block you can define an image path
 
 ```code
-<!---bomarkdown:[path to the svg file]
+<!---bomarkdown [path to the svg file]
 [BOM code here]
 --->
 ```
