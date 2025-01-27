@@ -9,25 +9,15 @@
 		"body": "(a:$1",
 		"description": "Alias block of bomarkdown"
 	},
-	"Vcodeblock": {
-		"prefix": "'''",
-		"body": [
-			"```bomarkdown:${1:bomname}",
-			"$0",
-			"```"
-		],
-		"description": "visible bomardown codeblock",
-		"scope": "markdown"
-	},
 	"codeblock": {
 		"prefix": "<!",
 		"body": [
-			"<!--bomarkdown:${1:bomname}",
+			"<!--bomarkdown ${1:bomname}",
 			"$0",
 			"--"
 		],
-		"description": "Invisible bomardown codeblock",
-		"scope": "markdown"
+		"description": "Invisible bomardown codeblock"
+		
 	},
 	"link": {
 		"prefix": "(l:",
@@ -36,7 +26,7 @@
 	},
 	"bubble": {
 		"prefix": "(b:",
-		"body": "(l:${1|matrix,context,lock,unlock,noway|}$0",
+		"body": "(b:${1|matrix,context,lock,unlock,noway|}$0",
 		"description": "bomarkdown bubble block"
 	},
 	"status": {
@@ -47,6 +37,11 @@
 	"item": {
 		"prefix": "(i:",
 		"body": "(i:${1|assembly,chapter,comment,component,file,folder,function,logical,mitem,plant,req,resource,routing,spec,worker|},${2:Label},${3:Revision}",
+		"description": "bomarkdown item block"
+	},
+	"newcolumn": {
+		"prefix": "+new",
+		"body": "+newcolumn $0",
 		"description": "bomarkdown item block"
 	}
 }

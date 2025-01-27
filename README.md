@@ -104,9 +104,9 @@ it can be forced using a parameter definition
 
 ````text
 ```bomarkdown:Images/typeitem-nolegend
-${
+${{
   "haslegend":false
-}$
+}}$
 + (i:folder,A folder item) As long as there is a block text after blocks is ignored  
  + (i:file, A file item) so it can be use as a comment
  + (i:file, A file item with revision (label supports parenthesis),A)
@@ -123,9 +123,9 @@ ${
 you can use markdown emphasis to highlight word in the label
 ````text
 ```bomarkdown:Images/typeitem-emphasis
-${
+${{
   "haslegend":false 
-}$
+}}$
 + (i:folder,A folder item)  
  + (i:file, ***Emphase all the label***) 
  + (i:file, A file item with revision (*Emphase just a part of it*))
@@ -137,7 +137,7 @@ ${
 
 ````text
 ```bomarkdown:Images/typeitem-emphasis-custom
-${
+${{
   "haslegend":false,
   "emphasis":
     [
@@ -168,7 +168,7 @@ ${
               }
             ]
   
-}$
+}}$
 + (i:folder,A folder item)  
  + (i:file, ***Emphase all the label***) 
  + (i:file, A file item with revision (*Emphase just a part of it*))
@@ -341,6 +341,8 @@ launch it with the command palette or with a right click in a markdown file (*.m
 Like the export the command will generate or update a svg file from the current code block
 It will also insert an image markdown element below the code block and refresh the markdown preview enhanced window.
 
+![insertSVG](Images/InsertasSVG.gif)
+
 ### BOM Commands {#bom-commands}
 
 launch it with the command palette or with a right click in a markdown file (*.md)
@@ -360,19 +362,22 @@ The name of the icon is the filename in lowercase and with no extension.
 You can update the icon by performing a new import of the folder with modified image files. The addicon command is based on the filename :if the filename exists in the json only b64 encoding is updated
 At the end of the import an json file is created and added to the [IconJson](#bomarkdowniconjson) setting
 
-<!--bomarkdown:Images/addicon
 
-${
+<!--bomarkdown Images/addicon
+
+${{
 "haslegend":false
-}$
+}}$
 + before import
 + (i:folder,Parent folder)
  + (i:folder,Image Folder)
   + (i:spec,Image1)
   + (i:spec,Image2)
   + (i:spec,Image3)
+  + 
   + ...
 +newcolumn
+
 + after import
 + (i:folder,Parent folder)
  + (i:folder,Image Folder)
@@ -382,6 +387,8 @@ ${
   + ...
 + (i:file,Image Folder_icons.json)
 -->
+
+
 
 ![Images/addicon](Images/addicon.png "Images/addicon")
 
@@ -420,9 +427,81 @@ When you are done don't forget to save the file
 
 No dependencies. Works well with [Markdown Preview enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
 
+## Extension theme and color
+The extension comme with textmate gramar rule to colorise the text of bommarkdow. You can add the followings code without comment in you usersetting.json (workbench.action.openSettingsJson). The name of the theme support joker char so by default the bomarkdown theme is applied  if the theme name incule Light or Dark in its name.
+```json
+    "editor.tokenColorCustomizations": {
+      "[<Name of the theme>]": {
+        "textMateRules": [
+        {
+          // definition for the effectivity by default same color as the function
+          "scope":"effectivity.block.bomarkdown",
+          "settings": {
+            "foreground": "#DCDCAA",
+            "fontStyle": "italic"
+            
+          }
+        },{
+          // definition for the bubble by default same color as the class
+          "scope":"bubble.block.bomarkdown",
+          "settings": {
+            "foreground": "#4EC9B0"
+          }
+        },{
+          "scope":"item.block.bomarkdown",
+          "settings": {
+             "fontStyle": "bold"
+             
+          }
+        },{
+          // definition for the link by default same color as the storage type (const function ...)
+          "scope":"status.block.bomarkdown",
+          "settings": {
+            "foreground": "#569CD6"
+          }
+        },{
+          // definition for the link by default same color as the keyword
+          "scope":"link.block.bomarkdown",
+          "settings": {
+            "foreground": "#C586C0"
+          }
+        },{
+          // definition for the link by default color is a darker keyword
+          "scope":"alias.block.bomarkdown",
+          "settings": {
+            "foreground": "#a32399",
+            "fontStyle": "bold"
+          }
+        }
+      ]
+      }
+    }
+```
+
+
 ## Extension Snippets
 
 If settings are modified or type added snippets can be updated with the command : bomarkdown.updatesnippets
+
+In order for the snippet to show automatically the default usersetting is  modified with : 
+```json
+    "[markdown]": {
+   "editor.snippetSuggestions": "top", 
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+    
+    }},
+    "[bomarkdown]": {
+        "editor.quickSuggestions": {
+          "other": true,
+          "comments": false,
+          "strings": true
+          }},
+
+```
+
 
 ### Codeblock snippet
 
@@ -432,21 +511,34 @@ or <! for the commented codeblock
 
 Note : those snippet are not automatic and the use of the crt+ space shortcut is recommended
 
+![codeblockgif](Images/InsertCodeBlock.gif)
+
 ### Item snippet
 item snippet is triggered by (i:
+![snippetitem](Images/InsertItem.gif)
+
+### Alias snippet
+Alias snippet is triggered by (a:
+![snipetalias](Images/Insertalias.gif)
+### Bubble snippet
+Bubble snippet is triggered by (b:
+![snipetbubble](Images/Insertbubble.gif)
+### Effectivity snippet
+Effectivity snippet is triggered by (e:
+![snippetteff](Images/Inserteff.gif)
+
+### Newbom snippet
+newbom snippet is triggered by +new
+![snippetnewbom](Images/Insernewbom.gif)
 
 ### Link snippet
 link snippet is triggered by (l:
+![snippetlink](Images/Inserlink.gif)
 
-### Effectivity snippet
-Effectivity snippet is triggered by (e:
 
-### Bubble snippet
-Bubble snippet is triggered by (b:
 ### Status snippet
 Status snippet is triggered by (s:
-### Alias snippet
-Alias snippet is triggered by (a:
+![snippetstatus](Images/Insertstatus.gif)
 
 
 

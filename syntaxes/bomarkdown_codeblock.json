@@ -1,0 +1,74 @@
+{
+    "fileTypes": [],
+    "injectionSelector": "L:text.html.markdown",
+    "patterns": [
+        {
+            "include": "#bomarkdown-comment-block"
+        },
+        {
+            "include": "#bomarkdown-code-block"
+        }
+    ],
+    "repository": {
+        "bomarkdown-code-block":  {
+			"begin": "(^|\\G)(\\s*)(\\`{3,}|~{3,})\\s*(?i:(bomarkdown)(\\s+[^`~]*)?$)",
+			"name": "markup.fenced_code.block.markdown",
+			"end": "(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$",
+			"beginCaptures": {
+				"3": {
+					"name": "punctuation.definition.markdown"
+				},
+				"4": {
+					"name": "keyword.fenced_code.block.language.markdown"
+				},
+				"5": {
+					"name": "variable.fenced_code.block.language.attributes.markdown"
+				}
+			},
+			"endCaptures": {
+				"3": {
+					"name": "punctuation.definition.markdown"
+				}
+			},
+			"patterns": [
+				{
+					"begin": "(^|\\G)(\\s*)(.*)",
+					"while": "(^|\\G)(?!\\s*([`~]{3,})\\s*$)",
+					"contentName": "meta.embedded.block.bomarkdown",
+					"patterns": [
+						{
+							"include": "source.bmd"
+						}
+					]
+				}
+			]
+		},
+	
+        "bomarkdown-comment-block":{
+			"begin": "(<!--)(bomarkdown)(\\s.*)?$",
+			"end" :"-->",
+			"captures":{
+				"1":{
+					"name": "punctuation.definition.markdown"
+				},
+
+				"2":{
+					"name": "keyword.fenced_code.block.language.markdown"
+				},
+				"3":{
+					"name": "variable.fenced_code.block.language.attributes.markdown"
+				}
+			},
+			"name": "markup.fenced_code.block.markdown",
+			"contentName": "meta.embedded.block.bomarkdown",
+			"patterns": [
+				{
+					"include": "source.bmd"
+				}
+			]
+
+		}
+    
+    },
+    "scopeName": "markdown.bomarkdown.codeblock"
+}

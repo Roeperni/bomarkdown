@@ -19,16 +19,139 @@
   "publisher": "Roeperni",
   "main": "./out/extension.js",
   "contributes": {
-    "languages":[
+    "languages": [{
+      "id": "bomarkdown",
+      "aliases": ["bomarkdown", "BoMarkdown"],
+      "extensions": ["bmd","bom"],
+      "configuration": "./language-configuration.json"
+    },{
+      "id": "bomarkdown-injection"
+    }],
+    "grammars": [
       {
-        "id": "bomarkdown-injection"
-
+      "language": "bomarkdown",
+      "scopeName": "source.bmd",
+      "path": "./syntaxes/bomarkdown.tmLanguage.json"
+    },
+    {
+      "scopeName": "markdown.bomarkdown.codeblock",
+      "language": "bomarkdown-injection",
+      "path": "./syntaxes/bomarkdown_codeblock.json",
+      "injectTo": [
+        "text.html.markdown"
+      ],
+      "embeddedLanguages": {
+        "meta.embedded.block.bomarkdown": "bomarkdown"
       }
-    ],
+    }
+  ],
+  "configurationDefaults": {
+    "[markdown]": {
+      "editor.snippetSuggestions": "top", 
+     "editor.quickSuggestions": {
+       "other": true,
+       "comments": false,
+       "strings": true
+       
+       }},
+       "[bomarkdown]": {
+           "editor.quickSuggestions": {
+             "other": true,
+             "comments": false,
+             "strings": true
+             }},
+    "editor.tokenColorCustomizations": {
+      "[*Dark*]": {
+        "textMateRules": [
+        {
+          "scope":"effectivity.block.bomarkdown",
+          "settings": {
+            "foreground": "#DCDCAA",
+            "fontStyle": "italic"
+            
+          }
+        },{
+          "scope":"bubble.block.bomarkdown",
+          "settings": {
+            "foreground": "#4EC9B0"
+          }
+        },{
+          "scope":"item.block.bomarkdown",
+          "settings": {
+             "fontStyle": "bold"
+             
+          }
+        },{
+          "scope":"status.block.bomarkdown",
+          "settings": {
+            "foreground": "#569CD6"
+          }
+        },{
+          "scope":"link.block.bomarkdown",
+          "settings": {
+            "foreground": "#C586C0"
+          }
+        },{
+          "scope":"alias.block.bomarkdown",
+          "settings": {
+            "foreground": "#a32399",
+            "fontStyle": "bold"
+          }
+        }
+      ]
+      },
+      "[*Light*]": {
+        "textMateRules": [
+        {
+          "scope":"effectivity.block.bomarkdown",
+          "settings": {
+            "foreground": "#795E26",
+            "fontStyle": "italic"
+            
+          }
+        },{
+          "scope":"bubble.block.bomarkdown",
+          "settings": {
+            "foreground": "#267F99"
+          }
+        },{
+          "scope":"item.block.bomarkdown",
+          "settings": {
+             "fontStyle": "bold"
+             
+          }
+        },{
+          "scope":"status.block.bomarkdown",
+          "settings": {
+            "foreground": "#006cc5"
+          }
+        },{
+          "scope":"link.block.bomarkdown",
+          "settings": {
+            "foreground": "#AF00DB"
+          }
+        },{
+          "scope":"alias.block.bomarkdown",
+          "settings": {
+            "foreground": "#7b0599",
+            "fontStyle": "bold"
+          }
+        }
+      ]
+      }
+      
+      
+    }
+
+  },
     "snippets": [
       {
+        "language": "bomarkdown",
+        "path": "./snippets/bomarkdownSnippets.json"
+      },
+      {
         "language": "markdown",
-        "path": "./bomarkdownSnippets.json"
+        "path": "./snippets/markdownSnippetsAddOn.json"
       }
     ],
     "commands": [
@@ -65,12 +188,12 @@
     "menus": {
       "editor/context": [
         {
-          "when": "editorLangId == markdown",
+          "when": "editorLangId == markdown || editorLangId == bomarkdown",
           "command": "bomarkdown.preview",
           "group": "bomarkdown"
         },
         {
-          "when": "editorLangId == markdown",
+          "when": "editorLangId == markdown || editorLangId == bomarkdown",
           "command": "bomarkdown.export",
           "group": "bomarkdown"
         },

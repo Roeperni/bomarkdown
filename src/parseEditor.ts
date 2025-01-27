@@ -73,9 +73,9 @@ export function parseEditor(EditorTxt: string): BOMdata{
 	let temparg:Objsetting={};
 	tempBOM.BoMItems = [];
 	// test de la presence d'un bloc de param
-	if (EditorArray[0]=="${"){
+	if (EditorArray[0]=="${{"){
 	
-		const endparambloc=EditorArray.findIndex((end)=>end=="}$");
+		const endparambloc=EditorArray.findIndex((end)=>end=="}}$");
 		//un bloc de param a été trouvé
 		if (endparambloc>0){
 			 bomstart=endparambloc+1;

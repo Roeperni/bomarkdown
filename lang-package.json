@@ -1,0 +1,124 @@
+{
+  "name": "bom",
+  "displayName": "bom",
+  "description": "language support for bomarkdown",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "bomarkdown",
+      "aliases": ["bomarkdown", "BoMarkdown"],
+      "extensions": ["bmd","bom"],
+      "configuration": "./language-configuration.json"
+    },{
+      "id": "bomarkdown-injection"
+    }],
+    "grammars": [
+      {
+      "language": "bomarkdown",
+      "scopeName": "source.bmd",
+      "path": "./syntaxes/bomarkdown.tmLanguage.json"
+    },
+    {
+      "scopeName": "markdown.bomarkdown.codeblock",
+      "language": "bomarkdown-injection",
+      "path": "./syntaxes/bomarkdown_codeblock.json",
+      "injectTo": [
+        "text.html.markdown"
+      ],
+      "embeddedLanguages": {
+        "meta.embedded.block.bomarkdown": "bomarkdown"
+      }
+    }
+  ],
+  "configurationDefaults": {
+    "editor.tokenColorCustomizations": {
+      "[*Dark*]": {
+        "textMateRules": [
+        {
+          "scope":"effectivity.block.bomarkdown",
+          "settings": {
+            "foreground": "#DCDCAA",
+            "fontStyle": "italic"
+            
+          }
+        },{
+          "scope":"bubble.block.bomarkdown",
+          "settings": {
+            "foreground": "#4EC9B0"
+          }
+        },{
+          "scope":"item.block.bomarkdown",
+          "settings": {
+             "fontStyle": "bold"
+             
+          }
+        },{
+          "scope":"status.block.bomarkdown",
+          "settings": {
+            "foreground": "#569CD6"
+          }
+        },{
+          "scope":"link.block.bomarkdown",
+          "settings": {
+            "foreground": "#C586C0"
+          }
+        },{
+          "scope":"alias.block.bomarkdown",
+          "settings": {
+            "foreground": "#a32399",
+            "fontStyle": "bold"
+          }
+        }
+      ]
+      },
+      "[*Light*]": {
+        "textMateRules": [
+        {
+          "scope":"effectivity.block.bomarkdown",
+          "settings": {
+            "foreground": "#DCDCAA",
+            "fontStyle": "italic"
+            
+          }
+        },{
+          "scope":"bubble.block.bomarkdown",
+          "settings": {
+            "foreground": "#009174"
+          }
+        },{
+          "scope":"item.block.bomarkdown",
+          "settings": {
+             "fontStyle": "bold"
+             
+          }
+        },{
+          "scope":"status.block.bomarkdown",
+          "settings": {
+            "foreground": "#006cc5"
+          }
+        },{
+          "scope":"link.block.bomarkdown",
+          "settings": {
+            "foreground": "#C586C0"
+          }
+        },{
+          "scope":"alias.block.bomarkdown",
+          "settings": {
+            "foreground": "#a32399",
+            "fontStyle": "bold"
+          }
+        }
+      ]
+      }
+      
+      
+    }
+  }
+  }
+}

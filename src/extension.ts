@@ -175,7 +175,7 @@ function getBomBlock (line:number,editortext:string):BoMBLock{
 	for (i=line; i>=0; i--){
 		//console.log("Ligne:" + EditorArray[i] + " Bloc:" + beginbloc[0]);
 		if (beginbloc.some(bloc =>EditorArray[i].startsWith(bloc))) {
-			temppath=EditorArray[i].split(":");
+			temppath=EditorArray[i].split(" ");
 			//console.log("trouvé debut");
 			beginline=i+1;
 			break;
