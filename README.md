@@ -215,12 +215,12 @@ The bom can be distributed in several column and several root can be stacked in 
  + (i:component, Second component,A)(s:F)
 
 +newcolumn
-+ (i:specification,First Component Spec)
- + (i:requirement, req1)
- + (i:requirement, req2)
-+ (i:specification,Second Component Spec)
- + (i:requirement, req3)
- + (i:requirement, req4)
++ (i:spec,First Component Spec)
+ + (i:req, req1)
+ + (i:req, req2)
++ (i:spec,Second Component Spec)
+ + (i:req, req3)
+ + (i:req, req4)
  + (i:comment,Label,Revision)
 
 you can define an additional gap between column 
@@ -252,16 +252,16 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
 + (i:component,Provided component 2,A)(s:IW)(a:c4)
 
 +newcolumn
-+ (i:specification,First Component Spec)(a:s1)(l:i:c1)
- + (i:requirement, req1)(a:specreq1)
- + (i:requirement, req2)(a:specreq2)
-+ (i:specification,Second Component Spec)(a:s2)(l:i:c2)
- + (i:requirement, req3)
- + (i:requirement, req4)(a:dum)
-+ (i:specification,Procurement Spec)(a:s3)(l:i:a2,a1)
- + (i:requirement, req5)(a:procreq1)(l:c:specreq1,specreq2)(l:i:c4)
- + (i:requirement, req6)
- + (i:requirement, req7)
++ (i:spec,First Component Spec)(a:s1)(l:i:c1)
+ + (i:req, req1)(a:specreq1)
+ + (i:req, req2)(a:specreq2)
++ (i:spec,Second Component Spec)(a:s2)(l:i:c2)
+ + (i:req, req3)
+ + (i:req, req4)(a:dum)
++ (i:spec,Procurement Spec)(a:s3)(l:i:a2,a1)
+ + (i:req, req5)(a:procreq1)(l:c:specreq1,specreq2)(l:i:c4)
+ + (i:req, req6)
+ + (i:req, req7)
 ```
 ````
 
@@ -423,7 +423,7 @@ you can add a label to a icon for the legend :
 When you are done don't forget to save the file
 
 
-## Requirements
+## reqs
 
 No dependencies. Works well with [Markdown Preview enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
 

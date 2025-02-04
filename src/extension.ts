@@ -26,6 +26,8 @@ export let extlog=vscode.window.createOutputChannel("BoMarkdownLogs");
 export type link={
 	relative:string;
 	linktype:string;
+	linkalias:string;
+	aliaspos:string;
 }
 
 export type emphasis={

@@ -156,7 +156,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 							case "l:":
 								// Gesiton des lien et des ALias Alias avant le / liste d'alias en lien apres
 								let larray: string[] = [];
-								let templink:link={relative:"",linktype:"i"};
+								let templink:link={relative:"",linktype:"i",linkalias:"",aliaspos:"m"};
 								let objprelatives:link[]=[];
 								if (tempitem.relatives)
 									{
@@ -171,8 +171,24 @@ export function parseEditor(EditorTxt: string): BOMdata{
 								if (larray.length == 2) {
 									const temprelatives = larray[1].split(",").filter((c: string) => c !== "");
 									for (const alias of temprelatives){
+										const lblidx=alias.indexOf("!");
+										if (lblidx>0){
+											switch (alias.substring(lblidx+1,lblidx+2)){
+												case "<":
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"b"});
+													break;
+												case ">":
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"e"});
+													break;
+												default:
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"m"});
+													break;
+											}
 
-										objprelatives.push({relative:alias,linktype:larray[0]});
+										} else{
+
+										objprelatives.push({relative:alias,linktype:larray[0],linkalias:"",aliaspos:"m"});
+									}
 									}
 									tempitem.relatives=objprelatives;
 								}
