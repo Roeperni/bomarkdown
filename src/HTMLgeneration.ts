@@ -623,7 +623,8 @@ if (haslegend){
 					tempstr+=`<use href="#eff" x="0" y="0"/>
 					`;
 				} else {
-					tempstr+=`<text id="${"e_"+BoMItem.id}" font-family="system-ui" text-anchor="end" font-weight="normal" font-style="normal" font-size="13" x="${-panh}" y="15" fill="black" paint-order="stroke">
+					tempstr+=`<rect width="${BoMItem.effw}" height="${h}" x="${-panh-(BoMItem.effw || 0)}" fill="url(#grad)" />
+					<text id="${"e_"+BoMItem.id}" font-family="system-ui" text-anchor="end" font-weight="normal" font-style="normal" font-size="13" x="${-panh}" y="15" fill="black" paint-order="stroke">
     				${BoMItem.effectivity}
     				</text>
 					`;
