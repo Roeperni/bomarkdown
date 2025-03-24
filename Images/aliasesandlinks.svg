@@ -100,11 +100,15 @@ O
 						<path fill="none" stroke="steelblue" stroke-width="1" marker-end="url(#arrow_i)" d="M 255 170 C 208 170 208 95 161 95"/>
 						<polyline fill="none" stroke="black" stroke-width="1" points="275,180 275,195 285,195"/>
 					<path fill="none" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" d="M 339 195 C 454 195 454 45 339 45"/>
-						<path fill="none" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" d="M 339 195 C 454 195 454 70 339 70"/>
+						<path fill="none" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" d="M 339 195 C 350 195 430 195 430 132.5 S 350 70 339 70"/>
 						<path fill="none" stroke="steelblue" stroke-width="1" marker-end="url(#arrow_i)" d="M 275 195 C 247 195 247 170 219 170"/>
 						<polyline fill="none" stroke="black" stroke-width="1" points="275,180 275,220 285,220"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="275,180 275,245 285,245"/>
-					
+
+				<text id="L_3" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="454" y="132.5" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				label
+				</text>
+
 			<g id="3" transform="translate(20,10)">
 			<rect width="159" height="20" x="22" fill="url(#grad)" />
 				<text id="L_3" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
@@ -133,8 +137,8 @@ O
 			
 			<g id="5" transform="translate(40,60)">
 			<rect width="115" height="20" x="22" fill="url(#grad)" />
-				<text id="L_5" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
-				 Second component
+				<text id="L_5" font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+				 <tspan x="22" dy="-0.6em">Second </tspan> <tspan x="22" dy="1em">component</tspan>
 				</text>
 				<use  href="#component" x="0" y="0"/>
 					<rect x="139" y="1" width="18" height="18" fill="dimgrey" rx="4"/>

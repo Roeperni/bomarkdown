@@ -28,6 +28,8 @@ export type link={
 	linktype:string;
 	linkalias:string;
 	aliaspos:string;
+	label_x:number;
+	label_y:number;
 }
 
 export type emphasis={
@@ -458,7 +460,7 @@ export function activate(context: vscode.ExtensionContext) {
 				},
 			];
 			// load current Snippets
-			const readsnippet=await vscode.workspace.fs.readFile(vscode.Uri.joinPath(context.extensionUri,"bomarkdownSnippets.json"));
+			const readsnippet=await vscode.workspace.fs.readFile(vscode.Uri.joinPath(context.extensionUri,"snippets","bomarkdownSnippets.json"));
 			let snippet=JSON.parse(Buffer.from(readsnippet).toString('utf8'));
 			// update snippets for bubble, status and linkdefinition
 			for (let p of settingforsnippet){

@@ -156,7 +156,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 							case "l:":
 								// Gesiton des lien et des ALias Alias avant le / liste d'alias en lien apres
 								let larray: string[] = [];
-								let templink:link={relative:"",linktype:"i",linkalias:"",aliaspos:"m"};
+								let templink:link={relative:"",linktype:"i",linkalias:"",aliaspos:"m",label_y:0,label_x:0};
 								let objprelatives:link[]=[];
 								if (tempitem.relatives)
 									{
@@ -175,19 +175,19 @@ export function parseEditor(EditorTxt: string): BOMdata{
 										if (lblidx>0){
 											switch (alias.substring(lblidx+1,lblidx+2)){
 												case "<":
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"b"});
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"b",label_x:0,label_y:0});
 													break;
 												case ">":
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"e"});
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"e",label_x:0,label_y:0});
 													break;
 												default:
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"m"});
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"m",label_x:0,label_y:0});
 													break;
 											}
 
 										} else{
 
-										objprelatives.push({relative:alias,linktype:larray[0],linkalias:"",aliaspos:"m"});
+										objprelatives.push({relative:alias,linktype:larray[0],linkalias:"",aliaspos:"m",label_x:0,label_y:0});
 									}
 									}
 									tempitem.relatives=objprelatives;
