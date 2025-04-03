@@ -1,4 +1,4 @@
-import { BOM, EmptyBoM, BoMItem, EmptyBoMItem ,link,BOMdata,Objsetting} from "./extension";
+import { BOM, EmptyBoM, BoMItem, emphasis,EmptyBoMItem ,link,BOMdata,Objsetting} from "./extension";
 import * as vscode from 'vscode';
 export interface Transcoder {
 	[key:string]:string;
@@ -53,6 +53,8 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 
 	return tempbloctable;
 }
+
+
 // parse the text bloc into a BOM[] object
 export function parseEditor(EditorTxt: string): BOMdata{
 	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
@@ -71,9 +73,9 @@ export function parseEditor(EditorTxt: string): BOMdata{
 	let temparg:Objsetting={};
 	tempBOM.BoMItems = [];
 	// test de la presence d'un bloc de param
-	if (EditorArray[0]=="${"){
+	if (EditorArray[0]=="${{"){
 	
-		const endparambloc=EditorArray.findIndex((end)=>end=="}$");
+		const endparambloc=EditorArray.findIndex((end)=>end=="}}$");
 		//un bloc de param a été trouvé
 		if (endparambloc>0){
 			 bomstart=endparambloc+1;
@@ -154,7 +156,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 							case "l:":
 								// Gesiton des lien et des ALias Alias avant le / liste d'alias en lien apres
 								let larray: string[] = [];
-								let templink:link={relative:"",linktype:"i"};
+								let templink:link={relative:"",linktype:"i",linkalias:"",aliaspos:"m",label_y:0,label_x:0};
 								let objprelatives:link[]=[];
 								if (tempitem.relatives)
 									{
@@ -169,8 +171,24 @@ export function parseEditor(EditorTxt: string): BOMdata{
 								if (larray.length == 2) {
 									const temprelatives = larray[1].split(",").filter((c: string) => c !== "");
 									for (const alias of temprelatives){
+										const lblidx=alias.indexOf("!");
+										if (lblidx>0){
+											switch (alias.substring(lblidx+1,lblidx+2)){
+												case "<":
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"b",label_x:0,label_y:0});
+													break;
+												case ">":
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"e",label_x:0,label_y:0});
+													break;
+												default:
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"m",label_x:0,label_y:0});
+													break;
+											}
 
-										objprelatives.push({relative:alias,linktype:larray[0]});
+										} else{
+
+										objprelatives.push({relative:alias,linktype:larray[0],linkalias:"",aliaspos:"m",label_x:0,label_y:0});
+									}
 									}
 									tempitem.relatives=objprelatives;
 								}
@@ -211,6 +229,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 
 					}
 				}
+
 
 				tempBOM.BoMItems.push(tempitem);
 			}

@@ -1,0 +1,47 @@
+{
+	"effectivity": {
+		"prefix": "(e:",
+		"body": "(e:[${2}->${3}${4|[,]|}",
+		"description": "Define effectivity expression of bomardown"
+	},
+	"alias": {
+		"prefix": "(a:",
+		"body": "(a:$1",
+		"description": "Alias block of bomarkdown"
+	},
+	"codeblock": {
+		"prefix": "<!",
+		"body": [
+			"<!--bomarkdown ${1:bomname}",
+			"$0",
+			"--"
+		],
+		"description": "Invisible bomardown codeblock"
+		
+	},
+	"link": {
+		"prefix": "(l:",
+		"body": "(l:${1|h,i,c,a|}:$0",
+		"description": "bomarkdown link block"
+	},
+	"bubble": {
+		"prefix": "(b:",
+		"body": "(b:${1|matrix,context,lock,unlock,noway|}$0",
+		"description": "bomarkdown bubble block"
+	},
+	"status": {
+		"prefix": "(s:",
+		"body": "(s:${1|D,IW,F,R,O|}",
+		"description": "bomarkdown status block"
+	},
+	"item": {
+		"prefix": "(i:",
+		"body": "(i:${1|assembly,chapter,comment,component,file,folder,function,logical,mitem,plant,req,resource,routing,spec,worker|},${2:Label},${3:Revision}",
+		"description": "bomarkdown item block"
+	},
+	"newcolumn": {
+		"prefix": "+new",
+		"body": "+newcolumn $0",
+		"description": "bomarkdown item block"
+	}
+}

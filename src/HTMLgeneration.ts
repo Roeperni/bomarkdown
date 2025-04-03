@@ -378,7 +378,7 @@ export function generateSVG(contexturi:vscode.Uri ,BOMdata:BOMdata):string{
     const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
     const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};
     const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
-	const BendFactor :number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
+	let BendFactor :number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
 	let haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
 	let verbose:boolean=false;
@@ -393,6 +393,9 @@ export function generateSVG(contexturi:vscode.Uri ,BOMdata:BOMdata):string{
 	if ("IconJsons" in BOMdata.params) {
 		iconJSONS=BOMdata.params.iconJSONS;
 	} 
+	if ("bend" in BOMdata.params){
+		BendFactor=BOMdata.params.bend;
+	}
 	let icons:Icon[]=[];
 	for (let Iconjson of iconJSONS){
 		if (Iconjson=="[embedded]"){
@@ -620,7 +623,8 @@ if (haslegend){
 					tempstr+=`<use href="#eff" x="0" y="0"/>
 					`;
 				} else {
-					tempstr+=`<text id="${"e_"+BoMItem.id}" font-family="system-ui" text-anchor="end" font-weight="normal" font-style="normal" font-size="13" x="${-panh}" y="15" fill="black" paint-order="stroke">
+					tempstr+=`<rect width="${BoMItem.effw}" height="${h}" x="${-panh-(BoMItem.effw || 0)}" fill="url(#grad)" />
+					<text id="${"e_"+BoMItem.id}" font-family="system-ui" text-anchor="end" font-weight="normal" font-style="normal" font-size="13" x="${-panh}" y="15" fill="black" paint-order="stroke">
     				${BoMItem.effectivity}
     				</text>
 					`;

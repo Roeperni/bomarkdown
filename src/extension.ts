@@ -7,6 +7,7 @@ import * as path from 'path';
 import { Computelayout } from './Computelayout';
 import { parseEditor } from './parseEditor';
 import { generateCommandHTML , generateSVG} from './HTMLgeneration';
+import { buffer } from 'stream/consumers';
 
 
 
@@ -25,6 +26,18 @@ export let extlog=vscode.window.createOutputChannel("BoMarkdownLogs");
 export type link={
 	relative:string;
 	linktype:string;
+	linkalias:string;
+	aliaspos:string;
+	label_x:number;
+	label_y:number;
+}
+
+export type emphasis={
+	regex:string;
+	expression:string;
+	svgparam:string;
+	style:string;
+	weight:string
 }
 
 export interface BoMItem {
@@ -166,7 +179,7 @@ function getBomBlock (line:number,editortext:string):BoMBLock{
 	for (i=line; i>=0; i--){
 		//console.log("Ligne:" + EditorArray[i] + " Bloc:" + beginbloc[0]);
 		if (beginbloc.some(bloc =>EditorArray[i].startsWith(bloc))) {
-			temppath=EditorArray[i].split(":");
+			temppath=EditorArray[i].split(" ");
 			//console.log("trouvé debut");
 			beginline=i+1;
 			break;
@@ -242,8 +255,10 @@ export function activate(context: vscode.ExtensionContext) {
 			// Export to file
 			let temptxtbloc=getBomBlock(Editor.selection.active.line,Editor.document.getText())
 			let BOMtable:BOMdata= parseEditor(temptxtbloc.content);
+			let emphasis:emphasis[]=vscode.workspace.getConfiguration('bomarkdown').get('emphasis')||[];
 			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('parsed');}
-			BOMtable.BOMs=Computelayout(BOMtable.BOMs);
+			if ("emphasis" in BOMtable.params){emphasis=BOMtable.params.emphasis}
+			BOMtable.BOMs=Computelayout(BOMtable.BOMs,emphasis);
 			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Layouted');}
 			const txtsvg:string=generateSVG(context.extensionUri,BOMtable);
 			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('SVGed');}
@@ -263,8 +278,10 @@ export function activate(context: vscode.ExtensionContext) {
 			const editortext=Editor.document.getText();
 			let temptxtbloc=getBomBlock(Editor.selection.active.line,editortext);
 			let BOMtable:BOMdata= parseEditor(temptxtbloc.content);
-			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Parsed');}
-			BOMtable.BOMs=Computelayout(BOMtable.BOMs);
+			let emphasis:emphasis[]=vscode.workspace.getConfiguration('bomarkdown').get('emphasis')||[];
+			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('parsed');}
+			if ("emphasis" in BOMtable.params){emphasis=BOMtable.params.emphasis}
+			BOMtable.BOMs=Computelayout(BOMtable.BOMs,emphasis);
 			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Layouted');}
 			const txtsvg:string=generateSVG(context.extensionUri,BOMtable);
 			if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('SVGed');}
@@ -424,7 +441,59 @@ export function activate(context: vscode.ExtensionContext) {
 
 		  
 		})
-	  );
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand('bomarkdown.updatesnippets', async () => {
+			let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
+			const settingforsnippet=[
+				{
+					"settingname":"Linksdefinition",
+					"body":"(l:${1|$LIST|}:$0"
+				},
+				{
+					"settingname":"bubbles",
+					"body":"(b:${1|$LIST|}$0"
+				},
+				{
+					"settingname":"satus",
+					"body":"(s:${1|$LIST|}$0"
+				},
+			];
+			// load current Snippets
+			const readsnippet=await vscode.workspace.fs.readFile(vscode.Uri.joinPath(context.extensionUri,"snippets","bomarkdownSnippets.json"));
+			let snippet=JSON.parse(Buffer.from(readsnippet).toString('utf8'));
+			// update snippets for bubble, status and linkdefinition
+			for (let p of settingforsnippet){
+				const setting=vscode.workspace.getConfiguration('bomarkdown').get(p.settingname)||{};
+				if (p.settingname in snippet){
+					snippet[p.settingname].body=p.body.replace("$LIST",Object.keys(setting).join(","))
+				}
+
+			}
+			// get item jsons
+
+			let icons:Icon[]=[];
+			for (let Iconjson of iconJSONS){
+				if (Iconjson=="[embedded]"){
+		
+					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath
+					}
+			
+				let rawdata = fs.readFileSync(Iconjson,"utf-8");
+				icons.push(...JSON.parse(rawdata));
+		
+			}
+			// update the snippet
+			snippet["item"].body="(i:${1|"+ icons.map(i=>i.name).join(",")+"|},${2:Label},${3:Revision}";
+			//update the json snippet
+			vscode.workspace.fs.writeFile(vscode.Uri.joinPath(context.extensionUri,"bomarkdownSnippets.json"),Buffer.from(JSON.stringify(snippet,null,"\t"),"utf8"))
+
+			// reload workbench to take into account
+			vscode.commands.executeCommand("workbench.action.reloadWindow");
+			vscode.window.showInformationMessage("Snippets Updated");
+
+		})
+	);
 }
 
 // This method is called when your extension is deactivated
@@ -437,8 +506,10 @@ export function deactivate() {}
 function getpreviewhtml(contexturi:vscode.Uri ,wv: vscode.Webview,EditorTxt:string){
 
 let BOMtable:BOMdata= parseEditor(EditorTxt);
+let emphasis:emphasis[]=vscode.workspace.getConfiguration('bomarkdown').get('emphasis')||[];
 if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('parsed');}
-BOMtable.BOMs=Computelayout(BOMtable.BOMs);
+if ("emphasis" in BOMtable.params){emphasis=BOMtable.params.emphasis}
+BOMtable.BOMs=Computelayout(BOMtable.BOMs,emphasis);
 if ("verbose" in BOMtable.params){vscode.window.showInformationMessage('Layouted');}
 	return `<!DOCTYPE html>
 <html lang="en">

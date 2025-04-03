@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 110 110">
+<def>
+    <g id="box">
+        <polygon points="50,0 100,25 50,50 0,25 " fill="hsl(0,0%,100%)"/>
+        <polygon points="0,75 50,100 50,50 0,25 " fill="hsl(0,0%,20%)"/>
+        <polygon points="100,75 50,100 50,50 100,25 " fill="hsl(0,0%,60%)"/>
+    </g>
+</def>
+<g transform="translate(5,5)">
+<use xlink:href="#box" transform="scale(0.5) translate(50)"/>
+<use xlink:href="#box" transform="scale(0.5) translate(0,75)"/>
+<use xlink:href="#box" transform="scale(0.5) translate(100,75)"/>
+<polygon points="0,75 0,50 25,37.5 25,12.5 50,0 75,12.5 75,37.5 100,50 100,75 75,87.5 50,75 25,87.5" stroke="black" stroke-linejoin="round" stro fill="none"/>
+</g>
+</svg>

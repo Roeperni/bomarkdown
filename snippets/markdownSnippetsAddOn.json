@@ -1,0 +1,20 @@
+{"Vcodeblock": {
+    "prefix": "'''",
+    "body": [
+        "```bomarkdown ${1:bomname}",
+        "$0",
+        "```"
+    ],
+    "description": "visible bomardown codeblock"
+    
+},
+"codeblock": {
+    "prefix": "<!",
+    "body": [
+        "<!--bomarkdown ${1:bomname}",
+        "$0",
+        "--"
+    ],
+    "description": "Invisible bomardown codeblock"
+    
+}}

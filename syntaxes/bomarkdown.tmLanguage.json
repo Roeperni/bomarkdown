@@ -1,0 +1,79 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "bomarkdown",
+	"patterns": [
+		{
+			"include": "#keyword"
+		},
+		{
+			"include": "#params"
+		},
+		{
+			"include": "#blocks"
+		}
+
+
+
+	],
+	"repository": {
+		"params":{
+			"begin": "\\$\\{",
+			"end": "\\}\\$",
+			"contentName":"meta.embedded.params.bomarkdown",
+			"patterns": [
+				{
+					"include": "source.json"
+				}
+			]
+
+		},
+		"keyword": {
+			"patterns": [
+				{
+				"match": "^(\\+newcolumn)\\s*([0-9]*)",
+				"name":"command.bomarkdown",
+				"captures": {
+						"1":{
+							"name":"keyword.control.command.bomarkdown"
+						},
+						"2":{
+							"name":"support.variable.command.bomarkdown"
+						}
+					}
+				}
+			]
+
+		},
+		"blocks": {			
+			"patterns": 
+			[
+		{
+			"name": "alias.block.bomarkdown",
+			"match": "\\(a:.*?\\)"
+		},{
+			"name": "item.block.bomarkdown",
+			"match": "\\(i:.*?\\)"
+		},{
+			"name": "status.block.bomarkdown",
+			"match": "\\(s:.*?\\)"
+		},{
+			"name": "effectivity.block.bomarkdown",
+			"match": "\\(e:.*?\\)"
+		},{
+			"name": "link.block.bomarkdown",
+			"match": "\\(l:.*?\\)"
+		},{
+			"name": "bubble.block.bomarkdown",
+			"match": "\\(b:.*?\\)"
+		},{
+			"name":"comment.line",
+			"match": "^(?!\\s*\\+).+$"
+		}
+
+	
+			]
+
+		}
+	},
+	"scopeName": "source.bmd"
+}

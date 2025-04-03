@@ -24,14 +24,14 @@
                     <option value="oblique">
                     </datalist>
                  <label for="Fsize">Font size(between 6 and 32):</label>
-                <input type="number" id="Fsize" name="Font Size" min="6" max="32" value="12">
+                <input type="number" id="Fsize" name="Font Size" min="6" max="32" value="13">
                 <button type="button" onclick="generateTxtbox()">Generate TXT box</button>
                 <p>
                 <p>
                 <label for="XtraUTF">Extra UTF8 code separated by a , :</label>
-                <input type="XtraUTF" id="XtraUTF" name="Xtra UTF" size="30">
+                <input type="XtraUTF" id="XtraUTF" name="Xtra UTF" size="30" value="8734,8592,8594">
                 </p>
-                <svg id="svgmain"width="300" height="400" xmlns="http://www.w3.org/2000/svg" >
+                <svg id="svgmain"width="300" height="200" xmlns="http://www.w3.org/2000/svg" >
                     <text id="S_32" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="50" y="15"
 				fill="black">
 				A         A          
@@ -41,6 +41,7 @@
                 <p>
                 <button type="button" onclick="calculateBBOX()">calculate BBox</button>
                 </p>
+
             <script>
                 function generateTxtbox(){
                     const svg=document.getElementById("svgmain")
@@ -48,11 +49,24 @@
                     const Fstyle=document.getElementById("FTS").value;
                     const Fweight=document.getElementById("FTW").value;
                     const Font=document.getElementById("Font").value
+                    
                     svg.textContent="";
-                    svg.setAttribute("height",(255-30)*(Fsize*1.333333+4));
-
                     y=Fsize*1.33333+4;
-                    for (let i=32;i<=255;i++){
+                    const XtraUTF=document.getElementById("XtraUTF").value.split(",")
+                    let chararray=[];
+                    for (let i=32;i<=126;i++){
+                        chararray.push(i);
+                    }
+                    for (let i=160;i<=255;i++){
+                        chararray.push(i);
+                    }
+                    for (let i of XtraUTF) {
+                        if (i!==""){
+                        chararray.push(parseInt(i));
+                    }
+                    }
+                    svg.setAttribute("height",chararray.length*(Fsize*1.333333+4));
+                    for (let i of chararray){
                         var Txtbox = document.createElementNS("http://www.w3.org/2000/svg", 'text');
                         Txtbox.setAttribute ('id',"S_"+ i);
                         Txtbox.setAttribute ('font-family','system-ui');
@@ -91,6 +105,7 @@
 
                     }
                 }
+
                 function calculateBBOX(){
                                         
                     const svg=document.getElementById("svgmain");
@@ -100,6 +115,19 @@
                     const Font=document.getElementById("Font").value
                     var chartable= {};
                     var tempsizes={};
+                    const XtraUTF=document.getElementById("XtraUTF").value.split(",")
+                    let chararray=[];
+                    for (let i=32;i<=126;i++){
+                        chararray.push(i);
+                    }
+                    for (let i=160;i<=255;i++){
+                        chararray.push(i);
+                    }
+                    for (let i of XtraUTF) {
+                        if (i!==""){
+                        chararray.push(parseInt(i));
+                    }
+                    }
                     
                     //chartable["Font"]=Font;
                     //chatable["Size"]=Fsize;
@@ -107,7 +135,7 @@
                     //chartable.Style=Fstyle;
                     //chartable.Sizes={};
 
-                    for (let i=33;i<=255;i++){
+                    for (let i of chararray){
                         
                         var txtboxbyid=document.getElementById("S_"+i);
                         var bboxbyid=txtboxbyid.getBBox();
@@ -125,7 +153,7 @@
                     tempsizes[32]=(bboxbyid.width-tempsizes[97]*10)/9;
                     //chartable.Sizes=tempsizes;
                     const pre=document.createElement("pre");
-                    pre.appendChild(document.createTextNode(JSON.stringify({Font:Font,size:Fsize,style:Fstyle,weight:Fweight,sizes:tempsizes},null,'\t')))
+                    pre.appendChild(document.createTextNode(JSON.stringify({Font:Font,size:parseInt(Fsize),style:Fstyle,weight:Fweight,sizes:tempsizes},null,'\t')))
                     document.body.appendChild(pre);
                     
 

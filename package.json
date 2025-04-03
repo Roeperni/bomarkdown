@@ -2,7 +2,7 @@
   "name": "bomarkdown",
   "displayName": "BoMarkdown",
   "description": "BoM in markdown",
-  "version": "0.1.1",
+  "version": "0.3.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Roeperni/bomarkdown"
@@ -13,12 +13,147 @@
     "vscode": "^1.94.0"
   },
   "categories": [
-    "Other"
+    "Other","Snippets"
   ],
   "activationEvents": ["onEditSession:file"],
   "publisher": "Roeperni",
   "main": "./out/extension.js",
   "contributes": {
+    "languages": [{
+      "id": "bomarkdown",
+      "aliases": ["bomarkdown", "BoMarkdown"],
+      "extensions": ["bmd","bom"],
+      "configuration": "./language-configuration.json"
+    },{
+      "id": "bomarkdown-injection"
+    }],
+    "grammars": [
+      {
+      "language": "bomarkdown",
+      "scopeName": "source.bmd",
+      "path": "./syntaxes/bomarkdown.tmLanguage.json"
+    },
+    {
+      "scopeName": "markdown.bomarkdown.codeblock",
+      "language": "bomarkdown-injection",
+      "path": "./syntaxes/bomarkdown_codeblock.json",
+      "injectTo": [
+        "text.html.markdown"
+      ],
+      "embeddedLanguages": {
+        "meta.embedded.block.bomarkdown": "bomarkdown"
+      }
+    }
+  ],
+  "configurationDefaults": {
+    "[markdown]": {
+      "editor.snippetSuggestions": "top", 
+     "editor.quickSuggestions": {
+       "other": true,
+       "comments": false,
+       "strings": true
+       
+       }},
+       "[bomarkdown]": {
+           "editor.quickSuggestions": {
+             "other": true,
+             "comments": false,
+             "strings": true
+             }},
+    "editor.tokenColorCustomizations": {
+      "[*Dark*]": {
+        "textMateRules": [
+        {
+          "scope":"effectivity.block.bomarkdown",
+          "settings": {
+            "foreground": "#DCDCAA",
+            "fontStyle": "italic"
+            
+          }
+        },{
+          "scope":"bubble.block.bomarkdown",
+          "settings": {
+            "foreground": "#4EC9B0"
+          }
+        },{
+          "scope":"item.block.bomarkdown",
+          "settings": {
+             "fontStyle": "bold"
+             
+          }
+        },{
+          "scope":"status.block.bomarkdown",
+          "settings": {
+            "foreground": "#569CD6"
+          }
+        },{
+          "scope":"link.block.bomarkdown",
+          "settings": {
+            "foreground": "#C586C0"
+          }
+        },{
+          "scope":"alias.block.bomarkdown",
+          "settings": {
+            "foreground": "#a32399",
+            "fontStyle": "bold"
+          }
+        }
+      ]
+      },
+      "[*Light*]": {
+        "textMateRules": [
+        {
+          "scope":"effectivity.block.bomarkdown",
+          "settings": {
+            "foreground": "#795E26",
+            "fontStyle": "italic"
+            
+          }
+        },{
+          "scope":"bubble.block.bomarkdown",
+          "settings": {
+            "foreground": "#267F99"
+          }
+        },{
+          "scope":"item.block.bomarkdown",
+          "settings": {
+             "fontStyle": "bold"
+             
+          }
+        },{
+          "scope":"status.block.bomarkdown",
+          "settings": {
+            "foreground": "#006cc5"
+          }
+        },{
+          "scope":"link.block.bomarkdown",
+          "settings": {
+            "foreground": "#AF00DB"
+          }
+        },{
+          "scope":"alias.block.bomarkdown",
+          "settings": {
+            "foreground": "#7b0599",
+            "fontStyle": "bold"
+          }
+        }
+      ]
+      }
+      
+      
+    }
+
+  },
+    "snippets": [
+      {
+        "language": "bomarkdown",
+        "path": "./snippets/bomarkdownSnippets.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./snippets/markdownSnippetsAddOn.json"
+      }
+    ],
     "commands": [
       {
         "command": "bomarkdown.preview",
@@ -44,17 +179,21 @@
         "command": "bomarkdown.editusericon",
         "title": "Edit UserIcons.json",
         "category": "BoMarkdown"
+      },{
+        "command": "bomarkdown.updatesnippets",
+        "title": "Update snippets with User Settings",
+        "category": "BoMarkdown"
       }
     ],    
     "menus": {
       "editor/context": [
         {
-          "when": "editorLangId == markdown",
+          "when": "editorLangId == markdown || editorLangId == bomarkdown",
           "command": "bomarkdown.preview",
           "group": "bomarkdown"
         },
         {
-          "when": "editorLangId == markdown",
+          "when": "editorLangId == markdown || editorLangId == bomarkdown",
           "command": "bomarkdown.export",
           "group": "bomarkdown"
         },
@@ -109,6 +248,12 @@
           "description": "render the legend block",
           "order":5
         },
+        "bomarkdown.bend":{
+          "type":"number",
+          "default":1,
+          "description": "Bending of the links",
+          "order":9
+        },
         "bomarkdown.Linksdefinition":{
           "type":"object",
           "default":{
@@ -152,7 +297,7 @@
         "bomarkdown.revision":{
           "type":"object",
           "description": "Styling to display revision",
-          "order":10,
+          "order":11,
           "default": {
             "font":"white",
             "background":"dimgrey"
@@ -166,13 +311,42 @@
             "description": "Delimiter for codeblock in markdown",
             "order":100,
             "default": {
-              "begin":"<!---bomarkdown ```bomarkdown",
-              "end":"---> ```"
+              "begin":"<!--bomarkdown ```bomarkdown",
+              "end":"--> ```"
             },
             "additionalProperties": false
             
   
             },
+            "bomarkdown.emphasis":{
+              "type":"array",
+              "description": "Emphasis formatting for Label",
+              "order":101,
+              "default":[
+                {
+                "regex":"\\*\\*\\*(.*?)\\*\\*\\*",
+                "expression":"***",
+                "svgparam":"",
+                "weight":"bold",
+                "style": "italic"
+              },{                
+                "regex":"\\*\\*(.*?)\\*\\*",
+                "expression":"**",
+                "svgparam":"",
+                "weight":"bold",
+                "style": "normal"
+              },{                
+                "regex":"\\*(.*?)\\*",
+                "expression":"*",
+                "svgparam":"",
+                "weight":"normal",
+                "style": "italic"
+              }
+            ]
+              
+              
+    
+              },
           "bomarkdown.IconJson":{
             "type":"array",
             "items" :{
@@ -214,8 +388,6 @@
             "additionalProperties": {
               "type": "object"
             }
-
-
           },
           "bomarkdown.MandatoryDefs":{
             "type":"object",
@@ -225,7 +397,7 @@
               "undef":"<g id=\"undef\"><rect x=\"0\" y=\"0\" width=\"18\" height=\"18\" fill=\"red\" rx=\"4\"/><text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bolder\" font-style=\"normal\" font-size=\"16\" x=\"10\" y=\"11\" fill=\"white\" >?</text></g>",
               "placeholder":"<g id=\"placeholder\">\n<rect x=\"0\" y=\"0\" width=\"18\" height=\"18\" fill=\"LightCyan\" rx=\"4\"/>\n</g>",
               "eff":"<g id=\"eff\"><circle r=\"4\" cx=\"-10\" cy=\"10\" fill=\"darkorange\" stroke=\"white\" stroke-width=\"0.25\" /></g>",
-              "grad": "<linearGradient id=\"grad\" x1=\"0%\"  x2=\"0%\" y1=\"0%\" y2=\"100%\" ><stop offset=\"0%\" stop-color=\"white\" stop-opacity=\"0\"/><stop offset=\"50%\" stop-color=\"white\" stop-opacity=\"1.0\"/><stop offset=\"100%\" stop-color=\"white\" stop-opacity=\"0\"/></linearGradient>"
+              "grad": "<linearGradient id=\"grad\" x1=\"0%\"  x2=\"0%\" y1=\"0%\" y2=\"100%\" ><stop offset=\"0%\" stop-color=\"white\" stop-opacity=\"0\"/><stop offset=\"25%\" stop-color=\"white\" stop-opacity=\"1.0\"/><stop offset=\"50%\" stop-color=\"white\" stop-opacity=\"1.0\"/><stop offset=\"75%\" stop-color=\"white\" stop-opacity=\"1.0\"/><stop offset=\"100%\" stop-color=\"white\" stop-opacity=\"0\"/></linearGradient>"
 
             },
             "additionalProperties": {
