@@ -486,7 +486,7 @@ export function activate(context: vscode.ExtensionContext) {
 			// update the snippet
 			snippet["item"].body="(i:${1|"+ icons.map(i=>i.name).join(",")+"|},${2:Label},${3:Revision}";
 			//update the json snippet
-			vscode.workspace.fs.writeFile(vscode.Uri.joinPath(context.extensionUri,"bomarkdownSnippets.json"),Buffer.from(JSON.stringify(snippet,null,"\t"),"utf8"))
+			vscode.workspace.fs.writeFile(vscode.Uri.joinPath(context.extensionUri,"snippets","bomarkdownSnippets.json"),Buffer.from(JSON.stringify(snippet,null,"\t"),"utf8"))
 
 			// reload workbench to take into account
 			vscode.commands.executeCommand("workbench.action.reloadWindow");

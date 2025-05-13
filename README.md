@@ -676,4 +676,10 @@ Change in the parsing text after the last block is ignored and considered as com
   - snippets
   - bugfix
 
+### 0.3.0
+  - link label 
+  - multiple Json support
+
+### 0.3.2
+  - fix update snippets command
 ---
