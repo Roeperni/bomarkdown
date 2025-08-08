@@ -46,6 +46,7 @@ interface legend {
 const EmptyLink: string='{"spx":0,"spy":0,"fpx":0,"fpy":0,"cf":0,"cs":0}'
 const revbackground= vscode.workspace.getConfiguration('bomarkdown').get('revision.background');
 const revfontcolor= vscode.workspace.getConfiguration('bomarkdown').get('revision.font');
+const revborder= vscode.workspace.getConfiguration('bomarkdown').get('revision.border');
 
 
 
@@ -639,7 +640,7 @@ if (haslegend){
 			}
 			// revision
 			if (BoMItem.revision){
-				tempstr+=`<rect x="${tempfinItem}" y="1" width="${iconw-2}" height="${h-2}" fill="${revbackground}" rx="${h/5}"/>
+				tempstr+=`<rect x="${tempfinItem}" y="1" width="${iconw-2}" height="${h-2}" fill="${revbackground}" stroke="${revborder}" rx="${h/5}"/>
 				<text font-family="system-ui" textLength="${h-5}" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="${tempfinItem+iconw/2}" y="${h/2+1}" fill="${revfontcolor}" >
 				${BoMItem.revision} 
 				</text>
