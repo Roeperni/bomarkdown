@@ -300,7 +300,8 @@
           "order":11,
           "default": {
             "font":"white",
-            "background":"dimgrey"
+            "background":"dimgrey",
+            "border":"dimgrey"
           },
           "additionalProperties": false
           
