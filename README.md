@@ -259,10 +259,12 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
  + (i:req, req3)
  + (i:req, req4)(a:dum)
 + (i:spec,Procurement Spec)(a:s3)(l:i:a2,a1)
- + (i:req, req5)(a:procreq1)(l:c:specreq1,specreq2)(l:i:c4)
+ + (i:req, req5)(a:procreq1)(l:c:specreq1!>wesh,specreq2!lespotos)(l:i:c4!<ca roule ?)
  + (i:req, req6)
  + (i:req, req7)
 ```
+
+![Images/aliasesandlinks](Images/aliasesandlinks.svg "Images/aliasesandlinks")
 ````
 
 

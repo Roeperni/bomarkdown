@@ -13,6 +13,14 @@
 [] permettre de choisir le lien h par defaut
 
 
+[x]faire le calcul du sizing de la legende avec le service
+[x] parser la legende apres le parser
+[x] envoyer la legende au service
+[x] traiter la legend dans le Js
+[x] gere la reponse
+[x] ajouter un style legende
+
+
 ## Configuration
 
 [x]Support de configuration Json a la main du user

@@ -2,7 +2,7 @@
   "name": "bomarkdown",
   "displayName": "BoMarkdown",
   "description": "BoM in markdown",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Roeperni/bomarkdown"
@@ -183,6 +183,18 @@
         "command": "bomarkdown.updatesnippets",
         "title": "Update snippets with User Settings",
         "category": "BoMarkdown"
+      },{
+        "command": "bomarkdown.BBoxservice",
+        "title": "Launch the webview for Bounding box service",
+        "category": "BoMarkdown"
+      },{
+        "command": "bomarkdown.TestBBoxservice",
+        "title": "Test the Bounding box service",
+        "category": "BoMarkdown"
+      },{
+        "command": "bomarkdown.NewSvgInsert",
+        "title": "Test Dual call of message",
+        "category": "BoMarkdown"
       }
     ],    
     "menus": {
@@ -190,6 +202,16 @@
         {
           "when": "editorLangId == markdown || editorLangId == bomarkdown",
           "command": "bomarkdown.preview",
+          "group": "bomarkdown"
+        },
+        {
+          "when": "editorLangId == markdown || editorLangId == bomarkdown",
+          "command": "bomarkdown.TestBBoxservice",
+          "group": "bomarkdown"
+        },
+                {
+          "when": "editorLangId == markdown || editorLangId == bomarkdown",
+          "command": "bomarkdown.NewSvgInsert",
           "group": "bomarkdown"
         },
         {
@@ -384,6 +406,77 @@
               "F":{"label":"Frozen","svg":"<g id=\"F\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"orange\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nF\n</text>\n</g>"},
               "R":{"label":"Released","svg":"<g id=\"R\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"green\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nR\n</text>\n</g>"},
               "O":{"label":"Obsolete","svg":"<g id=\"O\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"black\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nO\n</text>\n</g>"}
+            },
+            "additionalProperties": {
+              "type": "object"
+            }
+          },        
+          "bomarkdown.defaultfontsize":{
+        "type":"integer",
+        "default":13,
+        "description": "Default Size for Font",
+        "order":23
+      },
+          "bomarkdown.fontdefs":{
+            "type":"object",
+            "description": "Font definition",
+            "order":24,
+            "default":{
+                	"label":{
+                    	"font_family":"system-ui",
+                      "font_weight":"normal",
+                      "font_style":"normal",
+                      "font_size":"13",
+                      "stroke":"none",
+                      "stroke_width":"0.25",
+                      "fill":"black",
+                      "paint-order":"stroke"
+
+                  },
+                  "rev":{
+                      "font_family":"system-ui",
+                      "font_weight":"bold",
+                      "font_style":"normal",
+                      "font_size":"10",
+                      "stroke":"none",
+                      "stroke_width":"0.25",
+                      "fill":"white",
+                      "paint_order":"stroke"
+
+                  },
+                  "eff":{
+                      "font_family":"system-ui",
+                      "font_weight":"normal",
+                      "font_style":"normal",
+                      "font_size":"13",
+                      "stroke":"none",
+                      "stroke_width":"0.25",
+                      "fill":"black",
+                      "paint_order":"stroke"
+
+                  },
+                  "linklabel":{
+                      "font_family":"system-ui",
+                      "font_weight":"normal",
+                      "font_style":"normal",
+                      "font_size":"10",
+                      "stroke":"none",
+                      "stroke_width":"0.25",
+                      "fill":"LinkColor",
+                      "paint_order":"stroke"
+
+                  },                	
+                  "legend":{
+                    	"font_family":"system-ui",
+                      "font_weight":"normal",
+                      "font_style":"normal",
+                      "font_size":"11",
+                      "stroke":"none",
+                      "stroke_width":"0.25",
+                      "fill":"black",
+                      "paint_order":"stroke"
+
+                  }
             },
             "additionalProperties": {
               "type": "object"

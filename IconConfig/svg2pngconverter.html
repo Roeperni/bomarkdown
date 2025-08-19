@@ -1,4 +1,15 @@
-<svg width="452" height="406" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to convert SVG to PNG with JavaScript</title>
+  </head>
+  <body>
+    <h1>How to convert SVG to PNG with JavaScript</h1>
+    <section>
+      <h2>Input SVG image</h2>
+        <svg width="452" height="406" id="input" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<defs>
 	<marker id="arrow_i" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
         <marker id="arrow_c" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="hotpink"/></marker>
@@ -276,4 +287,12 @@ O
 				</text>
 				<use  href="#req" x="0" y="0"/>
 					</g>
-			</svg>
+        </svg>
+    </section>
+    <section>
+      <h2>Output PNG image</h2>
+      <img alt="" id="output">
+    </section>
+    <script src="svg2png.js"></script>
+  </body>
+</html>

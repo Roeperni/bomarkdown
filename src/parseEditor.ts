@@ -1,4 +1,4 @@
-import { BOM, EmptyBoM, BoMItem, emphasis,EmptyBoMItem ,link,BOMdata,Objsetting} from "./extension";
+import { BOM, EmptyBoM, BoMItem, emphasis,EmptyBoMItem ,link,BOMdata,Objsetting,legend,Icon,legenditem,Linksdefinitions,ObjsettingWlabel} from "./extension";
 import * as vscode from 'vscode';
 export interface Transcoder {
 	[key:string]:string;
@@ -13,6 +13,90 @@ export function ReplacewithObject (transcoder:Transcoder,str:string):string{
 	}
 	return tempreturn;
 }
+
+export function legendextract (BOMtable:BOM[]):legend {
+	
+	let templegend:legend={types:[],links:[],status:[],bubbles:[]};
+	for (const BOM of BOMtable){
+		for( const item of BOM.BoMItems){
+			if (!templegend.types.includes(item.Type)){templegend.types.push(item.Type)}
+			if (item.relatives){
+				for (const rel of item.relatives){
+					if (!templegend.links.includes(rel.linktype)){templegend.links.push(rel.linktype)}
+				}
+			}
+			if (item.bubbles){
+				for (const bub of item.bubbles){
+					if (!templegend.bubbles.includes(bub)){templegend.bubbles.push(bub)}
+				}
+			}
+			if (item.status){
+				
+					if (!templegend.status.includes(item.status)){templegend.status.push(item.status)}
+				
+			}
+		}
+	}
+	return templegend;
+}
+
+export function Parselegendbloc (legend:legend,icons:Icon[]):legenditem[]{
+	
+	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
+	const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
+	const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
+
+
+
+
+	let templegenditems:legenditem[]=[];
+	let templabel:string="";
+	for (const typ of legend.types ){
+		const typeicon :any|undefined=icons.find(i =>i.name==typ);
+		if (typeicon){
+			if (typeicon.label){
+				templabel=typeicon.label;
+			}else {
+				templabel=typeicon.name;
+			}
+			templegenditems.push({type:"object",name:typ,label:templabel,w:0})
+		}
+	}
+	for (const typ of legend.links ){
+			if (typ in linkstyle){
+			if (linkstyle[typ].label){
+				templabel=linkstyle[typ].label;
+			}else {
+				templabel=typ;
+			}
+			
+
+			templegenditems.push({type:"link",name:typ,label:templabel,w:0})
+		}
+		}
+		for (const status of legend.status ){
+			if (status in Status_Settings){
+				templabel=Status_Settings[status].label;
+				templegenditems.push({type:"status",name:status,label:templabel,w:0});
+			}
+		}
+		for (const bub of legend.bubbles ){
+			if (bub in bubbles_Settings){
+				templabel=bubbles_Settings[bub].label;
+				templegenditems.push({type:"bubble",name:bub,label:templabel,w:0});
+
+
+			}
+		}
+
+
+	return templegenditems;
+}
+
+
+
+
+
 
 
 // detect block with inner () compatiblity
@@ -56,7 +140,7 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 
 
 // parse the text bloc into a BOM[] object
-export function parseEditor(EditorTxt: string): BOMdata{
+export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMdata{
 	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
 
 
@@ -156,7 +240,7 @@ export function parseEditor(EditorTxt: string): BOMdata{
 							case "l:":
 								// Gesiton des lien et des ALias Alias avant le / liste d'alias en lien apres
 								let larray: string[] = [];
-								let templink:link={relative:"",linktype:"i",linkalias:"",aliaspos:"m",label_y:0,label_x:0};
+								let templink:link={relative:"",linktype:"i",linklabel:"",linklblw:0,aliaspos:"m",label_y:0,label_x:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}};
 								let objprelatives:link[]=[];
 								if (tempitem.relatives)
 									{
@@ -175,19 +259,19 @@ export function parseEditor(EditorTxt: string): BOMdata{
 										if (lblidx>0){
 											switch (alias.substring(lblidx+1,lblidx+2)){
 												case "<":
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"b",label_x:0,label_y:0});
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+2),aliaspos:"b",label_x:0,label_y:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
 													break;
 												case ">":
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"e",label_x:0,label_y:0});
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+2),aliaspos:"e",label_x:0,label_y:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
 													break;
 												default:
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linkalias:alias.substring(lblidx+2),aliaspos:"m",label_x:0,label_y:0});
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+1),aliaspos:"m",label_x:0,label_y:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
 													break;
 											}
 
 										} else{
 
-										objprelatives.push({relative:alias,linktype:larray[0],linkalias:"",aliaspos:"m",label_x:0,label_y:0});
+										objprelatives.push({relative:alias,linktype:larray[0],linklabel:"",aliaspos:"m",label_x:0,label_y:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
 									}
 									}
 									tempitem.relatives=objprelatives;
@@ -240,5 +324,5 @@ export function parseEditor(EditorTxt: string): BOMdata{
 
 	tempBOM.column = tempcolumn;
 	BOMtable.push(tempBOM);
-	return {BOMs:BOMtable,params:temparg};
+	return {BOMs:BOMtable,params:temparg,path:path,Duri:Duri.fsPath};
 }
