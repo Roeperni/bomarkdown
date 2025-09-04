@@ -1,7 +1,6 @@
-import { BOM,emphasis,BoMItem,BOMdata,fontsettings,legend,Icon,legendtable,Linksdefinitions,ObjsettingWlabel,legenditem,legendColumn, fontdef } from "./extension";
-import FontSizes from "../IconConfig/Fontsize.json";
+import { BOM,emphasis,BoMItem,BOMdata,fontsettings,legend,Icon,legendtable,Linksdefinitions,ObjsettingWlabel,legenditem,legendColumn, fontdef, link } from "./extension";
 import * as vscode from 'vscode';
-import { stringify } from "querystring";
+
 
 // interface used for the font size
 interface fsize {
@@ -62,93 +61,6 @@ export function initlegendbloc2 (legenditems:legenditem[],estnbcol:number,totalw
 }
 
 
-
-function labelparser(Bomitem:BoMItem,emphasises:emphasis[]):BoMItem{
-	Bomitem.lblw=ComputeBBOXjson("system-ui", 13,Bomitem.Label)
-	for (let emph of emphasises){
-		const re:RegExp=new RegExp(emph.regex,"g")
-		const matched=Bomitem.Label.match(re);
-		if (matched){
-		for (let m of matched){
-			const replacer=`<tspan font-weight="${emph.weight}" font-style="${emph.style}" ${emph.svgparam}>${m.replaceAll(emph.expression,"")}</tspan>`;
-			Bomitem.Label=Bomitem.Label.replace(m,replacer);
-			Bomitem.lblw-=ComputeBBOXjson("system-ui", 13,m);
-			Bomitem.lblw+=ComputeBBOXjson("system-ui", 13,m,emph.style,emph.weight);
-
-		}
-	}
-
-	}
-
-	return Bomitem;
-}
-
-// fuction that computes a bbobx size using a string and a font definition
-export function ComputeBBOXjson (font:string, size:number, str:string,style:string="normal",weight:string="normal"):number{
-	let tmplength:number=0;
-	const Fontobj=FontSizes.find(f => f.Font==font && f.size==size && f.style==style && f.weight==weight);
-	if (Fontobj !==undefined){
-
-		const sizedict:fsize=Fontobj.sizes;
-
-		for (let i=0; i<str.length ;i++){
-			const charcode:number=str.charCodeAt(i);
-
-			if (charcode>=32 && charcode <=255){
-
-
-				tmplength += sizedict[charcode];
-			} else {
-				tmplength += sizedict[77];
-			}
-	}
-}
-return Math.round(tmplength);
-
-}
-
-// first pass on the BOMs to compute the position of each items
-export function Computelayout(TBOM: BOM[],emphasises:emphasis[]): BOM[] {
-	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
-	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
-	const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
-	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
-	const iconw:number=h;
-
-	for (const iBOM of TBOM) {
-		// premier scan de toute un bom pour determiner les abcisses de chaque item, la largeur de chaque item
-		let itemcount = 0;
-		for (let BOMitem of iBOM.BoMItems) {
-			BOMitem=labelparser(BOMitem,emphasises);
-			BOMitem.y = itemcount * (h + panv);
-			BOMitem.x = BOMitem.level * panh;
-			//todo le support du multiligne dans la description
-			BOMitem.h = h;
-			// label width is now in the labelparser
-			//BOMitem.lblw = ComputeBBOXjson("system-ui", 13, BOMitem.Label);
-			BOMitem.w = BOMitem.x + BOMitem.lblw;
-			if (BOMitem.Type) { BOMitem.w += iconw + gap; }
-			if (BOMitem.effectivity) {
-				BOMitem.effw = ComputeBBOXjson("system-ui", 13, BOMitem.effectivity);
-				if (BOMitem.effw > iBOM.maxnegw) { iBOM.maxnegw = BOMitem.effw; }
-			}
-			if (BOMitem.revision) { BOMitem.w += iconw + gap; }
-			if (BOMitem.status) { BOMitem.w += iconw + gap; }
-			if (BOMitem.w > iBOM.maxw) { iBOM.maxw = BOMitem.w; }
-			itemcount++;
-		}
-		iBOM.y = 2*panv;
-		
-		if (iBOM.column > 0) {
-			iBOM.x = iBOM.x + panh + TBOM[iBOM.column - 1].x + TBOM[iBOM.column - 1].maxw;
-		} else {
-			iBOM.x = panh + iBOM.maxnegw;
-		}
-
-	}
-	return TBOM;
-}
-
 export function Computelayout2(BomTable: BOMdata): BOM[] {
 
 	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
@@ -194,7 +106,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 		iBOM.y = 2*panv;
 		
 		if (iBOM.column > 0) {
-			iBOM.x = iBOM.maxnegw+ panh + BomTable.BOMs[iBOM.column - 1].x + BomTable.BOMs[iBOM.column - 1].maxw;
+			iBOM.x += iBOM.maxnegw+ panh + BomTable.BOMs[iBOM.column - 1].x + BomTable.BOMs[iBOM.column - 1].maxw;
 		} else {
 			iBOM.x = panh + iBOM.maxnegw;
 		}
@@ -205,7 +117,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 		for (const BoMItem of iBOM.BoMItems){
 						if (BoMItem.relatives){
 							
-							for (const relative of BoMItem.relatives){
+							for (var relative of BoMItem.relatives){
 
 								// Boucle sur toutes les bom
 								for (const bom of BomTable.BOMs){
@@ -220,6 +132,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 										relative.geom.fpy=bom.y+relbomitem.y+h/2;
 										relative.geom.cs=(iBOM.maxw-BoMItem.w)*BendFactor+ panh;
 										relative.geom.cf=(iBOM.maxw-relbomitem.w)*BendFactor + panh ;
+										relative=LinklabelCompute(relative,0,panh,iBOM.maxw+iBOM.x)
 										
 			
 			
@@ -232,6 +145,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 										relative.geom.fpy=bom.y+relbomitem.y+h/2;
 										relative.geom.cs=-(relative.geom.spx-relative.geom.fpx)/2;
 										relative.geom.cf=-relative.geom.cs;
+										relative=LinklabelCompute(relative,1,panh,iBOM.maxw+iBOM.x)
 			
 									} else{
 										// cible à droite
@@ -242,6 +156,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 										relative.geom.fpy=bom.y+relbomitem.y+h/2;
 										relative.geom.cs=(relative.geom.fpx-relative.geom.spx)/2;
 										relative.geom.cf=-relative.geom.cs;
+										relative=LinklabelCompute(relative,2,panh,iBOM.maxw+iBOM.x)
 									}
 
 							}
@@ -262,4 +177,85 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 
 
 	return BomTable.BOMs;
+}
+
+function LinklabelCompute (templink:link,targetpos:number,clearance:number,maxw:number):link{
+	// targetpos same 0 , 1 left ,2 right
+	let aliasposcode:number;
+	switch (templink.aliaspos){
+		case "m":
+			aliasposcode=0;
+
+			break;
+		case "b":
+			aliasposcode=1;
+
+			break;
+		case "e":
+		default:
+			aliasposcode=2;
+			break;
+	}
+	const linkcomb:number=aliasposcode+3*targetpos
+	switch (linkcomb){
+		// label au mileu quelque soit la target
+		case 0:
+			templink.label_x=maxw;
+			templink.label_y=(templink.geom.fpy-templink.geom.spy)/2+templink.geom.spy;
+			templink.label_align="middle";
+			templink.label_box_x=templink.label_x-templink.linklblw/2
+			break;
+		case 3:
+		case 6:
+			templink.label_x=(templink.geom.fpx-templink.geom.spx)/2+templink.geom.spx;
+			templink.label_y=(templink.geom.fpy-templink.geom.spy)/2+templink.geom.spy;
+			templink.label_align="middle";
+			templink.label_box_x=templink.label_x-templink.linklblw/2
+			break;
+
+		// label au debut  meme col	
+		case 1:
+			templink.label_x=templink.geom.spx+ clearance;
+			templink.label_y=templink.geom.spy;
+			templink.label_align="begin";
+			templink.label_box_x=templink.label_x
+			break;
+		// label a la fin meme col
+		case 2:
+			templink.label_x=templink.geom.fpx+ clearance;
+			templink.label_y=templink.geom.fpy;
+			templink.label_align="begin";
+			templink.label_box_x=templink.label_x
+			break;
+		// label debut col gauche
+		case 4:
+			templink.label_x=templink.geom.spx- clearance;
+			templink.label_y=templink.geom.spy;
+			templink.label_align="end";
+			templink.label_box_x=templink.label_x-templink.linklblw
+			break;
+		// label fin col gauche
+		case 5:
+			templink.label_x=templink.geom.fpx+ clearance;
+			templink.label_y=templink.geom.fpy;
+			templink.label_align="begin";
+			templink.label_box_x=templink.label_x
+			break;
+		// label debut col droite
+		case 7:
+			templink.label_x=templink.geom.spx+ clearance;
+			templink.label_y=templink.geom.spy;
+			templink.label_align="begin";
+			templink.label_box_x=templink.label_x
+			break;
+		// label fin col droite
+		case 8:
+			templink.label_x=templink.geom.fpx- clearance;
+			templink.label_y=templink.geom.fpy;
+			templink.label_align="end";
+			templink.label_box_x=templink.label_x-templink.linklblw
+			break;
+	}
+
+	return templink
 }

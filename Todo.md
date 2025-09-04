@@ -39,6 +39,8 @@
 [x]plusieur type de lien
 [x] rectangle en degradé blanc transparent pour etre au dessus des fleches
 [x] detourer la matrice
+[x] caculer la position du label de lien dasn le compute layout
+[x] integrer la rendition du label de lien dans gensvg2
 
 ## integration markdown
 

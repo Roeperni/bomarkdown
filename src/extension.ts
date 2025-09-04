@@ -4,24 +4,26 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { Computelayout, Computelayout2,initlegendbloc2} from './Computelayout';
+import { Computelayout2,initlegendbloc2} from './Computelayout';
 import { parseEditor,legendextract,Parselegendbloc} from './parseEditor';
-import { generateCommandHTML, generateSVG, generateSVG2 } from './HTMLgeneration';
+import { generateCommandHTML, generateSVG2 } from './HTMLgeneration';
 import { buffer } from 'stream/consumers';
 
-
-
-const h: number = vscode.workspace.getConfiguration('bomarkdown').get('h') || 20;
-const panh: number = vscode.workspace.getConfiguration('bomarkdown').get('panh') || 20;
-
-const iconw: number = h;
 let bboxservice: vscode.WebviewPanel | undefined = undefined;
 let previewpanel: vscode.WebviewPanel | undefined = undefined;
 
 
 
+export class SVGRectPresentation {
+	stroke:string="none";
+	stroke_width:string="0.25";
+	stroke_linejoin:string="round";
+	fill:string="grey";
+	fill_opacity:string="1";
+
+}
+
 // courbure des lien d'implement
-export const bend: number = 100;
 export let extlog = vscode.window.createOutputChannel("BoMarkdownLogs");
 //Define Item interface
 export type linkgeom = {
@@ -47,8 +49,6 @@ export type legendtable ={
 }
 
 
-
-
 export interface Linksdefinitions {
 	[key:string]:Linksdefinition
 
@@ -60,8 +60,6 @@ export interface Linksdefinition {
 	thickness:number;
 	dashpattern:"string";
 }
-
-
 
 
 export interface legend {
@@ -86,6 +84,8 @@ export type link = {
 	aliaspos: string;
 	label_x: number;
 	label_y: number;
+	label_align:string;
+	label_box_x:number
 	geom:linkgeom;
 }
 
@@ -97,36 +97,35 @@ export type emphasis = {
 	weight: string
 }
 
-export interface BoMItem {
-	id: number;
-	Parentid: number;
-	level: number;
-	Type: string;
-	Label: string;
+export class BoMItem {
+	id: number=0;
+	Parentid: number=-1;
+	level: number=0;
+	Type: string="";
+	Label: string="";
 	alias?: string;
-	x: number;
-	y: number;
-	h: number;
-	w: number;
-	lblw: number;
+	x: number=0;
+	y: number=0;
+	h: number=0;
+	w: number=0;
+	parent_link_type:string="h";
+	lblw: number=0;
 	effw?: number;
 	effectivity?: string;
 	status?: string;
 	revision?: string;
 	bubbles?: string[];
 	relatives?: link[];
-	badparsing: boolean;
-
-
+	badparsing: boolean=true;
 }
-export interface BOM {
-	BoMItems: BoMItem[];
-	column: number;
-	x: number;
-	y: number;
-	maxw: number;
-	maxnegw: number;
-	h: number;
+export class BOM {
+	BoMItems: BoMItem[]=[];
+	column: number=0;
+	x: number=0;
+	y: number=0;
+	maxw: number=0;
+	maxnegw: number=0;
+	h: number=0;
 
 }
 
@@ -163,23 +162,23 @@ export type blocdelim = {
 	"end": string;
 }
 
-export type fontdef ={
-	font_family:string;
-	font_weight:string; 
-	font_style:string; 
-	font_size:string;
-	stroke:string; 
-	stroke_width:string;
-	fill:string;
-	paint_order:string;
+export class fontdef {
+	font_family:string="sytem-ui";
+	font_weight:string="normal"; 
+	font_style:string="normal"; 
+	font_size:string="12";
+	stroke:string="none"; 
+	stroke_width:string="0";
+	fill:string="black";
+	paint_order:string="stroke";
 }
 
-export type fontsettings ={
-	label:fontdef;
-	rev:fontdef;
-	eff:fontdef;
-	linklabel:fontdef;
-	legend:fontdef;
+export class fontsettings {
+	label:fontdef=new(fontdef);
+	rev:fontdef=new(fontdef);
+	eff:fontdef=new(fontdef);
+	linklabel:fontdef=new(fontdef);
+	legend:fontdef=new(fontdef);
 }
 
 export interface Icon {
@@ -199,8 +198,8 @@ interface BoMBLock {
 	"end": number
 }
 
-export function FondeftoString (fontdef: fontdef):string {
-	
+export function FondeftoString (fontdef: fontdef|SVGRectPresentation):string {
+	// Function that transform a dict into a string key1="value1" key2="value2"
 	let tempstr:string="";
 	//Object.entries(fontdef).forEach(([key,value])=>tempstr+=`${key}="${value}" `);
 	for (const[key,value] of Object.entries(fontdef)){
@@ -212,6 +211,7 @@ export function FondeftoString (fontdef: fontdef):string {
 }
 
 export function Fondefsizecompute(fontdefs:fontsettings,defsize:number):fontsettings{
+	// function to conpute fontsize from fontdefs
 	let def:keyof fontsettings;
 	let tempfontdefs:fontsettings=fontdefs;
 	for (def in fontdefs){
@@ -223,10 +223,8 @@ export function Fondefsizecompute(fontdefs:fontsettings,defsize:number):fontsett
 }
 
 
-export const EmptyBoMItem: string = '{"id":0,"Parentid":0,"level":0,"Label":"","badparsing":false,"x":0,"y":0,"h":0,"lblw":0,"w":0,"Type":""}'
-export const EmptyBoM: string = '{"BoMItems":[],"column":0,"x":0,"y":0,"maxw":0,"maxnegw":0,"h":0}'
-
 function QPIfromTable(table: string[], exturi: vscode.Uri, preselect: boolean): vscode.QuickPickItem[] {
+	// generate quick pick item from a table
 	let tempitemtable: vscode.QuickPickItem[] = []
 
 	for (let item of table) {
@@ -249,6 +247,7 @@ function QPIfromTable(table: string[], exturi: vscode.Uri, preselect: boolean): 
 
 
 function B64slicer(str: string, size: number): string[] {
+	//experimental fucntion to slice B64 
 	const numChunks = Math.ceil(str.length / size)
 	const chunks = new Array(numChunks)
 	let start: number = 0;
@@ -265,8 +264,8 @@ function B64slicer(str: string, size: number): string[] {
 
 
 function getBomBlock(line: number, editortext: string): BoMBLock {
-
-	// Split de l'editor sur les saut de ligne
+// function to extract a bommardown bom from a markdown document 
+	// Split de l'editor sur les saut de line
 	let EditorArray: string[] = editortext.split(/\r?\n/);
 	const blocdelim: blocdelim = vscode.workspace.getConfiguration('bomarkdown').get('codeblockdelimiter') || { "begin": "", "end": "" };
 	const beginbloc = blocdelim.begin.split(" ");
@@ -299,6 +298,7 @@ function getBomBlock(line: number, editortext: string): BoMBLock {
 }
 
 function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
+	//create a svg file from a string containing a svg code
 	let tempuri:vscode.Uri;
 	if (uri.scheme != "untitled") {
 		if (path) {
@@ -318,10 +318,12 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 
 
  function CreateRenditionWebView(ctx:vscode.ExtensionContext):vscode.WebviewPanel{
+	//create the webview used for rendition , also define the handler for commands
 				bboxservice = vscode.window.createWebviewPanel(
 					'BBoxservice',
 					'BBoxservice',
-					vscode.ViewColumn.Two,
+					{preserveFocus:true,viewColumn:vscode.ViewColumn.Two},
+					
 					{
 						enableScripts: true,
 						retainContextWhenHidden: true
@@ -339,11 +341,8 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 			// Get message from the BBOX service.
 			bboxservice.webview.onDidReceiveMessage(
 				message => {
-						const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
-						//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
-						let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
-
-
+											
+						let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 						
 							let BOMtable:BOMdata = message.boms;
 							let BOMuri:vscode.Uri=vscode.Uri.file(BOMtable.Duri);
@@ -421,6 +420,23 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 								createsvgfile(BOMuri, BOMtable.path, svgcode)
 
 						}
+						case 'insertsvg':{
+							if (Editor!==undefined){
+								const editortext = Editor.document.getText();
+								let temptxtbloc = getBomBlock(Editor.selection.active.line, editortext);
+								createsvgfile(BOMuri, BOMtable.path, svgcode);
+								const temposition: vscode.Position = new vscode.Position(temptxtbloc.end + 1, 0);
+								const tempSVGmd = `![${temptxtbloc.path}](${temptxtbloc.path + ".svg"} "${temptxtbloc.path}")`;
+								if (!editortext.includes(tempSVGmd)) {
+									Editor.edit(editbuilder => {
+										editbuilder.insert(temposition, "\n" + tempSVGmd + "\n");
+
+									});
+								}
+								vscode.commands.executeCommand('markdown-preview-enhanced.openPreviewToTheSide');
+
+							}
+						}
 					}
 				},
 				undefined,
@@ -452,9 +468,9 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 
-	// Our new command
+	// Preview current bom and display json
 	context.subscriptions.push(
-		vscode.commands.registerCommand('bomarkdown.TestBBoxservice', () => {
+		vscode.commands.registerCommand('bomarkdown.NewPreview', () => {
 
 			let Editor = vscode.window.activeTextEditor
 			if (Editor === undefined) {
@@ -472,14 +488,14 @@ export function activate(context: vscode.ExtensionContext) {
 				let BOMtable: BOMdata = parseEditor(temptxtbloc.content,temptxtbloc.path,Editor.document.uri);
 
 				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
-				const defaultfontsize:number=vscode.workspace.getConfiguration('bomarkdown').get('defaultfontsize')||13;
+				
 				const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
 				//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
 				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
 
 				
 
-				//fontdefs=Fondefsizecompute(fontdefs,defaultfontsize);
+				
 				let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
 					if ("IconJsons" in BOMtable.params) {
 					iconJSONS=BOMtable.params.iconJSONS;
@@ -508,92 +524,9 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 
-
-
-
-
-
+	// Generate a SVG and insert it in the current md doc 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('bomarkdown.preview', () => {
-
-			let Editor = vscode.window.activeTextEditor
-			let line = vscode.window.activeTextEditor?.selection.active.line
-			if (Editor === undefined) {
-				vscode.window.showInformationMessage('No Active editor');
-			} else {
-				// Create and show a new webview
-				const panel = vscode.window.createWebviewPanel(
-					'bompreview', // Identifies the type of the webview. Used internally
-					'BoM Preview', // Title of the panel displayed to the user
-					vscode.ViewColumn.Two, // Editor column to show the new webview panel in.
-					{} // Webview options. More on these later.
-				);
-				let temptxtbloc = getBomBlock(Editor.selection.active.line, Editor.document.getText());
-				panel.webview.html = getpreviewhtml(context.extensionUri, panel.webview, temptxtbloc.content,Editor.document.uri);
-			}
-		})
-	);
-
-	context.subscriptions.push(
-		vscode.commands.registerCommand('bomarkdown.export', () => {
-
-			let Editor = vscode.window.activeTextEditor
-			if (Editor === undefined) {
-				vscode.window.showInformationMessage('No Active editor');
-			} else {
-				// Export to file
-				let temptxtbloc = getBomBlock(Editor.selection.active.line, Editor.document.getText())
-				let BOMtable: BOMdata = parseEditor(temptxtbloc.content,temptxtbloc.path,Editor.document.uri);
-				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
-				if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('parsed'); }
-				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis }
-				BOMtable.BOMs = Computelayout(BOMtable.BOMs, emphasis);
-				if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Layouted'); }
-				const txtsvg: string = generateSVG(context.extensionUri, BOMtable);
-				if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('SVGed'); }
-				createsvgfile(Editor.document.uri, BOMtable.path, txtsvg);
-
-			}
-		})
-	);
-	context.subscriptions.push(
-		vscode.commands.registerCommand('bomarkdown.insertassvg', () => {
-
-			let Editor = vscode.window.activeTextEditor
-			if (Editor === undefined) {
-				vscode.window.showInformationMessage('No Active editor');
-			} else {
-				// Export to file
-				const editortext = Editor.document.getText();
-				let temptxtbloc = getBomBlock(Editor.selection.active.line, editortext);
-				let BOMtable: BOMdata = parseEditor(temptxtbloc.content,temptxtbloc.path,Editor.document.uri);
-				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
-				if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('parsed'); }
-				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis }
-				BOMtable.BOMs = Computelayout(BOMtable.BOMs, emphasis);
-				if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Layouted'); }
-				const txtsvg: string = generateSVG(context.extensionUri, BOMtable);
-				if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('SVGed'); }
-				createsvgfile(Editor.document.uri, temptxtbloc.path, txtsvg);
-				if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Exported'); }
-				const temposition: vscode.Position = new vscode.Position(temptxtbloc.end + 1, 0);
-				const tempSVGmd = `![${temptxtbloc.path}](${temptxtbloc.path + ".svg"} "${temptxtbloc.path}")`;
-				if (!editortext.includes(tempSVGmd)) {
-					Editor.edit(editbuilder => {
-						editbuilder.insert(temposition, "\n" + tempSVGmd + "\n");
-
-					});
-				}
-				if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Inserted'); }
-				vscode.commands.executeCommand('markdown-preview-enhanced.openPreviewToTheSide');
-				if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Preview refreshed'); }
-
-			}
-		})
-	);
-
-	context.subscriptions.push(
-		vscode.commands.registerCommand('bomarkdown.NewSvgInsert', () => {
+		vscode.commands.registerCommand('bomarkdown.NewInsert', () => {
 
 			let Editor = vscode.window.activeTextEditor
 			if (Editor === undefined) {
@@ -611,13 +544,65 @@ export function activate(context: vscode.ExtensionContext) {
 				let BOMtable: BOMdata = parseEditor(temptxtbloc.content,temptxtbloc.path,Editor.document.uri);
 				
 				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
-				const defaultfontsize:number=vscode.workspace.getConfiguration('bomarkdown').get('defaultfontsize')||13;
+				
 				const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
 	//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
 				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
 
 				
-				//fontdefs=Fondefsizecompute(fontdefs,defaultfontsize);
+				
+				let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
+					if ("IconJsons" in BOMtable.params) {
+					iconJSONS=BOMtable.params.iconJSONS;
+					} 
+					let icons:Icon[]=[];
+			for (let Iconjson of iconJSONS){
+				if (Iconjson=="[embedded]"){
+
+					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath
+					}
+			
+		let rawdata = fs.readFileSync(Iconjson,"utf-8");
+		icons.push(...JSON.parse(rawdata));
+
+	}
+
+				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis }
+				const legende:legend=legendextract(BOMtable.BOMs);
+				let legenditems:legenditem[]=Parselegendbloc(legende,icons)
+				bboxservice.webview.postMessage({ command: 'getbboxes',context:"insertsvg", boms: BOMtable, fontdefs: fontdefs,emphasises:emphasis,legenditems:legenditems });
+
+
+			}
+		})
+	);
+	// export the current bom into a svg file
+	context.subscriptions.push(
+		vscode.commands.registerCommand('bomarkdown.NewXport', () => {
+
+			let Editor = vscode.window.activeTextEditor
+			if (Editor === undefined) {
+				vscode.window.showInformationMessage('No Active editor');
+			} else {
+				// Export to file
+				if (!bboxservice) {
+					bboxservice=CreateRenditionWebView(context);
+
+			}
+
+
+				const editortext = Editor.document.getText();
+				let temptxtbloc = getBomBlock(Editor.selection.active.line, editortext);
+				let BOMtable: BOMdata = parseEditor(temptxtbloc.content,temptxtbloc.path,Editor.document.uri);
+				
+				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
+				
+				const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
+	//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
+				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
+
+				
+				
 				let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
 					if ("IconJsons" in BOMtable.params) {
 					iconJSONS=BOMtable.params.iconJSONS;
@@ -644,7 +629,7 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 
-
+	// show commands 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.commands', async () => {
 
@@ -672,7 +657,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		})
 	);
-
+	// edit icons
 	context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.editusericon', async () => {
 			let iconJSONS: string[] = vscode.workspace.getConfiguration('bomarkdown').get('IconJson') || [];
@@ -845,39 +830,8 @@ export function deactivate() { }
 
 
 
-// function that generates the preview html
-function getpreviewhtml(contexturi: vscode.Uri, wv: vscode.Webview, EditorTxt: string,Duri:vscode.Uri) {
-	
-	let BOMtable: BOMdata = parseEditor(EditorTxt,"preview",Duri);
-	let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
-	if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('parsed'); }
-	if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis }
-	BOMtable.BOMs = Computelayout(BOMtable.BOMs, emphasis);
-	if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Layouted'); }
-	return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BoM Preview</title>
-</head>
-<body>
-<h1>SVG</h1>
-${generateSVG(contexturi, BOMtable)}
-<h1>Json</h1>
-<pre>
-<code>
-${JSON.stringify(BOMtable, null, "\t")}
-</pre>
-</code>
-<pre>
-${EditorTxt}
-</pre>
-</body>
-</html>`;
-}
-
 function getBBoxWebview(contexturi: vscode.Uri, wv: vscode.Webview) {
+	// create the webview 
 	const onDiskPath = vscode.Uri.joinPath(contexturi, 'IconConfig', 'bbox.js');
 
 	// And get the special URI to use with the webview

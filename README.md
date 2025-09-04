@@ -50,13 +50,14 @@ to add a new column juste type
 ```
 ````
 ![BOMHierachy](Images/BOMHierachy.png "BOMHierachy")
+please note that the "+ " should not be used in the rest of the item definition
 
 In order to be detected in the editor you should use code block delimiter either the regular fenced code block of markdown or a comment with a special keyword. 
 with the fenced code block your code will be rendered in the markdown document, with the commment the code will not be displayed.
 Right now the bomarkdown syntax is not supported in markdown as a workaround the bomarkdown code generates a svg and the svg can be integrated in the markdown document see [export](#bom-export) or [insertSVG](#insert-svg-in-markdown) for more information
 
 
-**Example of a redenred code with its svg graph**
+**Example of a rendered code with its svg graph**
 ````text
 
 ```bomarkdown <Images folder>/<image name>
@@ -66,7 +67,7 @@ Right now the bomarkdown syntax is not supported in markdown as a workaround the
 ![<image name>](<image folder>/<image name>.svg "<image name>")
 ````
 
-**Example of a not redenred code with its svg graph**
+**Example of a not rendered code with its svg graph**
 ```
 <!--bomarkdown <Images folder>/<image name>
 [bomarkdown code]
@@ -179,6 +180,7 @@ ${{
 ````
 ![Images/typeitem-emphasis-custom](Images/typeitem-emphasis-custom.png "Images/typeitem-emphasis-custom")
 
+Please note that if you want nesting to work the order of the ***emphasis*** marker is important it is meant to be defined from biggest delimiter string to the lowest.
 
 to list all the availables types reffer to [BOM Commands](#bom-commands)
 
@@ -238,6 +240,8 @@ you can define an additional gap between column
 In addition to the hierachical link you can create transverse link to do so you should use a link block (a:)
 the link block is in 2 parts (s:[alias])(l:i:[aliases of linked element separated by ,])
 the link is drawn from the item to the ones in the (l:) block. you can have several (l:) block on an item to draw several link types
+The link can have labal to define it after the alias you should add a **!** for a label in the middle of the link **!>** for a label at the beginning of the link and **!<** for a label a the end.
+
 
 ````text
 ```bomarkdown Images/aliasesandlinks
@@ -259,12 +263,10 @@ the link is drawn from the item to the ones in the (l:) block. you can have seve
  + (i:req, req3)
  + (i:req, req4)(a:dum)
 + (i:spec,Procurement Spec)(a:s3)(l:i:a2,a1)
- + (i:req, req5)(a:procreq1)(l:c:specreq1!>wesh,specreq2!lespotos)(l:i:c4!<ca roule ?)
+ + (i:req, req5)(a:procreq1)(l:c:specreq1!>Label at the end,specreq2!label in the middle)(l:i:c4!<label at the beginning)
  + (i:req, req6)
  + (i:req, req7)
 ```
-
-![Images/aliasesandlinks](Images/aliasesandlinks.svg "Images/aliasesandlinks")
 ````
 
 

@@ -188,12 +188,16 @@
         "title": "Launch the webview for Bounding box service",
         "category": "BoMarkdown"
       },{
-        "command": "bomarkdown.TestBBoxservice",
-        "title": "Test the Bounding box service",
+        "command": "bomarkdown.NewPreview",
+        "title": "New preview ",
         "category": "BoMarkdown"
       },{
-        "command": "bomarkdown.NewSvgInsert",
-        "title": "Test Dual call of message",
+        "command": "bomarkdown.NewXport",
+        "title": "New SVG export",
+        "category": "BoMarkdown"
+      },{
+        "command": "bomarkdown.NewInsert",
+        "title": "New SVG Insert",
         "category": "BoMarkdown"
       }
     ],    
@@ -201,32 +205,21 @@
       "editor/context": [
         {
           "when": "editorLangId == markdown || editorLangId == bomarkdown",
-          "command": "bomarkdown.preview",
+          "command": "bomarkdown.NewPreview",
+          "group": "bomarkdown"
+        },{
+          "when": "editorLangId == markdown || editorLangId == bomarkdown",
+          "command": "bomarkdown.NewInsert",
           "group": "bomarkdown"
         },
         {
           "when": "editorLangId == markdown || editorLangId == bomarkdown",
-          "command": "bomarkdown.TestBBoxservice",
-          "group": "bomarkdown"
-        },
-                {
-          "when": "editorLangId == markdown || editorLangId == bomarkdown",
-          "command": "bomarkdown.NewSvgInsert",
-          "group": "bomarkdown"
-        },
-        {
-          "when": "editorLangId == markdown || editorLangId == bomarkdown",
-          "command": "bomarkdown.export",
+          "command": "bomarkdown.NewXport",
           "group": "bomarkdown"
         },
         {
           "when": "editorLangId == markdown",
           "command": "bomarkdown.commands",
-          "group": "bomarkdown"
-        },
-        {
-          "when": "editorLangId == markdown",
-          "command": "bomarkdown.insertassvg",
           "group": "bomarkdown"
         }
       ]
@@ -316,15 +309,20 @@
           }
 
         },
-        "bomarkdown.revision":{
+        "bomarkdown.revisionstyle":{
           "type":"object",
           "description": "Styling to display revision",
           "order":11,
           "default": {
-            "font":"white",
-            "background":"dimgrey"
+            "stroke":"none",
+            "stroke_width":"0.25",
+            "stroke_linejoin":"round",
+            "fill":"dimgrey",
+            "fill_opacity":"1"
           },
-          "additionalProperties": false
+          "additionalProperties": {
+            "type":"string"
+          }
           
 
           },
@@ -401,22 +399,17 @@
             "description": "List of available status",
             "order":21,
             "default":{
-              "D":{"label":"Draft","svg":"<g id=\"D\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"lightgray\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nD\n</text>\n</g>"},
-              "IW":{"label":"In Work","svg":"<g id=\"IW\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"blue\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nIW\n</text>\n</g>"},
-              "F":{"label":"Frozen","svg":"<g id=\"F\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"orange\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nF\n</text>\n</g>"},
-              "R":{"label":"Released","svg":"<g id=\"R\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"green\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nR\n</text>\n</g>"},
-              "O":{"label":"Obsolete","svg":"<g id=\"O\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"black\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"10\" x=\"10\" y=\"11\" fill=\"white\" >\nO\n</text>\n</g>"}
+              "D":{"label":"Draft","svg":"<g id=\"D\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"lightgray\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"11\" x=\"10\" y=\"11\" fill=\"white\" >\nD\n</text>\n</g>"},
+              "IW":{"label":"In Work","svg":"<g id=\"IW\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"blue\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"11\" x=\"10\" y=\"11\" fill=\"white\" >\nIW\n</text>\n</g>"},
+              "F":{"label":"Frozen","svg":"<g id=\"F\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"orange\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"11\" x=\"10\" y=\"11\" fill=\"white\" >\nF\n</text>\n</g>"},
+              "R":{"label":"Released","svg":"<g id=\"R\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"green\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"11\" x=\"10\" y=\"11\" fill=\"white\" >\nR\n</text>\n</g>"},
+              "O":{"label":"Obsolete","svg":"<g id=\"O\">\n<rect x=\"0\" y=\"1\" width=\"18\" height=\"18\" fill=\"black\" rx=\"4\"/>\n<text font-family=\"system-ui\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-weight=\"bold\" font-style=\"normal\" font-size=\"11\" x=\"10\" y=\"11\" fill=\"white\" >\nO\n</text>\n</g>"}
             },
             "additionalProperties": {
               "type": "object"
             }
           },        
-          "bomarkdown.defaultfontsize":{
-        "type":"integer",
-        "default":13,
-        "description": "Default Size for Font",
-        "order":23
-      },
+
           "bomarkdown.fontdefs":{
             "type":"object",
             "description": "Font definition",

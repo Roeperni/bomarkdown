@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import {Icon,BOM,Implink,BoMItem,extlog,Objsetting,ObjsettingWlabel,BOMdata,blocdelim,fontdef,fontsettings,FondeftoString,legendtable,legendColumn,legenditem} from "./extension";
-import {ComputeBBOXjson} from "./Computelayout";
+import {Icon,BOM,SVGRectPresentation,BoMItem,extlog,Objsetting,ObjsettingWlabel,BOMdata,blocdelim,fontdef,fontsettings,FondeftoString,legendtable} from "./extension";
 import {ReplacewithObject, Transcoder} from "./parseEditor"
 
 
@@ -19,16 +18,11 @@ interface Linksdefinition {
 	dashpattern:"string";
 }
 
-interface legend {
-	types:string[];
-	links:string[];
-	status:string[];
-	bubbles:string[];
-}
 
-const EmptyLink: string='{"spx":0,"spy":0,"fpx":0,"fpy":0,"cf":0,"cs":0}'
-const revbackground= vscode.workspace.getConfiguration('bomarkdown').get('revision.background');
-const revfontcolor= vscode.workspace.getConfiguration('bomarkdown').get('revision.font');
+
+
+
+
 
 
 
@@ -249,426 +243,11 @@ function lineproperties (link:Linksdefinition,key:string):string {
 
 }
 
-function legendextract (BOMtable:BOM[]):legend {
-	
-	let templegend:legend={types:[],links:[],status:[],bubbles:[]};
-	for (const BOM of BOMtable){
-		for( const item of BOM.BoMItems){
-			if (!templegend.types.includes(item.Type)){templegend.types.push(item.Type)}
-			if (item.relatives){
-				for (const rel of item.relatives){
-					if (!templegend.links.includes(rel.linktype)){templegend.links.push(rel.linktype)}
-				}
-			}
-			if (item.bubbles){
-				for (const bub of item.bubbles){
-					if (!templegend.bubbles.includes(bub)){templegend.bubbles.push(bub)}
-				}
-			}
-			if (item.status){
-				
-					if (!templegend.status.includes(item.status)){templegend.status.push(item.status)}
-				
-			}
-		}
-	}
-	return templegend;
-}
-
-function initlegendbloc (legend:legend,nbcol:number,icons:Icon[]):legendtable{
-	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
-	const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
-    const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
-	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
-	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
-	const iconw:number=h;
-	const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
-	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
-
-	let templegend:legendtable;
-	let templegenditems:legenditem[]=[];
-	let templabel:string="";
-	let tempcolumns:legendColumn[];
-	for (const typ of legend.types ){
-		const typeicon :any|undefined=icons.find(i =>i.name==typ);
-		if (typeicon){
-			if (typeicon.label){
-				templabel=typeicon.label;
-			}else {
-				templabel=typeicon.name;
-			}
-			templegenditems.push({type:"object",name:typ,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap})
-		}
-	}
-	for (const typ of legend.links ){
-			if (typ in linkstyle){
-			if (linkstyle[typ].label){
-				templabel=linkstyle[typ].label;
-			}else {
-				templabel=typ;
-			}
-			
-
-			templegenditems.push({type:"link",name:typ,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap})
-		}
-		}
-		for (const status of legend.status ){
-			if (status in Status_Settings){
-				templabel=Status_Settings[status].label;
-				templegenditems.push({type:"status",name:status,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap});
-			}
-		}
-		for (const bub of legend.bubbles ){
-			if (bub in bubbles_Settings){
-				templabel=bubbles_Settings[bub].label;
-				templegenditems.push({type:"bubble",name:bub,label:templabel,w:ComputeBBOXjson("system-ui",12,templabel)+iconw+gap});
-
-
-			}
-		}
-	const itempercolum:number=Math.ceil(templegenditems.length/nbcol);
-	tempcolumns=[];
-	for (let k=0;k<nbcol;k++){
-		let tempcolumnitems=templegenditems.slice(k*(itempercolum),(k+1)*(itempercolum))
-		let tempcolumn:legendColumn={x:0,w:0,items:[]};
-		if (k==0){
-			tempcolumn.x=0;
-		}else{
-			tempcolumn.x=tempcolumns[k-1].x + tempcolumns[k-1].w;
-		}
-		tempcolumn.w=Math.max(...tempcolumnitems.map(w =>w.w))+panh;
-		tempcolumn.items=tempcolumnitems;
-		tempcolumns.push(tempcolumn)
-	}
-
-	const tempw:number=tempcolumns[nbcol-1].x + tempcolumns[nbcol-1].w;
-
-	templegend={w:tempw,h:(itempercolum)*(h+panv),columns:tempcolumns};
-
-
-
-	return templegend;
-}
-
-
-
-export function generateSVG(contexturi:vscode.Uri ,BOMdata:BOMdata):string{
-	const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
-	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
-	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
-	const iconw:number=h;
-    const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
-    const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
-    const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};
-    const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
-	let BendFactor :number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
-	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
-	let haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
-	let verbose:boolean=false;
-	const legendscale:number=vscode.workspace.getConfiguration('bomarkdown').get('legendscale')||0.7;
-	let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
-		const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
-		//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
-		let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
-	
-	
-	if ("haslegend" in BOMdata.params){
-		haslegend=BOMdata.params.haslegend;
-	}
-
-	let tempfinItem:number=0;
-	// load all the icons from all the files
-	if ("IconJsons" in BOMdata.params) {
-		iconJSONS=BOMdata.params.iconJSONS;
-	} 
-	if ("bend" in BOMdata.params){
-		BendFactor=BOMdata.params.bend;
-	}
-	let icons:Icon[]=[];
-	for (let Iconjson of iconJSONS){
-		if (Iconjson=="[embedded]"){
-
-			Iconjson=vscode.Uri.joinPath(contexturi,"IconConfig","DefaultIcons.json").fsPath
-			}
-	
-		let rawdata = fs.readFileSync(Iconjson,"utf-8");
-		icons.push(...JSON.parse(rawdata));
-
-	}
-
-
-
-	if ("verbose" in BOMdata.params){extlog.appendLine('Icon charged');}
-	// calcul de la taille du graph
-	// pourquoi un at(-1) fait du undefined ?
-	const totalw=BOMdata.BOMs[BOMdata.BOMs.length-1].x + BOMdata.BOMs[BOMdata.BOMs.length-1].maxw;
-	const maxitem= Math.max(...BOMdata.BOMs.map((maxitem)=>maxitem.BoMItems.length),0);
-	
-	// extraction de la legende
-	const legende:legend=legendextract(BOMdata.BOMs);
-	const legendColumns:number=BOMdata.BOMs.length;
-	let legendeblock:legendtable=initlegendbloc(legende,legendColumns,icons);
-	let svgh:number;
-	if (haslegend){
-		svgh=maxitem*(h+panv)+3*panv+legendeblock.h + 16;
-	} else {
-		svgh=maxitem*(h+panv)+2*panv;
-	}
-	if ("verbose" in BOMdata.params){extlog.appendLine('legend computed');}
-	// Init du svg et ouverture des <def>
-	let tempstr:string=`<svg width="${totalw+panh}" height="${ svgh }" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<defs>
-	`;
-    // recuperation des def des settings
-	tempstr+=Extractarrows(linkstyle);
-	tempstr+=ExtractDefFromObject(MandatoryDefs_Settings);
-    tempstr+=ExtractDefFromObjectWlabel(Status_Settings);
-    tempstr+=ExtractDefFromObjectWlabel(bubbles_Settings);
-
-
-	// extraction des différents type pour le mettre dans le def du svg
-	let listtype:string[]=[];
-	for (const bom of BOMdata.BOMs) {
-		let listtypperbom=bom.BoMItems.map(item=> item.Type).filter((value,index,self)=>self.indexOf(value) ===index);
-		listtype=listtype.concat(listtypperbom);
-	}
-	let UniqueType:string[]=listtype.filter((value,index,array)=>array.indexOf(value)===index);
-	extlog.appendLine("liste des types : "+UniqueType.join(","));
-
-	// creation d'un def pour chaque type
-	for (const typ of UniqueType){
-		const typeicon =icons.find(i =>i.name==typ);
-		if (typeicon !==undefined){
-			tempstr+=`<image  id="${typ}" witdh="${h}" height="${h}" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="${typeicon.icon}"/>
-			`;
-		} 
-
-	}
-	
-	// Fermeture des <def>
-	tempstr+=`</defs> 
-	`;
-	if ("verbose" in BOMdata.params){extlog.appendLine('Def defined');}
-// creation de la legende
-if (haslegend){
-	tempstr+=`<g id="legend" transform="translate(${gap},${maxitem*(h+panv)+2*panv}) scale(${legendscale},${legendscale})">
-	<rect width="${legendeblock.w + gap}" height="${legendeblock.h + panv+8}" x="0" y="12" fill="none" stroke="gray" stroke-width="1"/>
-	<g transform="translate(5,${panv+h})">		
-	`;
-	for (const c of legendeblock.columns){
-		let nbi:number=0;
-		for (const i of c.items) {
-			switch (i.type){
-
-				case "object":
-				case "status":
-					tempstr+=`<use  href="#${i.name}" x="${c.x}" y="${nbi*(h+panv)}"/>
-					`;
-					break;
-				case "link" :
-					tempstr+=`<line x1="${c.x}" y1="${nbi*(h+panv)+h/2}" x2="${c.x+iconw}" y2="${nbi*(h+panv)+h/2}" ${lineproperties(linkstyle[i.name],i.name)} stroke-linecap="round"/>
-					`;
-					break;
-				case "bubble":
-					tempstr+=`<use  href="#placeholder" x="${c.x}" y="${nbi*(h+panv)}"/>
-					<use  href="#${i.name}" x="${c.x}" y="${nbi*(h+panv)}"/>
-					`;
-
-					break;
-				
-
-			}
-
-
-
-
-			tempstr+=`<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="${c.x+iconw+gap}" y="${nbi*(h+panv)+15}" fill="black">
-					${i.label}
-					</text>`;
-			nbi++;
-
-		}
-	}
-	tempstr+=`</g>
-	<rect x="18" y="10" width="45" height="5" fill="white"/>
-	<text stroke="none" font-family="system-ui" font-weight="normal" font-style="normal" font-size="12" x="20" y="16" fill="grey" >
-	Legend
-	</text></g>`;
-	if ("verbose" in BOMdata.params){extlog.appendLine('legend inserted');}
-}
-
-
-// première boucle pour la creation des liens
-	for (const iBOM of BOMdata.BOMs){
-		for (const BoMItem of iBOM.BoMItems){
-			// construction des lien parent / enfant on le fait en premier pour avoir les bulles sur les liens
-			if (BoMItem.Parentid>=0){
-				const papa: BoMItem|undefined=iBOM.BoMItems.find(B => B.id===BoMItem.Parentid);
-				if (papa !==undefined){
-					tempstr+=`<polyline fill="none" ${lineproperties(linkstyle["h"],"h")} points="${papa.x+iBOM.x+h/2},${papa.y+iBOM.y+papa.h} ${papa.x+iBOM.x+h/2},${BoMItem.y+iBOM.y+BoMItem.h/2} ${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y+BoMItem.h/2}"/>
-					`;
-				}
-			}
-			// contruction des liens d'implément
-			if (BoMItem.relatives){
-				
-				for (const relative of BoMItem.relatives){
-					// test if the linktype is known
-					if (relative.linktype in linkstyle) {
-					let tempImpLink:Implink=JSON.parse(EmptyLink);
-					// Boucle sur toutes les bom
-					for (const bom of BOMdata.BOMs){
-					let relbomitem: BoMItem|undefined=bom.BoMItems.find( R=>R.alias===relative.relative);
-					if (relbomitem!==undefined){
-						if (bom.column==iBOM.column){
-							// meme colonne 
-							// attention piege le w le x du bord droit de l'item
-							tempImpLink.spx=iBOM.x+BoMItem.w+gap;
-							tempImpLink.spy=iBOM.y+BoMItem.y+h/2;
-							tempImpLink.fpx=bom.x+relbomitem.w+gap;
-							tempImpLink.fpy=bom.y+relbomitem.y+h/2;
-							tempImpLink.cs=(iBOM.maxw-BoMItem.w)*BendFactor+ panh;
-							tempImpLink.cf=(iBOM.maxw-relbomitem.w)*BendFactor + panh ;
-
-
-						} else if (bom.column<iBOM.column){
-							// cible a gauche
-							// attention piege le w le x du bord droit de l'item
-							tempImpLink.spx=iBOM.x+BoMItem.x-panh/2;
-							tempImpLink.spy=iBOM.y+BoMItem.y+h/2;
-							tempImpLink.fpx=bom.x+relbomitem.w+gap;
-							tempImpLink.fpy=bom.y+relbomitem.y+h/2;
-							tempImpLink.cs=-(tempImpLink.spx-tempImpLink.fpx)/2;
-							tempImpLink.cf=-tempImpLink.cs;
-
-						} else{
-							// cible à droite
-							// attention piege le w le x du bord droit de l'item
-							tempImpLink.spx=iBOM.x+BoMItem.w+gap;
-							tempImpLink.spy=iBOM.y+BoMItem.y+h/2;
-							tempImpLink.fpx=bom.x+relbomitem.x-panh/2;
-							tempImpLink.fpy=bom.y+relbomitem.y+h/2;
-							tempImpLink.cs=(tempImpLink.fpx-tempImpLink.spx)/2;
-							tempImpLink.cf=-tempImpLink.cs;
-						}
-						if (relative.linktype in linkstyle){
-						tempstr+=`<path fill="none" ${lineproperties(linkstyle[relative.linktype],relative.linktype)} d="M ${tempImpLink.spx} ${tempImpLink.spy} C ${tempImpLink.spx+tempImpLink.cs} ${tempImpLink.spy} ${tempImpLink.fpx+tempImpLink.cf} ${tempImpLink.fpy} ${tempImpLink.fpx} ${tempImpLink.fpy}"/>
-						`;
-					}
-				}
-				}
-				}
-			}
-
-
-
-
-		}
-		if ("verbose" in BOMdata.params){extlog.appendLine('Relationned');}
-	}
-}
-// Deuxieme boucle pour la creation des items au dessus des liens
-	for (const iBOM of BOMdata.BOMs){
-		for (const BoMItem of iBOM.BoMItems){
-			// Constrution du group avec le label
-			tempstr+=`
-			<g id="${BoMItem.id}" transform="translate(${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y})">
-			`;
-			// test de presence d'un type et de sa validite
-			if (BoMItem.Type){
-				const typeicon :any|undefined=icons.find(i =>i.name==BoMItem.Type);
-				// on fait de la place pour l'icone si il y a un type
-				tempstr+=`<rect width="${BoMItem.lblw}" height="${h}" x="${iconw+gap}" fill="url(#grad)" />
-						<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${iconw+gap}" y="15" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke">
-
-				${BoMItem.Label}
-				</text>
-				`;
-                // il y a 2 gap ici car un entre l'icon et le texte et un autre apres
-				tempfinItem=BoMItem.lblw+iconw+2*gap;
-                // insertion de l'icone via un def
-				if (typeicon !==undefined){
-                    tempstr+=`<use  href="#${BoMItem.Type}" x="0" y="0"/>
-					`;
-				} else{
-					tempstr+=`<use href="#undef" x="0" y="0"/>
-					`;
-				}
-				
-			} else {
-				// si pas de type pas d'icone
-				tempstr+=`<rect width="${BoMItem.lblw}" height="${h}" x="${gap}" fill="url(#grad)" />
-				<text id="${"L_"+BoMItem.id}" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="${gap}" y="15" stroke="white" stroke-width="1" fill="black" paint-order="stroke">
-				${BoMItem.Label}
-				</text>
-				`;
-
-				tempfinItem=BoMItem.lblw+gap;
-			}
-
-			// rendu de l'effectivité
-			if (BoMItem.effectivity){
-				if (BoMItem.effectivity=="o"){
-					tempstr+=`<use href="#eff" x="0" y="0"/>
-					`;
-				} else {
-					tempstr+=`<rect width="${BoMItem.effw}" height="${h}" x="${-panh-(BoMItem.effw || 0)}" fill="url(#grad)" />
-					<text id="${"e_"+BoMItem.id}" font-family="system-ui" text-anchor="end" font-weight="normal" font-style="normal" font-size="13" x="${-panh}" y="15" fill="black" paint-order="stroke">
-    				${BoMItem.effectivity}
-    				</text>
-					`;
-				}
-				}
-			// traimetment des bulles
-			if(BoMItem.bubbles){
-				for (const b of BoMItem.bubbles){
-					tempstr+=`<use href="#${b}" x="0" y="0"/>
-					`;
-				}
-			}
-			// revision
-			if (BoMItem.revision){
-				tempstr+=`<rect x="${tempfinItem}" y="1" width="${iconw-2}" height="${h-2}" fill="${revbackground}" rx="${h/5}"/>
-				<text font-family="system-ui" textLength="${h-5}" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="${tempfinItem+iconw/2}" y="${h/2+1}" fill="${revfontcolor}" >
-				${BoMItem.revision} 
-				</text>
-				`;
-				tempfinItem+=iconw+gap;
-			}
-			// status
-			if (BoMItem.status){
-				tempstr+=`<use href="#${BoMItem.status}" x="${tempfinItem}" />
-				`;
-				//tempstr+=`<rect x="${tempfinItem}" y="1" width="${h-2}" height="${h-2}" fill="${statusbkgnd}" rx="${h/5}"/>
-				//<text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-style="normal" font-size="10" x="${tempfinItem+h/2}" y="${h/2+1}" fill="white" >
-				//${BoMItem.status} 
-				//</text>
-				//`;
-
-				tempfinItem+=iconw+gap;
-
-				// debug du graph
-				//tempstr+=`<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="12" x="${tempfinItem}" y="${h}" fill="red" >
-				//${tempfinItem} 
-				//</text>
-				//`;
-				
-			}
-				
-			// fermeture du groupe
-			tempstr+=`</g>
-			`;
-
-		}
-		if ("verbose" in BOMdata.params){extlog.appendLine('itemed');}
-	}
-
-	return tempstr + '</svg>'
-}
 
 
 export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock:legendtable):string{
 	//const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
+	const revisionstyle:SVGRectPresentation= vscode.workspace.getConfiguration('bomarkdown').get('revisionstyle')||new(SVGRectPresentation);
 	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
 	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
 	
@@ -676,11 +255,9 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
     const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
     const MandatoryDefs_Settings:Objsetting=vscode.workspace.getConfiguration('bomarkdown').get('MandatoryDefs')||{};
     const bubbles_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('bubbles')||{};
-	let BendFactor :number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
 	let haslegend:boolean=vscode.workspace.getConfiguration('bomarkdown').get('renderlegend')||true;
 	let verbose:boolean=false;
-	const legendscale:number=vscode.workspace.getConfiguration('bomarkdown').get('legendscale')||0.7;
 	let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
 		const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
 		//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
@@ -698,9 +275,7 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	if ("IconJsons" in BOMdata.params) {
 		iconJSONS=BOMdata.params.iconJSONS;
 	} 
-	if ("bend" in BOMdata.params){
-		BendFactor=BOMdata.params.bend;
-	}
+
 	let icons:Icon[]=[];
 	for (let Iconjson of iconJSONS){
 		if (Iconjson=="[embedded]"){
@@ -825,7 +400,7 @@ if (haslegend){
 			if (BoMItem.Parentid>=0){
 				const papa: BoMItem|undefined=iBOM.BoMItems.find(B => B.id===BoMItem.Parentid);
 				if (papa !==undefined){
-					tempstr+=`<polyline fill="none" ${lineproperties(linkstyle["h"],"h")} points="${papa.x+iBOM.x+h/2},${papa.y+iBOM.y+papa.h} ${papa.x+iBOM.x+h/2},${BoMItem.y+iBOM.y+BoMItem.h/2} ${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y+BoMItem.h/2}"/>
+					tempstr+=`<polyline fill="none" ${lineproperties(linkstyle[BoMItem.parent_link_type],BoMItem.parent_link_type)} points="${papa.x+iBOM.x+h/2},${papa.y+iBOM.y+papa.h} ${papa.x+iBOM.x+h/2},${BoMItem.y+iBOM.y+BoMItem.h/2} ${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y+BoMItem.h/2}"/>
 					`;
 				}
 			}
@@ -862,7 +437,7 @@ if (haslegend){
 				const typeicon :any|undefined=icons.find(i =>i.name==BoMItem.Type);
 				// on fait de la place pour l'icone si il y a un type
 				tempstr+=`<rect width="${BoMItem.lblw}" height="${h}" x="${iconw+gap}" fill="url(#grad)" />
-				<text id="${"L_"+BoMItem.id}" x="${iconw+gap}" ${FondeftoString(fontdefs.label)} y="${h/2}" dominant-baseline="middle">
+				<text id="${"L_"+BoMItem.id}" x="${iconw+gap}" ${FondeftoString(fontdefs.label)} y="${Math.ceil(h/2)}" dominant-baseline="middle">
 				${BoMItem.Label}
 				</text>
 				`;
@@ -880,7 +455,7 @@ if (haslegend){
 			} else {
 				// si pas de type pas d'icone
 				tempstr+=`<rect width="${BoMItem.lblw}" height="${h}" x="${gap}" fill="url(#grad)" />
-				<text id="${"L_"+BoMItem.id}" ${FondeftoString(fontdefs.label)}x="${gap}" y="${h/2}" dominant-baseline="middle">
+				<text id="${"L_"+BoMItem.id}" ${FondeftoString(fontdefs.label)}x="${gap}" y="${Math.ceil(h/2)}" dominant-baseline="middle">
 				${BoMItem.Label}
 				</text>
 				`;
@@ -895,7 +470,7 @@ if (haslegend){
 					`;
 				} else {
 					tempstr+=`<rect width="${BoMItem.effw}" height="${h}" x="${-panh-(BoMItem.effw || 0)}" fill="url(#grad)" />
-					<text id="${"e_"+BoMItem.id}" ${FondeftoString(fontdefs.eff)}x="${-panh}" y="${h/2}" dominant-baseline="middle" text-anchor="end">
+					<text id="${"e_"+BoMItem.id}" ${FondeftoString(fontdefs.eff)}x="${-panh}" y="${Math.ceil(h/2)}" dominant-baseline="middle" text-anchor="end">
     				${BoMItem.effectivity}
     				</text>
 					`;
@@ -910,12 +485,13 @@ if (haslegend){
 			}
 			// revision
 			if (BoMItem.revision){
-				tempstr+=`<rect x="${tempfinItem}" y="1" width="${iconw-2}" height="${h-2}" fill="${revbackground}" rx="${h/5}"/>
-				<text ${FondeftoString(fontdefs.rev)}textLength="${h-5}" dominant-baseline="middle" text-anchor="middle" x="${tempfinItem+iconw/2}" y="${h/2+1}" >
+				const half_revsize:number=Math.round(h*0.45)
+				tempstr+=`<rect ${FondeftoString(revisionstyle)}x="${tempfinItem}" y="${Math.round(h/2-half_revsize)}" width="${2*half_revsize}" height="${2*half_revsize}" rx="${h/5}"/>
+				<text ${FondeftoString(fontdefs.rev)}textLength="${h-5}" dominant-baseline="middle" text-anchor="middle" x="${tempfinItem+half_revsize}" y="${Math.ceil(h/2)}" >
 				${BoMItem.revision} 
 				</text>
 				`;
-				tempfinItem+=iconw+gap;
+				tempfinItem+=h+gap;
 			}
 			// status
 			if (BoMItem.status){
@@ -927,10 +503,28 @@ if (haslegend){
 
 				
 			}
-				
 			// fermeture du groupe
 			tempstr+=`</g>
 			`;
+			// rendu des label des liens
+			if (BoMItem.relatives){
+				
+				for (const relative of BoMItem.relatives){
+					// test if the linktype is known
+
+						if (relative.linktype in linkstyle){
+						const labelfont_h:number=Math.round(+fontdefs.linklabel.font_size*4/3);
+						var stringdef:string=FondeftoString(fontdefs.linklabel).replace("LinkColor",linkstyle[relative.linktype].Color);
+						tempstr+=`<rect width="${relative.linklblw}" height="${labelfont_h}" x="${relative.label_box_x}" y="${relative.label_y-labelfont_h/2}" fill="url(#grad)" />
+						<text ${stringdef}x="${relative.label_x}" y="${relative.label_y}" dominant-baseline="middle" text-anchor="${relative.label_align}">
+						${relative.linklabel}
+						</text>
+						`;
+					}
+				}
+				}
+				
+
 
 		}
 		if ("verbose" in BOMdata.params){extlog.appendLine('itemed');}

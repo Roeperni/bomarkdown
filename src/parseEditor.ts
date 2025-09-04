@@ -1,4 +1,4 @@
-import { BOM, EmptyBoM, BoMItem, emphasis,EmptyBoMItem ,link,BOMdata,Objsetting,legend,Icon,legenditem,Linksdefinitions,ObjsettingWlabel} from "./extension";
+import { BOM,  BoMItem, emphasis ,link,BOMdata,Objsetting,legend,Icon,legenditem,Linksdefinitions,ObjsettingWlabel} from "./extension";
 import * as vscode from 'vscode';
 export interface Transcoder {
 	[key:string]:string;
@@ -20,6 +20,9 @@ export function legendextract (BOMtable:BOM[]):legend {
 	for (const BOM of BOMtable){
 		for( const item of BOM.BoMItems){
 			if (!templegend.types.includes(item.Type)){templegend.types.push(item.Type)}
+			if (item.parent_link_type!="h"){
+				if (!templegend.links.includes(item.parent_link_type)){templegend.links.push(item.parent_link_type)}
+			}
 			if (item.relatives){
 				for (const rel of item.relatives){
 					if (!templegend.links.includes(rel.linktype)){templegend.links.push(rel.linktype)}
@@ -142,12 +145,14 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 // parse the text bloc into a BOM[] object
 export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMdata{
 	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
+	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
+
 
 
 	// Split de l'editor sur les saut de ligne
 	let EditorArray: string[] = EditorTxt.split(/\r?\n/).filter((c: string) => c !== "");
 	// init des variable de la fonction
-	let tempBOM: BOM = JSON.parse(EmptyBoM);
+	let tempBOM: BOM = new(BOM);
 	let tempid: number = 0;
 	let BOMtable: BOM[] = [];
 	let tempparentid: number[] = [-1];
@@ -155,7 +160,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 	let tempparentlevel: number = 0;
 	let bomstart:Number=0;
 	let temparg:Objsetting={};
-	tempBOM.BoMItems = [];
+
 	// test de la presence d'un bloc de param
 	if (EditorArray[0]=="${{"){
 	
@@ -171,12 +176,12 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 	// Boucle sur toutes les ligne de l'editor
 	for (const item of EditorArray) {
 
-		let tempitem: BoMItem = JSON.parse(EmptyBoMItem);
+		let tempitem: BoMItem = new(BoMItem);
 		// test de la comande new column
 		if (item.substring(0,10) == "+newcolumn") {
 			tempBOM.column = tempcolumn;
 			BOMtable.push(tempBOM);
-			tempBOM = JSON.parse(EmptyBoM);
+			tempBOM = new(BOM);
 			// detection d'un gap suppplémentaire pour la nouvelle colonne
 			let tempcolumngap=item.substring(11);
 			if (tempcolumngap){tempBOM.x=Number(tempcolumngap)}
@@ -191,7 +196,15 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 				let tempargs: string = tempArray[1];
 
 				tempitem.level = tempArray[0].length;
+				tempitem.parent_link_type="h";
 				tempitem.Parentid = tempparentid[tempitem.level];
+				if (tempitem.level>0){
+					const linkkey:string=tempArray[0].slice(-1);
+					if (linkkey in linkstyle){
+						tempitem.parent_link_type=linkkey;
+					}
+
+				}
 				tempparentid[tempitem.level + 1] = tempid;
 				//			}	
 				tempArray = [];
@@ -240,7 +253,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 							case "l:":
 								// Gesiton des lien et des ALias Alias avant le / liste d'alias en lien apres
 								let larray: string[] = [];
-								let templink:link={relative:"",linktype:"i",linklabel:"",linklblw:0,aliaspos:"m",label_y:0,label_x:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}};
+								let templink:link={relative:"",linktype:"i",linklabel:"",linklblw:0,aliaspos:"m",label_y:0,label_x:0,label_align:"",label_box_x:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}};
 								let objprelatives:link[]=[];
 								if (tempitem.relatives)
 									{
@@ -259,19 +272,19 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 										if (lblidx>0){
 											switch (alias.substring(lblidx+1,lblidx+2)){
 												case "<":
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+2),aliaspos:"b",label_x:0,label_y:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+2),aliaspos:"e",label_x:0,label_y:0,label_align:"",label_box_x:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
 													break;
 												case ">":
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+2),aliaspos:"e",label_x:0,label_y:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+2),aliaspos:"b",label_x:0,label_y:0,label_align:"",label_box_x:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
 													break;
 												default:
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+1),aliaspos:"m",label_x:0,label_y:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
+													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+1),aliaspos:"m",label_x:0,label_y:0,label_align:"",label_box_x:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
 													break;
 											}
 
 										} else{
 
-										objprelatives.push({relative:alias,linktype:larray[0],linklabel:"",aliaspos:"m",label_x:0,label_y:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
+										objprelatives.push({relative:alias,linktype:larray[0],linklabel:"",aliaspos:"m",label_x:0,label_y:0,label_align:"",linklblw:0,label_box_x:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
 									}
 									}
 									tempitem.relatives=objprelatives;
