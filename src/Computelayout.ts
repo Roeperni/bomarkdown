@@ -11,7 +11,6 @@ export function initlegendbloc2 (legenditems:legenditem[],estnbcol:number,totalw
 
 	
 	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
-	const legendscale:number=vscode.workspace.getConfiguration('bomarkdown').get('legendscale')||0.7;
 	const iconw:number=h;
 	const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
 	const maxi:number=legenditems.length
@@ -70,8 +69,8 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 	let BendFactor:number=vscode.workspace.getConfiguration('bomarkdown').get('bend')||1;
 	const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
 	//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
-	let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
-	const h:number=Math.round(+fontdefs.label.font_size*4/3);
+	let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
+	
 	const iconw:number=Math.round(+fontdefs.label.font_size*4/3);
   if ("bend" in BomTable.params){
 	BendFactor=BomTable.params.bend;
@@ -84,18 +83,19 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 		for (let i=0; i< iBOM.BoMItems.length;i++) {
 			if (i==0){
 				iBOM.BoMItems[i].y = 0;
+				
 			} else {
-				iBOM.BoMItems[i].y = iBOM.BoMItems[i-1].y+ iBOM.BoMItems[i-1].h+panv;
+				iBOM.BoMItems[i].y = iBOM.h+panv;
 			}
+			iBOM.h=iBOM.BoMItems[i].y+iBOM.BoMItems[i].Label.h
 			
 			iBOM.BoMItems[i].x = iBOM.BoMItems[i].level * panh;
-			iBOM.BoMItems[i].h = Math.round(+fontdefs.label.font_size*4/3);
-			
-			iBOM.BoMItems[i].w = iBOM.BoMItems[i].x + iBOM.BoMItems[i].lblw;
+			iBOM.BoMItems[i].h = 100;
+			iBOM.BoMItems[i].w = iBOM.BoMItems[i].x + iBOM.BoMItems[i].Label.w;
 			if (iBOM.BoMItems[i].Type) { iBOM.BoMItems[i].w += iconw + gap; }
-			let tempeffw=iBOM.BoMItems[i].effw;
-			if (tempeffw) {
-				
+			
+			if (iBOM.BoMItems[i].effectivity) {
+				const tempeffw=iBOM.BoMItems[i].effectivity?.w||0;
 				if ((tempeffw-iBOM.BoMItems[i].x) > iBOM.maxnegw) { iBOM.maxnegw = tempeffw-iBOM.BoMItems[i].x; }
 			}
 			if (iBOM.BoMItems[i].revision) { iBOM.BoMItems[i].w += iconw + gap; }
@@ -104,6 +104,8 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 			itemcount++;
 		}
 		iBOM.y = 2*panv;
+
+		
 		
 		if (iBOM.column > 0) {
 			iBOM.x += iBOM.maxnegw+ panh + BomTable.BOMs[iBOM.column - 1].x + BomTable.BOMs[iBOM.column - 1].maxw;
@@ -127,9 +129,9 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 										// meme colonne 
 										// attention piege le w le x du bord droit de l'item
 										relative.geom.spx=iBOM.x+BoMItem.w+gap;
-										relative.geom.spy=iBOM.y+BoMItem.y+h/2;
+										relative.geom.spy=iBOM.y+BoMItem.y+BoMItem.Label.h/2;
 										relative.geom.fpx=bom.x+relbomitem.w+gap;
-										relative.geom.fpy=bom.y+relbomitem.y+h/2;
+										relative.geom.fpy=bom.y+relbomitem.y+BoMItem.Label.h/2;
 										relative.geom.cs=(iBOM.maxw-BoMItem.w)*BendFactor+ panh;
 										relative.geom.cf=(iBOM.maxw-relbomitem.w)*BendFactor + panh ;
 										relative=LinklabelCompute(relative,0,panh,iBOM.maxw+iBOM.x)
@@ -140,9 +142,9 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 										// cible a gauche
 										// attention piege le w le x du bord droit de l'item
 										relative.geom.spx=iBOM.x+BoMItem.x-panh/2;
-										relative.geom.spy=iBOM.y+BoMItem.y+h/2;
+										relative.geom.spy=iBOM.y+BoMItem.y+BoMItem.Label.h/2;
 										relative.geom.fpx=bom.x+relbomitem.w+gap;
-										relative.geom.fpy=bom.y+relbomitem.y+h/2;
+										relative.geom.fpy=bom.y+relbomitem.y+BoMItem.Label.h/2;
 										relative.geom.cs=-(relative.geom.spx-relative.geom.fpx)/2;
 										relative.geom.cf=-relative.geom.cs;
 										relative=LinklabelCompute(relative,1,panh,iBOM.maxw+iBOM.x)
@@ -151,9 +153,9 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 										// cible à droite
 										// attention piege le w le x du bord droit de l'item
 										relative.geom.spx=iBOM.x+BoMItem.w+gap;
-										relative.geom.spy=iBOM.y+BoMItem.y+h/2;
+										relative.geom.spy=iBOM.y+BoMItem.y+BoMItem.Label.h/2;
 										relative.geom.fpx=bom.x+relbomitem.x-panh/2;
-										relative.geom.fpy=bom.y+relbomitem.y+h/2;
+										relative.geom.fpy=bom.y+relbomitem.y+BoMItem.Label.h/2;
 										relative.geom.cs=(relative.geom.fpx-relative.geom.spx)/2;
 										relative.geom.cf=-relative.geom.cs;
 										relative=LinklabelCompute(relative,2,panh,iBOM.maxw+iBOM.x)
@@ -203,14 +205,14 @@ function LinklabelCompute (templink:link,targetpos:number,clearance:number,maxw:
 			templink.label_x=maxw;
 			templink.label_y=(templink.geom.fpy-templink.geom.spy)/2+templink.geom.spy;
 			templink.label_align="middle";
-			templink.label_box_x=templink.label_x-templink.linklblw/2
+			templink.label_box_x=templink.label_x-templink.linklabel.w/2
 			break;
 		case 3:
 		case 6:
 			templink.label_x=(templink.geom.fpx-templink.geom.spx)/2+templink.geom.spx;
 			templink.label_y=(templink.geom.fpy-templink.geom.spy)/2+templink.geom.spy;
 			templink.label_align="middle";
-			templink.label_box_x=templink.label_x-templink.linklblw/2
+			templink.label_box_x=templink.label_x-templink.linklabel.w/2
 			break;
 
 		// label au debut  meme col	
@@ -232,7 +234,7 @@ function LinklabelCompute (templink:link,targetpos:number,clearance:number,maxw:
 			templink.label_x=templink.geom.spx- clearance;
 			templink.label_y=templink.geom.spy;
 			templink.label_align="end";
-			templink.label_box_x=templink.label_x-templink.linklblw
+			templink.label_box_x=templink.label_x-templink.linklabel.w
 			break;
 		// label fin col gauche
 		case 5:
@@ -253,7 +255,7 @@ function LinklabelCompute (templink:link,targetpos:number,clearance:number,maxw:
 			templink.label_x=templink.geom.fpx- clearance;
 			templink.label_y=templink.geom.fpy;
 			templink.label_align="end";
-			templink.label_box_x=templink.label_x-templink.linklblw
+			templink.label_box_x=templink.label_x-templink.linklabel.w
 			break;
 	}
 

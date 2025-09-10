@@ -34,8 +34,11 @@ function emphparser(Label,emphasises){
 function getBBox (label,fontdefs){
     var Txtbox=document.getElementById("Textbox");
     Object.entries(fontdefs).forEach(([key,value])=>Txtbox.setAttribute (key.replace("_","-"),value));
-    Txtbox.innerHTML=label;
-    return Txtbox.getBBox().width;
+    Txtbox.innerHTML=label.text.replaceAll("${X}","22");
+    label.w=Math.round(Txtbox.getBBox().width);
+    label.h=Math.round(Txtbox.getBBox().height);
+
+    return label
 
 }
 
@@ -61,18 +64,20 @@ function getBBox (label,fontdefs){
                     for (let ibom of response.boms.BOMs){
                         for (let bomitem of ibom.BoMItems){
                             if (bomitem.Label) {
-                            bomitem.Label=emphparser(bomitem.Label,message.emphasises);
-                            bomitem.lblw=Math.round(getBBox(bomitem.Label,message.fontdefs.label));
-                            
+                            if (bomitem.parent_link_type=="-"){
+                                bomitem.Label=getBBox(bomitem.Label,message.fontdefs.prop);
+                            }else{
+                                bomitem.Label=getBBox(bomitem.Label,message.fontdefs.label);
+                            }
                             }
                             if (bomitem.effectivity){
-                                bomitem.effectivity=emphparser(bomitem.effectivity,message.emphasises);
-                                bomitem.effw=Math.round(getBBox(bomitem.effectivity,message.fontdefs.eff));
+                                
+                                bomitem.effectivity=getBBox(bomitem.effectivity,message.fontdefs.eff);
                             }
                             if (bomitem.relatives){
                                 for (let rel of bomitem.relatives){
-                                    rel.linklabel=emphparser(rel.linklabel,message.emphasises);
-                                    rel.linklblw=Math.round(getBBox(rel.linklabel,message.fontdefs.linklabel));
+                                    
+                                    rel.linklabel=getBBox(rel.linklabel,message.fontdefs.linklabel);
                                 }
                             }
 
@@ -81,7 +86,7 @@ function getBBox (label,fontdefs){
                     }
                    
                     for (let legenditem of response.legenditems){
-                        legenditem.w=Math.round(getBBox(legenditem.label,message.fontdefs.legend))
+                        legenditem.w=Math.round(getBBox({text:legenditem.label,w:0,h:0},message.fontdefs.legend).w)
                     }
 
                     vscode.postMessage({

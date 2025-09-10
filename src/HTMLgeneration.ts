@@ -261,11 +261,9 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
 		const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
 		//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
-		let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
-	
-	const h:number=Math.round(Number(fontdefs.label.font_size)*4/3);
+		let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 	const hl:number=Math.round(Number(fontdefs.legend.font_size)*4/3);
-	const iconw:number=h;
+	const iconw:number=Math.round(Number(fontdefs.label.font_size)*4/3);
 	if ("haslegend" in BOMdata.params){
 		haslegend=BOMdata.params.haslegend;
 	}
@@ -294,14 +292,14 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	// calcul de la taille du graph
 	// pourquoi un at(-1) fait du undefined ?
 	const totalw=BOMdata.BOMs[BOMdata.BOMs.length-1].x + BOMdata.BOMs[BOMdata.BOMs.length-1].maxw;
-	const maxitem= Math.max(...BOMdata.BOMs.map((maxitem)=>maxitem.BoMItems.length),0);
+	const maxbomh= Math.max(...BOMdata.BOMs.map((bom)=>bom.h),0);
 	
 	// extraction de la legende
 	let svgh:number;
 	if (haslegend){
-		svgh=maxitem*(h+panv)+2*panv+legendeblock.h+20;
+		svgh=maxbomh+BOMdata.BOMs[0].y+legendeblock.h+hl+3*panv+gap;
 	} else {
-		svgh=maxitem*(h+panv)+2*panv;
+		svgh=maxbomh+BOMdata.BOMs[0].y+panv;
 	}
 	if ("verbose" in BOMdata.params){extlog.appendLine('legend computed');}
 	// Init du svg et ouverture des <def>
@@ -328,7 +326,7 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	for (const typ of UniqueType){
 		const typeicon =icons.find(i =>i.name==typ);
 		if (typeicon !==undefined){
-			tempstr+=`<image  id="${typ}" witdh="${h}" height="${h}" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="${typeicon.icon}"/>
+			tempstr+=`<image  id="${typ}" witdh="${iconw}" height="${iconw}" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="${typeicon.icon}"/>
 			`;
 		} 
 
@@ -338,12 +336,18 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	tempstr+=`</defs> 
 	`;
 	if ("verbose" in BOMdata.params){extlog.appendLine('Def defined');}
-// creation de la legende
+// debug layoiut legende
+//	tempstr+=`<rect width="100" height="${maxbomh}" fill="none" stroke="black" y="${BOMdata.BOMs[0].y}"/>
+//	`;
+
+	// creation de la legende
+
+
 if (haslegend){
 	// scale(${legendscale},${legendscale})
-	tempstr+=`<g id="legend" transform="translate(${gap},${maxitem*(h+panv)+panv})"> 
-	<rect width="${legendeblock.w +2*gap}" height="${legendeblock.h + panv}" x="0" y="12" fill="none" stroke="gray" stroke-width="1"/>
-	<g transform="translate(5,${panv+hl})">		
+	tempstr+=`<g id="legend" transform="translate(${panv},${maxbomh+BOMdata.BOMs[0].y+hl+gap})"> 
+	<rect width="${legendeblock.w +2*gap}" height="${legendeblock.h + 2*panv}" x="0" y="0" fill="none" stroke="gray" stroke-width="1"/>
+	<g transform="translate(5,${panv})">		
 	`;
 	for (const c of legendeblock.columns){
 		let nbi:number=0;
@@ -385,8 +389,8 @@ if (haslegend){
 		}
 	}
 	tempstr+=`</g>
-	<rect x="18" y="10" width="45" height="5" fill="white"/>
-	<text ${FondeftoString(fontdefs.legend)} x="20" y="16" >
+	<rect x="18" y="-2" width="45" height="4" fill="white"/>
+	<text ${FondeftoString(fontdefs.legend)} x="20" y="0" dominant-baseline="middle">
 	Legend
 	</text></g>`;
 	if ("verbose" in BOMdata.params){extlog.appendLine('legend inserted');}
@@ -399,8 +403,8 @@ if (haslegend){
 			// construction des lien parent / enfant on le fait en premier pour avoir les bulles sur les liens
 			if (BoMItem.Parentid>=0){
 				const papa: BoMItem|undefined=iBOM.BoMItems.find(B => B.id===BoMItem.Parentid);
-				if (papa !==undefined){
-					tempstr+=`<polyline fill="none" ${lineproperties(linkstyle[BoMItem.parent_link_type],BoMItem.parent_link_type)} points="${papa.x+iBOM.x+h/2},${papa.y+iBOM.y+papa.h} ${papa.x+iBOM.x+h/2},${BoMItem.y+iBOM.y+BoMItem.h/2} ${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y+BoMItem.h/2}"/>
+				if (papa !==undefined && BoMItem.parent_link_type!="-"){
+					tempstr+=`<polyline fill="none" ${lineproperties(linkstyle[BoMItem.parent_link_type],BoMItem.parent_link_type)} points="${papa.x+iBOM.x+iconw/2},${papa.y+iBOM.y+papa.Label.h/2} ${papa.x+iBOM.x+iconw/2},${BoMItem.y+iBOM.y+BoMItem.Label.h/2} ${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y+BoMItem.Label.h/2}"/>
 					`;
 				}
 			}
@@ -436,42 +440,49 @@ if (haslegend){
 			if (BoMItem.Type){
 				const typeicon :any|undefined=icons.find(i =>i.name==BoMItem.Type);
 				// on fait de la place pour l'icone si il y a un type
-				tempstr+=`<rect width="${BoMItem.lblw}" height="${h}" x="${iconw+gap}" fill="url(#grad)" />
-				<text id="${"L_"+BoMItem.id}" x="${iconw+gap}" ${FondeftoString(fontdefs.label)} y="${Math.ceil(h/2)}" dominant-baseline="middle">
-				${BoMItem.Label}
+				tempstr+=`<rect width="${BoMItem.Label.w}" height="${BoMItem.Label.h}" x="${iconw+gap}" y="0" fill="url(#grad)" />
+				<text id="${"L_"+BoMItem.id}" x="${iconw+gap}" ${FondeftoString(fontdefs.label)} y="0">
+				${BoMItem.Label.text.replaceAll("${X}",String(iconw+gap))}	
 				</text>
 				`;
                 // il y a 2 gap ici car un entre l'icon et le texte et un autre apres
-				tempfinItem=BoMItem.lblw+iconw+2*gap;
+				tempfinItem=BoMItem.Label.w+iconw+2*gap;
                 // insertion de l'icone via un def
 				if (typeicon !==undefined){
-                    tempstr+=`<use  href="#${BoMItem.Type}" x="0" y="0"/>
+                    tempstr+=`<use  href="#${BoMItem.Type}" x="0" y="${(BoMItem.Label.h-iconw)/2}"/>
 					`;
 				} else{
-					tempstr+=`<use href="#undef" x="0" y="0"/>
+					tempstr+=`<use href="#undef" x="0" y="${(BoMItem.Label.h-iconw)/2}"/>
 					`;
 				}
 				
 			} else {
 				// si pas de type pas d'icone
-				tempstr+=`<rect width="${BoMItem.lblw}" height="${h}" x="${gap}" fill="url(#grad)" />
-				<text id="${"L_"+BoMItem.id}" ${FondeftoString(fontdefs.label)}x="${gap}" y="${Math.ceil(h/2)}" dominant-baseline="middle">
-				${BoMItem.Label}
+				// test si c'est une property
+				let templabelfontdef:fontdef;
+				if (BoMItem.parent_link_type=="-"){
+					templabelfontdef=fontdefs.prop
+				}else{
+					templabelfontdef=fontdefs.label
+				}
+				tempstr+=`<rect width="${BoMItem.Label.w}" height="${BoMItem.Label.h}" x="${gap}" fill="url(#grad)" />
+				<text id="${"L_"+BoMItem.id}" ${FondeftoString(templabelfontdef)}x="${gap}" y="0">
+				${BoMItem.Label.text.replaceAll("${X}",String(gap))}	
 				</text>
 				`;
 
-				tempfinItem=BoMItem.lblw+gap;
+				tempfinItem=BoMItem.Label.w+gap;
 			}
 
 			// rendu de l'effectivité
 			if (BoMItem.effectivity){
-				if (BoMItem.effectivity=="o"){
-					tempstr+=`<use href="#eff" x="0" y="0"/>
+				if (BoMItem.effectivity.text=="o"){
+					tempstr+=`<use href="#eff" x="0" y="${(BoMItem.Label.h-BoMItem.effectivity.h)/2}"/>
 					`;
 				} else {
-					tempstr+=`<rect width="${BoMItem.effw}" height="${h}" x="${-panh-(BoMItem.effw || 0)}" fill="url(#grad)" />
-					<text id="${"e_"+BoMItem.id}" ${FondeftoString(fontdefs.eff)}x="${-panh}" y="${Math.ceil(h/2)}" dominant-baseline="middle" text-anchor="end">
-    				${BoMItem.effectivity}
+					tempstr+=`<rect width="${BoMItem.effectivity.w}" height="${BoMItem.effectivity.h}" x="${-panh-(BoMItem.effectivity.w || 0)}" y="${(BoMItem.Label.h-BoMItem.effectivity.h)/2}" fill="url(#grad)" />
+					<text id="${"e_"+BoMItem.id}" ${FondeftoString(fontdefs.eff)}x="${-panh}" y="${(BoMItem.Label.h-BoMItem.effectivity.h)/2}" text-anchor="end">
+    				${BoMItem.effectivity.text.replaceAll("${X}",String(-panh))}
     				</text>
 					`;
 				}
@@ -479,23 +490,22 @@ if (haslegend){
 			// traimetment des bulles
 			if(BoMItem.bubbles){
 				for (const b of BoMItem.bubbles){
-					tempstr+=`<use href="#${b}" x="0" y="0" transform="scale(${iconw/20},${iconw/20})"/>
+					tempstr+=`<use href="#${b}" x="0" y="${(BoMItem.Label.h-iconw)/2}" transform="scale(${iconw/20},${iconw/20})"/>
 					`;
 				}
 			}
 			// revision
 			if (BoMItem.revision){
-				const half_revsize:number=Math.round(h*0.45)
-				tempstr+=`<rect ${FondeftoString(revisionstyle)}x="${tempfinItem}" y="${Math.round(h/2-half_revsize)}" width="${2*half_revsize}" height="${2*half_revsize}" rx="${h/5}"/>
-				<text ${FondeftoString(fontdefs.rev)}textLength="${h-5}" dominant-baseline="middle" text-anchor="middle" x="${tempfinItem+half_revsize}" y="${Math.ceil(h/2)}" >
+				tempstr+=`<rect ${FondeftoString(revisionstyle)}x="${tempfinItem}" y="${Math.round((BoMItem.Label.h-0.9*iconw)/2)}" width="${Math.round(0.9*iconw)}" height="${Math.round(0.9*iconw)}" rx="${iconw/5}"/>
+				<text ${FondeftoString(fontdefs.rev)}textLength="${iconw-5}" dominant-baseline="middle" text-anchor="middle" x="${tempfinItem+Math.round(0.45*iconw)}" y="${BoMItem.Label.h/2}" >
 				${BoMItem.revision} 
 				</text>
 				`;
-				tempfinItem+=h+gap;
+				tempfinItem+=iconw+gap;
 			}
 			// status
 			if (BoMItem.status){
-				tempstr+=`<use href="#${BoMItem.status}" transform="translate(${tempfinItem},0) scale(${iconw/20},${iconw/20})" />
+				tempstr+=`<use href="#${BoMItem.status}" transform="translate(${tempfinItem},${(BoMItem.Label.h-iconw)/2}) scale(${iconw/20},${iconw/20})" />
 				`;
 
 				tempfinItem+=iconw+gap;
@@ -515,9 +525,9 @@ if (haslegend){
 						if (relative.linktype in linkstyle){
 						const labelfont_h:number=Math.round(+fontdefs.linklabel.font_size*4/3);
 						var stringdef:string=FondeftoString(fontdefs.linklabel).replace("LinkColor",linkstyle[relative.linktype].Color);
-						tempstr+=`<rect width="${relative.linklblw}" height="${labelfont_h}" x="${relative.label_box_x}" y="${relative.label_y-labelfont_h/2}" fill="url(#grad)" />
-						<text ${stringdef}x="${relative.label_x}" y="${relative.label_y}" dominant-baseline="middle" text-anchor="${relative.label_align}">
-						${relative.linklabel}
+						tempstr+=`<rect width="${relative.linklabel.w}" height="${relative.linklabel.h}" x="${relative.label_box_x}" y="${relative.label_y-relative.linklabel.h/2}" fill="url(#grad)" />
+						<text ${stringdef}x="${relative.label_x}" y="${relative.label_y-relative.linklabel.h/2}" text-anchor="${relative.label_align}">
+						${relative.linklabel.text.replaceAll("${X}",String(relative.label_x))}
 						</text>
 						`;
 					}

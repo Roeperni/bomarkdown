@@ -1,4 +1,5 @@
-import { BOM,  BoMItem, emphasis ,link,BOMdata,Objsetting,legend,Icon,legenditem,Linksdefinitions,ObjsettingWlabel} from "./extension";
+import { relative } from "path";
+import { BOM,  BoMItem, emphasis ,link,BOMdata,Objsetting,legend,Icon,legenditem,Linksdefinitions,ObjsettingWlabel, Label} from "./extension";
 import * as vscode from 'vscode';
 export interface Transcoder {
 	[key:string]:string;
@@ -9,8 +10,43 @@ export interface Transcoder {
 export function ReplacewithObject (transcoder:Transcoder,str:string):string{
 	let tempreturn:string=str;
 	for (let key in transcoder){
-	tempreturn=tempreturn.replace(key,transcoder[key]);
+	tempreturn=tempreturn.replaceAll(key,transcoder[key]);
 	}
+	return tempreturn;
+}
+
+
+function emphparser(Label:string,emphasises:emphasis[]){
+    for (let emph of emphasises){
+        const re=new RegExp(emph.regex,"g")
+        const matched=Label.match(re);
+        if (matched){
+        for (let m of matched){
+            const replacer=`<tspan font-weight="${emph.weight}" font-style="${emph.style}" ${emph.svgparam}>${m.replaceAll(emph.expression,"")}</tspan>`;
+            Label=Label.replace(m,replacer);
+
+        }
+    }
+
+    }
+	return Label;
+}
+
+
+
+
+
+function labelparser (transcoder:Transcoder,str:string,emphasises:emphasis[]):string{
+		let replacedstring:string=emphparser(ReplacewithObject(transcoder,str),emphasises)
+		let labelarray:string[]=replacedstring.split("§");
+		let tempreturn:string;
+		if (labelarray.length>1){
+			tempreturn='<tspan  x="${X}" dy="1em">'+labelarray.join('</tspan><tspan  x="${X}" dy="1em">')+'</tspan>'
+
+		}else{
+			tempreturn='<tspan  x="${X}" dy="1em">'+labelarray[0]+'</tspan>';
+		}
+
 	return tempreturn;
 }
 
@@ -146,6 +182,7 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMdata{
 	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
+	let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
 
 
 
@@ -157,7 +194,6 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 	let BOMtable: BOM[] = [];
 	let tempparentid: number[] = [-1];
 	let tempcolumn: number = 0;
-	let tempparentlevel: number = 0;
 	let bomstart:Number=0;
 	let temparg:Objsetting={};
 
@@ -173,6 +209,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 
 		} 
 	}
+	if ("emphasis" in temparg) { emphasis = temparg.emphasis }
 	// Boucle sur toutes les ligne de l'editor
 	for (const item of EditorArray) {
 
@@ -200,9 +237,9 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 				tempitem.Parentid = tempparentid[tempitem.level];
 				if (tempitem.level>0){
 					const linkkey:string=tempArray[0].slice(-1);
-					if (linkkey in linkstyle){
+					if (linkkey in linkstyle || linkkey=="-"){
 						tempitem.parent_link_type=linkkey;
-					}
+					} 
 
 				}
 				tempparentid[tempitem.level + 1] = tempid;
@@ -221,30 +258,32 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 						switch (arg.substring(0, 2)) {
 							case "e:":
 								// effectivié
-								tempitem.effectivity = ReplacewithObject(UTF8replacement,arg.substring(2));
+								tempitem.effectivity=new(Label);
+								tempitem.effectivity.text = labelparser(UTF8replacement,arg.substring(2),emphasis);
 								break;
 							case "i:":
 								// TNR
 								const TNRarray = arg.substring(2).split(",");
+								tempitem.Label=new(Label)
 								switch (TNRarray.length) {
 									case 1:
 										// si une valeur alors c'est un label
-										tempitem.Label = TNRarray[0];
+										tempitem.Label.text = labelparser(UTF8replacement,TNRarray[0],emphasis);
 										break;
 									case 2:
 										// Si 2 valeur c'est Type, Label
 										tempitem.Type = TNRarray[0];
-										tempitem.Label = TNRarray[1];
+										tempitem.Label.text = labelparser(UTF8replacement,TNRarray[1],emphasis);
 										break;
 									case 3:
 										// si 3 valeur c'est Type label revision
 										tempitem.Type = TNRarray[0];
-										tempitem.Label = TNRarray[1];
+										tempitem.Label.text = labelparser(UTF8replacement,TNRarray[1],emphasis);
 										tempitem.revision = TNRarray[2];
 										break;
 									default:
 										// Si plus de valeurs on dumpe dans le label
-										tempitem.Label = arg.substring(2);
+										tempitem.Label.text = labelparser(UTF8replacement,arg.substring(2),emphasis);
 								}
 								break;
 							case "a:":
@@ -253,7 +292,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 							case "l:":
 								// Gesiton des lien et des ALias Alias avant le / liste d'alias en lien apres
 								let larray: string[] = [];
-								let templink:link={relative:"",linktype:"i",linklabel:"",linklblw:0,aliaspos:"m",label_y:0,label_x:0,label_align:"",label_box_x:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}};
+								let templink:link=new(link);
 								let objprelatives:link[]=[];
 								if (tempitem.relatives)
 									{
@@ -268,24 +307,37 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								if (larray.length == 2) {
 									const temprelatives = larray[1].split(",").filter((c: string) => c !== "");
 									for (const alias of temprelatives){
+										let pushrelative=new(link);
 										const lblidx=alias.indexOf("!");
 										if (lblidx>0){
+											pushrelative.relative=alias.substring(0,lblidx);
+											pushrelative.linktype=larray[0];
+											
 											switch (alias.substring(lblidx+1,lblidx+2)){
 												case "<":
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+2),aliaspos:"e",label_x:0,label_y:0,label_align:"",label_box_x:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
+													pushrelative.linklabel.text=labelparser(UTF8replacement,alias.substring(lblidx+2),emphasis);
+													pushrelative.aliaspos="e"
+													
 													break;
 												case ">":
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+2),aliaspos:"b",label_x:0,label_y:0,label_align:"",label_box_x:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
+													pushrelative.linklabel.text=labelparser(UTF8replacement,alias.substring(lblidx+2),emphasis);
+													pushrelative.aliaspos="b"
+													
 													break;
 												default:
-													objprelatives.push({relative:alias.substring(0,lblidx),linktype:larray[0],linklabel:alias.substring(lblidx+1),aliaspos:"m",label_x:0,label_y:0,label_align:"",label_box_x:0,linklblw:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
+													pushrelative.linklabel.text=labelparser(UTF8replacement,alias.substring(lblidx+1),emphasis);
+													pushrelative.aliaspos="m"
+													
 													break;
 											}
 
 										} else{
 
-										objprelatives.push({relative:alias,linktype:larray[0],linklabel:"",aliaspos:"m",label_x:0,label_y:0,label_align:"",linklblw:0,label_box_x:0,geom:{spx:0,spy:0,fpx:0,fpy:0,cf:0,cs:0}});
+										pushrelative.relative=alias;
+										pushrelative.linktype=larray[0];
+										
 									}
+									objprelatives.push(pushrelative)
 									}
 									tempitem.relatives=objprelatives;
 								}
@@ -308,7 +360,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								if (tempArray2.length == 1) {
 									// si il n'y a rien on a juste un label
 
-									tempitem.Label = tempargs;
+									tempitem.Label.text = labelparser(UTF8replacement,tempargs,emphasis);
 								}
 									// il il y a quand meme des ()
 									//delete tempitem.revision;
@@ -329,6 +381,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 
 
 				tempBOM.BoMItems.push(tempitem);
+				
 			}
 		}
 		tempid++;

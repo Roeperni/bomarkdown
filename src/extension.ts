@@ -26,13 +26,13 @@ export class SVGRectPresentation {
 // courbure des lien d'implement
 export let extlog = vscode.window.createOutputChannel("BoMarkdownLogs");
 //Define Item interface
-export type linkgeom = {
-spx:number;
-spy:number;
-fpx:number;
-fpy:number;
-cf:number;
-cs:number;
+export class linkgeom {
+spx:number=0;
+spy:number=0;
+fpx:number=0;
+fpy:number=0;
+cf:number=0;
+cs:number=0;
 }
 
 export type legendtable ={
@@ -76,17 +76,16 @@ export type legenditem ={
 		w:number;
 }
 
-export type link = {
-	relative: string;
-	linktype: string;
-	linklabel: string;
-	linklblw: number;
-	aliaspos: string;
-	label_x: number;
-	label_y: number;
-	label_align:string;
-	label_box_x:number
-	geom:linkgeom;
+export class link {
+	relative: string="";
+	linktype: string="";
+	linklabel: Label=new(Label);
+	aliaspos: string="m";
+	label_x: number=0;
+	label_y: number=0;
+	label_align:string="";
+	label_box_x:number=0
+	geom:linkgeom=new(linkgeom);
 }
 
 export type emphasis = {
@@ -102,21 +101,24 @@ export class BoMItem {
 	Parentid: number=-1;
 	level: number=0;
 	Type: string="";
-	Label: string="";
+	Label: Label= new (Label);
 	alias?: string;
 	x: number=0;
 	y: number=0;
 	h: number=0;
 	w: number=0;
 	parent_link_type:string="h";
-	lblw: number=0;
-	effw?: number;
-	effectivity?: string;
+	effectivity?: Label;
 	status?: string;
 	revision?: string;
 	bubbles?: string[];
 	relatives?: link[];
 	badparsing: boolean=true;
+}
+export class Label {
+	text:string="";
+	w:number=0;
+	h:number=0;
 }
 export class BOM {
 	BoMItems: BoMItem[]=[];
@@ -179,6 +181,7 @@ export class fontsettings {
 	eff:fontdef=new(fontdef);
 	linklabel:fontdef=new(fontdef);
 	legend:fontdef=new(fontdef);
+	prop:fontdef=new(fontdef);
 }
 
 export interface Icon {
@@ -274,7 +277,7 @@ function getBomBlock(line: number, editortext: string): BoMBLock {
 	let i = 0;
 	let beginline = 0;
 	let temppath: string[] = [];
-	for (i = line; i >= 0; i--) {
+	for (i = line; i >= 0; i--) {bboxservice
 		//console.log("Ligne:" + EditorArray[i] + " Bloc:" + beginbloc[0]);
 		if (beginbloc.some(bloc => EditorArray[i].startsWith(bloc))) {
 			temppath = EditorArray[i].split(" ");
@@ -352,8 +355,7 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 							if ("legendcolumns" in BOMtable.params){ legendcolumns=BOMtable.params.legendcolumns}
 							BOMtable.BOMs=Computelayout2(BOMtable);
 							const totalw=BOMtable.BOMs[BOMtable.BOMs.length-1].x + BOMtable.BOMs[BOMtable.BOMs.length-1].maxw;
-							const h:number=Math.round(Number(fontdefs.legend.font_size)*4/3);
-							let legendeblock=initlegendbloc2(legenditems,legendcolumns,totalw,h);
+							let legendeblock=initlegendbloc2(legenditems,legendcolumns,totalw,Math.round(Number(fontdefs.legend.font_size)*4/3));
 							const svgcode=generateSVG2(ctx.extensionUri, BOMtable,legendeblock);
 							let Editor = vscode.window.activeTextEditor;
 							
@@ -394,6 +396,7 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 				<h1>SVG</h1>
 				${svgcode}
 				<h1>Json</h1>
+				<h2>BOM</h2>
 				<p>
 				<pre>
 				<code>
@@ -401,10 +404,11 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 				</code>
 				</pre>
 				</p>
+				<h2>Legend</h2>
 				<p>
 				<pre>
 				<code>
-				${JSON.stringify(legenditems, null, "\t")}
+				${JSON.stringify(legendeblock, null, "\t")}
 				</code>
 				</pre>
 				</p>
@@ -489,9 +493,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
 				
-				const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
+				
 				//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
-				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
+				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 
 				
 
@@ -547,7 +551,7 @@ export function activate(context: vscode.ExtensionContext) {
 				
 				const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
 	//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
-				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
+				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 
 				
 				
@@ -599,7 +603,7 @@ export function activate(context: vscode.ExtensionContext) {
 				
 				const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
 	//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
-				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{eff:emptyfontdef,rev:emptyfontdef,label:emptyfontdef,legend:emptyfontdef,linklabel:emptyfontdef};
+				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 
 				
 				

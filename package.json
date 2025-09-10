@@ -469,6 +469,17 @@
                       "fill":"black",
                       "paint_order":"stroke"
 
+                  },                	
+                  "prop":{
+                    	"font_family":"system-ui",
+                      "font_weight":"normal",
+                      "font_style":"normal",
+                      "font_size":"10",
+                      "stroke":"none",
+                      "stroke_width":"0.25",
+                      "fill":"grey",
+                      "paint_order":"stroke"
+
                   }
             },
             "additionalProperties": {
