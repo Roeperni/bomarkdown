@@ -54,6 +54,9 @@
 			"name": "item.block.bomarkdown",
 			"match": "\\(i:.*?\\)"
 		},{
+			"name": "tag.block.bomarkdown",
+			"match": "\\(t:.*?\\)"
+		},{
 			"name": "status.block.bomarkdown",
 			"match": "\\(s:.*?\\)"
 		},{

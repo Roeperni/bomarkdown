@@ -1,5 +1,5 @@
 import { relative } from "path";
-import { BOM,  BoMItem, emphasis ,link,BOMdata,Objsetting,legend,Icon,legenditem,Linksdefinitions,ObjsettingWlabel, Label} from "./extension";
+import { BOM,  BoMItem, emphasis ,link,BOMdata,Objsetting,legend,Icon,legenditem,Linksdefinitions,ObjsettingWlabel, Label,tag, tagstyles, tagstyle, fontsettings} from "./extension";
 import * as vscode from 'vscode';
 export interface Transcoder {
 	[key:string]:string;
@@ -142,16 +142,17 @@ export function Parselegendbloc (legend:legend,icons:Icon[]):legenditem[]{
 function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):string[]{
 	let tempbloctable:string[]=[];
 	let Bindex:number=-1;
+	let k:number;
 	for (let i=0;i<inputtable.length-1;i++){
 		if (inputtable[i].match(startbloc)){
-			if (Bindex>=0){
-				if (inputtable[i-1].match(endbloc)){
-					tempbloctable.push(inputtable.slice(Bindex,i-1).join(""));
 
-				}else{
-					tempbloctable.push(inputtable.slice(Bindex,i).join(""));
-				}			
-		}
+			if (Bindex>=0){
+				k=i-1;
+				while (k>Bindex && !inputtable[k].match(endbloc)){
+					k--;
+				}
+				tempbloctable.push(inputtable.slice(Bindex,k).join(""));
+			}
 
 		Bindex=i;
 		inputtable[i]=inputtable[i].substring(1);
@@ -167,10 +168,6 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 	} else {
 		if (i>Bindex){
 			tempbloctable.push(inputtable.slice(Bindex,i).join(""));
-
-		}else{
-			tempbloctable.push(inputtable.slice(Bindex).join(""));
-
 		}
 	}
 
@@ -182,7 +179,9 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMdata{
 	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
+	const tagstyles:tagstyles=vscode.workspace.getConfiguration('bomarkdown').get('wesh')||{default:new(tagstyle)};;
 	let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
+	let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 
 
 
@@ -231,7 +230,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 			if (tempArray.length == 2) {
 				tempitem.id = tempid;
 				let tempargs: string = tempArray[1];
-
+				let temptags:tag[]=[];
 				tempitem.level = tempArray[0].length;
 				tempitem.parent_link_type="h";
 				tempitem.Parentid = tempparentid[tempitem.level];
@@ -247,14 +246,15 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 				tempArray = [];
 				// Parsing du texte a droite des +
 				tempArray = tempargs.split(/\(|\)/).filter((c: string) => c !== "");
-				let tempArray2=tempargs.split(/(\([ialbse]\:|\))/).filter((c: string) => c !== "");
-				tempArray2=blockparser(tempArray2,/\([ialbse]\:/,/\)/).filter((c: string) => c !== "");
+				let tempArray2=tempargs.split(/(\([ialbset]\:|\))/).filter((c: string) => c !== "");
+				tempArray2=blockparser(tempArray2,/\([ialbset]\:/,/\)/).filter((c: string) => c !== "");
 				//console.log(tempArray2.join("|"))
 
 				// Block pour sortir en cas d'erreur de parsing
 				argparsing: {
 					for (const arg of tempArray2) {
 						// test sur les 2 premier char de chaque bloc
+						
 						switch (arg.substring(0, 2)) {
 							case "e:":
 								// effectivié
@@ -355,6 +355,37 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								// status
 								tempitem.status = arg.substring(2);
 								break;
+							case "t:":
+								// parsing des tag
+								const Tagarray = arg.substring(2).split(",");
+								let temptag=new(tag);
+								
+								temptag.Ltag.text=labelparser(UTF8replacement,Tagarray[0],emphasis);
+								temptag.font=fontdefs.tag
+								switch (Tagarray.length) {
+									case 2:
+										if (Tagarray[1] in tagstyles) {
+											temptag.rect=tagstyles[Tagarray[1]].rect
+											if (tagstyles[Tagarray[1]].font in fontdefs){
+												temptag.font=fontdefs[tagstyles[Tagarray[1]].font as keyof fontsettings];
+											}
+										}else{
+											temptag.rect=tagstyles.default.rect;
+											const tempfont= tagstyles.default.font
+											temptag.font=fontdefs[tempfont as keyof fontsettings];
+											temptag.rect.fill=Tagarray[1];
+
+										}
+										
+										break;
+									case 3:
+										// si 3 valeur c'est Type label revision
+										
+										break;
+								}
+								temptags.push(temptag);
+								
+								break;
 							default:
 								// Si on n'est pas dans les pattern d'avant
 								if (tempArray2.length == 1) {
@@ -373,13 +404,14 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								break ;
 
 
-
+								
 						}
+						
 
 					}
 				}
 
-
+				tempitem.tags=temptags
 				tempBOM.BoMItems.push(tempitem);
 				
 			}

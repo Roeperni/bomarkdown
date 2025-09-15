@@ -87,6 +87,20 @@ export class link {
 	label_box_x:number=0
 	geom:linkgeom=new(linkgeom);
 }
+export class tagstyle {
+	rect:SVGRectPresentation=new(SVGRectPresentation);
+	font:string="tag";
+}
+export type tagstyles={
+	[key:string]:tagstyle
+}
+
+export class tag {
+	Ltag:Label=new(Label);
+	font:fontdef=new(fontdef);
+	rect:SVGRectPresentation=new(SVGRectPresentation);
+	
+}
 
 export type emphasis = {
 	regex: string;
@@ -109,6 +123,7 @@ export class BoMItem {
 	w: number=0;
 	parent_link_type:string="h";
 	effectivity?: Label;
+	tags?:Array<tag>;
 	status?: string;
 	revision?: string;
 	bubbles?: string[];
@@ -182,7 +197,9 @@ export class fontsettings {
 	linklabel:fontdef=new(fontdef);
 	legend:fontdef=new(fontdef);
 	prop:fontdef=new(fontdef);
+	tag:fontdef=new(fontdef);
 }
+
 
 export interface Icon {
 
@@ -549,8 +566,6 @@ export function activate(context: vscode.ExtensionContext) {
 				
 				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
 				
-				const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
-	//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
 				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 
 				

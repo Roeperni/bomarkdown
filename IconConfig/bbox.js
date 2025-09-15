@@ -70,6 +70,12 @@ function getBBox (label,fontdefs){
                                 bomitem.Label=getBBox(bomitem.Label,message.fontdefs.label);
                             }
                             }
+                            if (bomitem.tags){
+                                for (var tag of bomitem.tags){
+
+                                    tag.Ltag=getBBox(tag.Ltag,tag.font);
+                                }
+                            }
                             if (bomitem.effectivity){
                                 
                                 bomitem.effectivity=getBBox(bomitem.effectivity,message.fontdefs.eff);

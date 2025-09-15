@@ -1,10 +1,8 @@
-<svg width="945" height="370" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1007" height="535" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<defs>
 	<marker id="arrow_i" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
         <marker id="arrow_c" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="hotpink"/></marker>
         <marker id="arrow_a" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="green"/></marker>
-        <marker id="arrow_i" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
-        <marker id="arrow_s" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
         <g id="undef"><rect x="0" y="0" width="18" height="18" fill="red" rx="4"/><text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bolder" font-style="normal" font-size="16" x="10" y="11" fill="white" >?</text></g>
         <g id="placeholder">
 <rect x="0" y="0" width="18" height="18" fill="LightCyan" rx="4"/>
@@ -53,9 +51,9 @@ O
 			<image  id="component" witdh="17" height="17" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
 			<image  id="mitem" witdh="17" height="17" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="data:image/png;base64,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"/>
 			</defs> 
-	<g id="legend" transform="translate(2,285)"> 
-	<rect width="424" height="85" x="0" y="12" fill="none" stroke="gray" stroke-width="1"/>
-	<g transform="translate(5,20)">		
+	<g id="legend" transform="translate(5,440)"> 
+	<rect width="401" height="90" x="0" y="0" fill="none" stroke="gray" stroke-width="1"/>
+	<g transform="translate(5,5)">		
 	<use  href="#folder" x="0" y="0" transform="translate(0,0) scale(0.8333333333333334,0.8333333333333334)"/>
 					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="17" y="7.5" dominant-baseline="middle">
 					Folder
@@ -77,37 +75,34 @@ O
 					</text><line x1="83" y1="47.5" x2="98" y2="47.5" stroke="steelblue" stroke-width="1" marker-end="url(#arrow_i)" stroke-linecap="round"/>
 					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="100" y="47.5" dominant-baseline="middle">
 					implement
-					</text><line x1="83" y1="67.5" x2="98" y2="67.5" stroke="steelblue" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_s)" stroke-linecap="round"/>
+					</text><line x1="83" y1="67.5" x2="98" y2="67.5" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" stroke-linecap="round"/>
 					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="100" y="67.5" dominant-baseline="middle">
-					scope
-					</text><line x1="197" y1="7.5" x2="212" y2="7.5" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" stroke-linecap="round"/>
-					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="214" y="7.5" dominant-baseline="middle">
 					coverage
-					</text><line x1="197" y1="27.5" x2="212" y2="27.5" stroke="green" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_a)" stroke-linecap="round"/>
-					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="214" y="27.5" dominant-baseline="middle">
+					</text><line x1="197" y1="7.5" x2="212" y2="7.5" stroke="green" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_a)" stroke-linecap="round"/>
+					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="214" y="7.5" dominant-baseline="middle">
 					alternate
-					</text><use  href="#R" x="0" y="0" transform="translate(197,40) scale(0.8333333333333334,0.8333333333333334)"/>
-					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="214" y="47.5" dominant-baseline="middle">
+					</text><use  href="#R" x="0" y="0" transform="translate(197,20) scale(0.8333333333333334,0.8333333333333334)"/>
+					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="214" y="27.5" dominant-baseline="middle">
 					Released
-					</text><use  href="#placeholder" x="0" y="0" transform="translate(197,60) scale(0.8333333333333334,0.8333333333333334)"/>
-					<use  href="#context" x="0" y="0" transform="translate(197,60) scale(0.8333333333333334,0.8333333333333334)"/>
-					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="214" y="67.5" dominant-baseline="middle">
+					</text><use  href="#placeholder" x="0" y="0" transform="translate(197,40) scale(0.8333333333333334,0.8333333333333334)"/>
+					<use  href="#context" x="0" y="0" transform="translate(197,40) scale(0.8333333333333334,0.8333333333333334)"/>
+					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="214" y="47.5" dominant-baseline="middle">
 					Configuration Context
-					</text><use  href="#placeholder" x="0" y="0" transform="translate(326,0) scale(0.8333333333333334,0.8333333333333334)"/>
-					<use  href="#matrice" x="0" y="0" transform="translate(326,0) scale(0.8333333333333334,0.8333333333333334)"/>
-					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="343" y="7.5" dominant-baseline="middle">
+					</text><use  href="#placeholder" x="0" y="0" transform="translate(197,60) scale(0.8333333333333334,0.8333333333333334)"/>
+					<use  href="#matrice" x="0" y="0" transform="translate(197,60) scale(0.8333333333333334,0.8333333333333334)"/>
+					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="214" y="67.5" dominant-baseline="middle">
 					Position Matrix
-					</text><use  href="#placeholder" x="0" y="0" transform="translate(326,20) scale(0.8333333333333334,0.8333333333333334)"/>
-					<use  href="#lock" x="0" y="0" transform="translate(326,20) scale(0.8333333333333334,0.8333333333333334)"/>
-					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="343" y="27.5" dominant-baseline="middle">
+					</text><use  href="#placeholder" x="0" y="0" transform="translate(326,0) scale(0.8333333333333334,0.8333333333333334)"/>
+					<use  href="#lock" x="0" y="0" transform="translate(326,0) scale(0.8333333333333334,0.8333333333333334)"/>
+					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="343" y="7.5" dominant-baseline="middle">
 					Locked
-					</text><use  href="#placeholder" x="0" y="0" transform="translate(326,40) scale(0.8333333333333334,0.8333333333333334)"/>
-					<use  href="#noway" x="0" y="0" transform="translate(326,40) scale(0.8333333333333334,0.8333333333333334)"/>
-					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="343" y="47.5" dominant-baseline="middle">
+					</text><use  href="#placeholder" x="0" y="0" transform="translate(326,20) scale(0.8333333333333334,0.8333333333333334)"/>
+					<use  href="#noway" x="0" y="0" transform="translate(326,20) scale(0.8333333333333334,0.8333333333333334)"/>
+					<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="343" y="27.5" dominant-baseline="middle">
 					Forbidden
 					</text></g>
-	<rect x="18" y="10" width="45" height="5" fill="white"/>
-	<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="20" y="16" >
+	<rect x="18" y="-2" width="45" height="4" fill="white"/>
+	<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="20" y="0" dominant-baseline="middle">
 	Legend
 	</text></g><polyline fill="none" stroke="black" stroke-width="1" points="160.5,40.5 160.5,62.5 172,62.5"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="180.5,62.5 180.5,84.5 192,84.5"/>
@@ -122,38 +117,35 @@ O
 					<path fill="none" stroke="steelblue" stroke-width="1" marker-end="url(#arrow_i)" d="M 258 238.5 C 318 238.5 318 84.5 258 84.5"/>
 						<path fill="none" stroke="steelblue" stroke-width="1" marker-end="url(#arrow_i)" d="M 258 238.5 C 318 238.5 318 84.5 258 84.5"/>
 						<polyline fill="none" stroke="black" stroke-width="1" points="180.5,172.5 180.5,260.5 192,260.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="424.5,40.5 424.5,62.5 436,62.5"/>
-					<path fill="none" stroke="steelblue" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_s)" d="M 559 62.5 C 631.5 62.5 631.5 62.5 704 62.5"/>
-						<path fill="none" stroke="steelblue" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_s)" d="M 559 62.5 C 631.5 62.5 631.5 62.5 704 62.5"/>
-						<path fill="none" stroke="steelblue" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_s)" d="M 559 62.5 C 631.5 62.5 631.5 62.5 704 62.5"/>
-						<polyline fill="none" stroke="black" stroke-width="1" points="444.5,62.5 444.5,84.5 456,84.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="444.5,62.5 444.5,106.5 456,106.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="444.5,62.5 444.5,128.5 456,128.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="424.5,40.5 424.5,150.5 436,150.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="444.5,150.5 444.5,172.5 456,172.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="444.5,150.5 444.5,194.5 456,194.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="424.5,40.5 424.5,216.5 436,216.5"/>
-					<path fill="none" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" d="M 426 216.5 C 338 216.5 338 172.5 250 172.5"/>
-						<path fill="none" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" d="M 426 216.5 C 338 216.5 338 172.5 250 172.5"/>
-						<path fill="none" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" d="M 426 216.5 C 338 216.5 338 172.5 250 172.5"/>
-						<polyline fill="none" stroke="black" stroke-width="1" points="444.5,216.5 444.5,238.5 456,238.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="444.5,216.5 444.5,260.5 456,260.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="444.5,216.5 444.5,282.5 456,282.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="444.5,216.5 444.5,304.5 456,304.5"/>
-					<polyline fill="none" stroke="green" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_a)" points="464.5,304.5 464.5,326.5 476,326.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="702.5,40.5 702.5,62.5 714,62.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="722.5,62.5 722.5,84.5 734,84.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="722.5,62.5 722.5,106.5 734,106.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="722.5,62.5 722.5,128.5 734,128.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="702.5,40.5 702.5,150.5 714,150.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="702.5,40.5 702.5,172.5 714,172.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="702.5,40.5 702.5,194.5 714,194.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="722.5,194.5 722.5,216.5 734,216.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="742.5,216.5 742.5,238.5 754,238.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="742.5,216.5 742.5,260.5 754,260.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="722.5,194.5 722.5,282.5 734,282.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="742.5,282.5 742.5,304.5 754,304.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="742.5,282.5 742.5,326.5 754,326.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="486.5,40.5 486.5,62.5 498,62.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="506.5,62.5 506.5,84.5 518,84.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="506.5,62.5 506.5,113 518,113"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="506.5,62.5 506.5,141.5 518,141.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="486.5,40.5 486.5,163.5 498,163.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="506.5,163.5 506.5,185.5 518,185.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="506.5,163.5 506.5,243.5 518,243.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="486.5,40.5 486.5,265.5 498,265.5"/>
+					<path fill="none" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" d="M 488 265.5 C 369 265.5 369 172.5 250 172.5"/>
+						<path fill="none" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" d="M 488 265.5 C 369 265.5 369 172.5 250 172.5"/>
+						<path fill="none" stroke="hotpink" stroke-width="1" marker-end="url(#arrow_c)" d="M 488 265.5 C 369 265.5 369 172.5 250 172.5"/>
+						<polyline fill="none" stroke="black" stroke-width="1" points="506.5,265.5 506.5,287.5 518,287.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="506.5,265.5 506.5,309.5 518,309.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="506.5,265.5 506.5,351 518,351"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="506.5,265.5 506.5,392.5 518,392.5"/>
+					<polyline fill="none" stroke="green" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrow_a)" points="526.5,392.5 526.5,414.5 538,414.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="764.5,40.5 764.5,62.5 776,62.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="784.5,62.5 784.5,84.5 796,84.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="784.5,62.5 784.5,106.5 796,106.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="784.5,62.5 784.5,128.5 796,128.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="764.5,40.5 764.5,150.5 776,150.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="764.5,40.5 764.5,172.5 776,172.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="764.5,40.5 764.5,194.5 776,194.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="784.5,194.5 784.5,216.5 796,216.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="804.5,216.5 804.5,238.5 816,238.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="804.5,216.5 804.5,260.5 816,260.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="784.5,194.5 784.5,282.5 796,282.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="804.5,282.5 804.5,304.5 816,304.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="804.5,282.5 804.5,326.5 816,326.5"/>
 					
 			<g id="3" transform="translate(152,10)">
 			<rect width="79" height="17" x="2" fill="url(#grad)" />
@@ -177,9 +169,9 @@ O
 				<tspan  x="19" dy="1em">Spec 1</tspan>	
 				</text>
 				<use  href="#spec" x="0" y="0"/>
-					<rect width="35" height="17" x="-55" fill="url(#grad)" />
-					<text id="e_5" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="-20" y="0" text-anchor="end">
-    				<tspan  x="${X}" dy="1em">[A&#x2192;B[</tspan>
+					<rect width="35" height="17" x="-55" y="0" fill="url(#grad)" />
+					<text id="e_5" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="Indigo" paint-order="stroke" x="-20" y="0" text-anchor="end">
+    				<tspan  x="-20" dy="1em">[A&#x2192;B[</tspan>
     				</text>
 					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="59" y="1" width="15" height="15" rx="3.4"/>
 				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="67" y="8.5" >
@@ -193,9 +185,9 @@ O
 				<tspan  x="19" dy="1em">req1</tspan>	
 				</text>
 				<use  href="#req" x="0" y="0"/>
-					<rect width="172" height="17" x="-192" fill="url(#grad)" />
-					<text id="e_6" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="-20" y="0" text-anchor="end">
-    				<tspan  x="${X}" dy="1em">c'est un <tspan font-weight="bold" font-style="normal" >commentaire</tspan> valable</tspan>
+					<rect width="172" height="30" x="-192" y="-6.5" fill="url(#grad)" />
+					<text id="e_6" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="Indigo" paint-order="stroke" x="-20" y="-6.5" text-anchor="end">
+    				<tspan  x="-20" dy="1em">c'est un <tspan font-weight="bold" font-style="normal" >commentaire</tspan> valable</tspan><tspan  x="-20" dy="1em">(mais pas essentiel)</tspan>
     				</text>
 					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="47" y="1" width="15" height="15" rx="3.4"/>
 				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="55" y="8.5" >
@@ -240,9 +232,9 @@ O
 				<tspan  x="19" dy="1em">Spec 2</tspan>	
 				</text>
 				<use  href="#spec" x="0" y="0"/>
-					<rect width="37" height="17" x="-57" fill="url(#grad)" />
-					<text id="e_10" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="-20" y="0" text-anchor="end">
-    				<tspan  x="${X}" dy="1em">[B&#x2192;&#x221E;[</tspan>
+					<rect width="37" height="17" x="-57" y="0" fill="url(#grad)" />
+					<text id="e_10" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="Indigo" paint-order="stroke" x="-20" y="0" text-anchor="end">
+    				<tspan  x="-20" dy="1em">[B&#x2192;&#x221E;[</tspan>
     				</text>
 					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="59" y="1" width="15" height="15" rx="3.4"/>
 				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="67" y="8.5" >
@@ -262,8 +254,8 @@ O
 				</text>
 				</g>
 			<rect width="54" height="13" x="269" y="155" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="296" y="161.5" dominant-baseline="middle" text-anchor="middle">
-						<tspan  x="${X}" dy="1em">middle label</tspan>
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="296" y="155" text-anchor="middle">
+						<tspan  x="296" dy="1em">middle label</tspan>
 						</text>
 						
 			<g id="12" transform="translate(192,208)">
@@ -290,12 +282,12 @@ O
 				</text>
 				</g>
 			<rect width="49" height="13" x="278" y="232" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="278" y="238.5" dominant-baseline="middle" text-anchor="begin">
-						<tspan  x="${X}" dy="1em">begin label</tspan>
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="278" y="232" text-anchor="begin">
+						<tspan  x="278" dy="1em">begin label</tspan>
 						</text>
 						<rect width="41" height="13" x="278" y="78" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="278" y="84.5" dominant-baseline="middle" text-anchor="begin">
-						<tspan  x="${X}" dy="1em">end label</tspan>
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="278" y="78" text-anchor="begin">
+						<tspan  x="278" dy="1em">end label</tspan>
 						</text>
 						
 			<g id="14" transform="translate(192,252)">
@@ -305,14 +297,14 @@ O
 				</text>
 				</g>
 			
-			<g id="16" transform="translate(416,10)">
+			<g id="16" transform="translate(478,10)">
 			<rect width="42" height="17" x="2" fill="url(#grad)" />
 				<text id="L_16" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="2" y="0">
 				<tspan  x="2" dy="1em"><tspan font-weight="bold" font-style="normal" >Design</tspan></tspan>	
 				</text>
 				</g>
 			
-			<g id="17" transform="translate(416,32)">
+			<g id="17" transform="translate(478,32)">
 			<rect width="55" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_17" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Assembly</tspan>	
@@ -325,7 +317,7 @@ O
 				<use href="#R" transform="translate(95,0) scale(0.85,0.85)" />
 				</g>
 			
-			<g id="18" transform="translate(436,54)">
+			<g id="18" transform="translate(498,54)">
 			<rect width="83" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_18" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">SubAssembly1</tspan>	
@@ -336,20 +328,8 @@ O
 				A.1 
 				</text>
 				</g>
-			<rect width="25" height="13" x="579" y="56" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="579" y="62.5" dominant-baseline="middle" text-anchor="begin">
-						<tspan  x="${X}" dy="1em">begin</tspan>
-						</text>
-						<rect width="31" height="13" x="616" y="56" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="631.5" y="62.5" dominant-baseline="middle" text-anchor="middle">
-						<tspan  x="${X}" dy="1em">middle</tspan>
-						</text>
-						<rect width="17" height="13" x="667" y="56" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="684" y="62.5" dominant-baseline="middle" text-anchor="end">
-						<tspan  x="${X}" dy="1em">end</tspan>
-						</text>
-						
-			<g id="19" transform="translate(456,76)">
+			
+			<g id="19" transform="translate(518,76)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_19" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 1</tspan>	
@@ -362,20 +342,20 @@ O
 				</text>
 				</g>
 			
-			<g id="20" transform="translate(456,98)">
-			<rect width="120" height="17" x="19" y="0" fill="url(#grad)" />
+			<g id="20" transform="translate(518,98)">
+			<rect width="79" height="30" x="19" y="0" fill="url(#grad)" />
 				<text id="L_20" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
-				<tspan  x="19" dy="1em">Component 2\nwesh</tspan>	
+				<tspan  x="19" dy="1em">Component 2</tspan><tspan  x="19" dy="1em">wesh</tspan>	
 				</text>
-				<use  href="#component" x="0" y="0"/>
-					<use href="#lock" x="0" y="0" transform="scale(0.85,0.85)"/>
-					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="141" y="1" width="15" height="15" rx="3.4"/>
-				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="149" y="8.5" >
+				<use  href="#component" x="0" y="6.5"/>
+					<use href="#lock" x="0" y="6.5" transform="scale(0.85,0.85)"/>
+					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="100" y="7" width="15" height="15" rx="3.4"/>
+				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="108" y="15" >
 				A.1 
 				</text>
 				</g>
 			
-			<g id="21" transform="translate(456,120)">
+			<g id="21" transform="translate(518,133)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_21" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 3</tspan>	
@@ -387,19 +367,23 @@ O
 				</text>
 				</g>
 			
-			<g id="22" transform="translate(436,142)">
+			<g id="22" transform="translate(498,155)">
 			<rect width="83" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_22" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">SubAssembly2</tspan>	
 				</text>
 				<use  href="#assembly" x="0" y="0"/>
+					<rect width="82" height="30" x="-102" y="-6.5" fill="url(#grad)" />
+					<text id="e_22" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="Indigo" paint-order="stroke" x="-20" y="-6.5" text-anchor="end">
+    				<tspan  x="-20" dy="1em">Model1[A&#x2192;&#x221E;[</tspan><tspan  x="-20" dy="1em">Model2[C&#x2192;&#x221E;[</tspan>
+    				</text>
 					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="104" y="1" width="15" height="15" rx="3.4"/>
 				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="112" y="8.5" >
 				A.1 
 				</text>
 				</g>
 			
-			<g id="23" transform="translate(456,164)">
+			<g id="23" transform="translate(518,177)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_23" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 1</tspan>	
@@ -411,9 +395,23 @@ O
 				</text>
 				</g>
 			
-			<g id="24" transform="translate(456,186)">
+			<g id="24" transform="translate(538,199)">
+			<rect width="52" height="13" x="2" fill="url(#grad)" />
+				<text id="L_24" font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="navy" paint-order="stroke" x="2" y="0">
+				<tspan  x="2" dy="1em"><tspan font-weight="bold" font-style="normal" >Prop1</tspan>: toto</tspan>	
+				</text>
+				</g>
+			
+			<g id="25" transform="translate(538,217)">
+			<rect width="50" height="13" x="2" fill="url(#grad)" />
+				<text id="L_25" font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="navy" paint-order="stroke" x="2" y="0">
+				<tspan  x="2" dy="1em"><tspan font-weight="bold" font-style="normal" >Prop2</tspan>: tata</tspan>	
+				</text>
+				</g>
+			
+			<g id="26" transform="translate(518,235)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_24" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_26" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 2</tspan>	
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -423,9 +421,9 @@ O
 				</text>
 				</g>
 			
-			<g id="25" transform="translate(436,208)">
+			<g id="27" transform="translate(498,257)">
 			<rect width="83" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_25" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_27" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">SubAssembly3</tspan>	
 				</text>
 				<use  href="#assembly" x="0" y="0"/>
@@ -434,22 +432,22 @@ O
 				A.1 
 				</text>
 				</g>
-			<rect width="49" height="13" x="357" y="210" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="hotpink" paint-order="stroke" x="406" y="216.5" dominant-baseline="middle" text-anchor="end">
-						<tspan  x="${X}" dy="1em">begin label</tspan>
+			<rect width="49" height="13" x="419" y="259" fill="url(#grad)" />
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="hotpink" paint-order="stroke" x="468" y="259" text-anchor="end">
+						<tspan  x="468" dy="1em">begin label</tspan>
 						</text>
 						<rect width="41" height="13" x="270" y="166" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="hotpink" paint-order="stroke" x="270" y="172.5" dominant-baseline="middle" text-anchor="begin">
-						<tspan  x="${X}" dy="1em">end label</tspan>
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="hotpink" paint-order="stroke" x="270" y="166" text-anchor="begin">
+						<tspan  x="270" dy="1em">end label</tspan>
 						</text>
-						<rect width="21" height="13" x="327.5" y="188" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="hotpink" paint-order="stroke" x="338" y="194.5" dominant-baseline="middle" text-anchor="middle">
-						<tspan  x="${X}" dy="1em">label</tspan>
+						<rect width="21" height="13" x="358.5" y="212.5" fill="url(#grad)" />
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="hotpink" paint-order="stroke" x="369" y="212.5" text-anchor="middle">
+						<tspan  x="369" dy="1em">label</tspan>
 						</text>
 						
-			<g id="26" transform="translate(456,230)">
+			<g id="28" transform="translate(518,279)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_26" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_28" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 1</tspan>	
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -459,9 +457,9 @@ O
 				</text>
 				</g>
 			
-			<g id="27" transform="translate(456,252)">
+			<g id="29" transform="translate(518,301)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_27" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_29" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 2</tspan>	
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -471,21 +469,21 @@ O
 				</text>
 				</g>
 			
-			<g id="28" transform="translate(456,274)">
-			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_28" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
-				<tspan  x="19" dy="1em">Component 3</tspan>	
+			<g id="30" transform="translate(518,323)">
+			<rect width="79" height="56" x="19" y="0" fill="url(#grad)" />
+				<text id="L_30" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<tspan  x="19" dy="1em">Component 3</tspan><tspan  x="19" dy="1em">that last</tspan><tspan  x="19" dy="1em">up to</tspan><tspan  x="19" dy="1em">Four lines!</tspan>	
 				</text>
-				<use  href="#component" x="0" y="0"/>
-					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="100" y="1" width="15" height="15" rx="3.4"/>
-				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="108" y="8.5" >
+				<use  href="#component" x="0" y="19.5"/>
+					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="100" y="20" width="15" height="15" rx="3.4"/>
+				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="108" y="28" >
 				A.1 
 				</text>
 				</g>
 			
-			<g id="29" transform="translate(456,296)">
+			<g id="31" transform="translate(518,384)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_29" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_31" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 4</tspan>	
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -495,9 +493,9 @@ O
 				</text>
 				</g>
 			
-			<g id="30" transform="translate(476,318)">
+			<g id="32" transform="translate(538,406)">
 			<rect width="100" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_30" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_32" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component <tspan font-weight="bold" font-style="italic" >4 bis</tspan></tspan>	
 				</text>
 				<use  href="#component" x="0" y="0"/>
@@ -508,16 +506,16 @@ O
 				</text>
 				</g>
 			
-			<g id="32" transform="translate(694,10)">
+			<g id="34" transform="translate(756,10)">
 			<rect width="40" height="17" x="2" fill="url(#grad)" />
-				<text id="L_32" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="2" y="0">
+				<text id="L_34" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="2" y="0">
 				<tspan  x="2" dy="1em"><tspan font-weight="bold" font-style="normal" >Manuf</tspan></tspan>	
 				</text>
 				</g>
 			
-			<g id="33" transform="translate(694,32)">
+			<g id="35" transform="translate(756,32)">
 			<rect width="55" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_33" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_35" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Assembly</tspan>	
 				</text>
 				<use  href="#mitem" x="0" y="0"/>
@@ -527,9 +525,9 @@ O
 				</text>
 				</g>
 			
-			<g id="34" transform="translate(714,54)">
+			<g id="36" transform="translate(776,54)">
 			<rect width="83" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_34" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_36" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">SubAssembly1</tspan>	
 				</text>
 				<use  href="#mitem" x="0" y="0"/>
@@ -539,23 +537,7 @@ O
 				</text>
 				</g>
 			
-			<g id="35" transform="translate(734,76)">
-			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_35" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
-				<tspan  x="19" dy="1em">Component 1</tspan>	
-				</text>
-				<use  href="#mitem" x="0" y="0"/>
-					</g>
-			
-			<g id="36" transform="translate(734,98)">
-			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_36" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
-				<tspan  x="19" dy="1em">Component 1</tspan>	
-				</text>
-				<use  href="#mitem" x="0" y="0"/>
-					</g>
-			
-			<g id="37" transform="translate(734,120)">
+			<g id="37" transform="translate(796,76)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_37" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 1</tspan>	
@@ -563,7 +545,7 @@ O
 				<use  href="#mitem" x="0" y="0"/>
 					</g>
 			
-			<g id="38" transform="translate(714,142)">
+			<g id="38" transform="translate(796,98)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_38" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 1</tspan>	
@@ -571,7 +553,7 @@ O
 				<use  href="#mitem" x="0" y="0"/>
 					</g>
 			
-			<g id="39" transform="translate(714,164)">
+			<g id="39" transform="translate(796,120)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_39" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 1</tspan>	
@@ -579,9 +561,25 @@ O
 				<use  href="#mitem" x="0" y="0"/>
 					</g>
 			
-			<g id="40" transform="translate(714,186)">
-			<rect width="83" height="17" x="19" y="0" fill="url(#grad)" />
+			<g id="40" transform="translate(776,142)">
+			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_40" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<tspan  x="19" dy="1em">Component 1</tspan>	
+				</text>
+				<use  href="#mitem" x="0" y="0"/>
+					</g>
+			
+			<g id="41" transform="translate(776,164)">
+			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
+				<text id="L_41" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<tspan  x="19" dy="1em">Component 1</tspan>	
+				</text>
+				<use  href="#mitem" x="0" y="0"/>
+					</g>
+			
+			<g id="42" transform="translate(776,186)">
+			<rect width="83" height="17" x="19" y="0" fill="url(#grad)" />
+				<text id="L_42" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">SubAssembly3</tspan>	
 				</text>
 				<use  href="#mitem" x="0" y="0"/>
@@ -591,9 +589,9 @@ O
 				</text>
 				</g>
 			
-			<g id="41" transform="translate(734,208)">
+			<g id="43" transform="translate(796,208)">
 			<rect width="113" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_41" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_43" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">PhantomAssembly1</tspan>	
 				</text>
 				<use  href="#mitem" x="0" y="0"/>
@@ -603,25 +601,25 @@ O
 				</text>
 				</g>
 			
-			<g id="42" transform="translate(754,230)">
+			<g id="44" transform="translate(816,230)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_42" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
-				<tspan  x="19" dy="1em">Component 1</tspan>	
-				</text>
-				<use  href="#mitem" x="0" y="0"/>
-					</g>
-			
-			<g id="43" transform="translate(754,252)">
-			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_43" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
-				<tspan  x="19" dy="1em">Component 1</tspan>	
-				</text>
-				<use  href="#mitem" x="0" y="0"/>
-					</g>
-			
-			<g id="44" transform="translate(734,274)">
-			<rect width="113" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_44" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<tspan  x="19" dy="1em">Component 1</tspan>	
+				</text>
+				<use  href="#mitem" x="0" y="0"/>
+					</g>
+			
+			<g id="45" transform="translate(816,252)">
+			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
+				<text id="L_45" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<tspan  x="19" dy="1em">Component 1</tspan>	
+				</text>
+				<use  href="#mitem" x="0" y="0"/>
+					</g>
+			
+			<g id="46" transform="translate(796,274)">
+			<rect width="113" height="17" x="19" y="0" fill="url(#grad)" />
+				<text id="L_46" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">PhantomAssembly2</tspan>	
 				</text>
 				<use  href="#mitem" x="0" y="0"/>
@@ -631,20 +629,19 @@ O
 				</text>
 				</g>
 			
-			<g id="45" transform="translate(754,296)">
+			<g id="47" transform="translate(816,296)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_45" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_47" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 1</tspan>	
 				</text>
 				<use  href="#mitem" x="0" y="0"/>
 					</g>
 			
-			<g id="46" transform="translate(754,318)">
+			<g id="48" transform="translate(816,318)">
 			<rect width="79" height="17" x="19" y="0" fill="url(#grad)" />
-				<text id="L_46" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
+				<text id="L_48" x="19" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0">
 				<tspan  x="19" dy="1em">Component 1</tspan>	
 				</text>
 				<use  href="#mitem" x="0" y="0"/>
 					</g>
-			
 			</svg>

@@ -62,7 +62,7 @@ export function initlegendbloc2 (legenditems:legenditem[],estnbcol:number,totalw
 
 export function Computelayout2(BomTable: BOMdata): BOM[] {
 
-	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
+	
 	const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
 	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
 	
@@ -70,6 +70,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 	const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
 	//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
 	let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
+	const VpanFactor:number=vscode.workspace.getConfiguration('bomarkdown').get('vpanfactor')||4;
 	
 	const iconw:number=Math.round(+fontdefs.label.font_size*4/3);
   if ("bend" in BomTable.params){
@@ -85,7 +86,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 				iBOM.BoMItems[i].y = 0;
 				
 			} else {
-				iBOM.BoMItems[i].y = iBOM.h+panv;
+				iBOM.BoMItems[i].y = iBOM.h+iBOM.BoMItems[i].Label.h/VpanFactor;
 			}
 			iBOM.h=iBOM.BoMItems[i].y+iBOM.BoMItems[i].Label.h
 			
@@ -100,10 +101,13 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 			}
 			if (iBOM.BoMItems[i].revision) { iBOM.BoMItems[i].w += iconw + gap; }
 			if (iBOM.BoMItems[i].status) { iBOM.BoMItems[i].w += iconw + gap; }
+			if (iBOM.BoMItems[i].tags){
+				iBOM.BoMItems[i].w +=iBOM.BoMItems[i].tags?.reduce((sum,current)=>sum+gap+current.Ltag.w,0)||0;
+			}
 			if ((iBOM.BoMItems[i].w+iBOM.BoMItems[i].x) > iBOM.maxw) { iBOM.maxw = iBOM.BoMItems[i].w+iBOM.BoMItems[i].x; }
 			itemcount++;
 		}
-		iBOM.y = 2*panv;
+		iBOM.y = 2*iBOM.BoMItems[0].Label.h/2;
 
 		
 		

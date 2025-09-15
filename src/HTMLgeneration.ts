@@ -249,7 +249,9 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	//const h:number=vscode.workspace.getConfiguration('bomarkdown').get('h')||20;
 	const revisionstyle:SVGRectPresentation= vscode.workspace.getConfiguration('bomarkdown').get('revisionstyle')||new(SVGRectPresentation);
 	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
-	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
+	//const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('vpanfactor')||4;
+	//
+	const VpanFactor:number=vscode.workspace.getConfiguration('bomarkdown').get('vpanfactor')||4;
 	
     const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
     const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
@@ -297,9 +299,9 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	// extraction de la legende
 	let svgh:number;
 	if (haslegend){
-		svgh=maxbomh+BOMdata.BOMs[0].y+legendeblock.h+hl+3*panv+gap;
+		svgh=maxbomh+BOMdata.BOMs[0].y+legendeblock.h+5/2*VpanFactor*hl;
 	} else {
-		svgh=maxbomh+BOMdata.BOMs[0].y+panv;
+		svgh=maxbomh+BOMdata.BOMs[0].y+hl;
 	}
 	if ("verbose" in BOMdata.params){extlog.appendLine('legend computed');}
 	// Init du svg et ouverture des <def>
@@ -345,9 +347,9 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 
 if (haslegend){
 	// scale(${legendscale},${legendscale})
-	tempstr+=`<g id="legend" transform="translate(${panv},${maxbomh+BOMdata.BOMs[0].y+hl+gap})"> 
-	<rect width="${legendeblock.w +2*gap}" height="${legendeblock.h + 2*panv}" x="0" y="0" fill="none" stroke="gray" stroke-width="1"/>
-	<g transform="translate(5,${panv})">		
+	tempstr+=`<g id="legend" transform="translate(${hl/VpanFactor},${maxbomh+BOMdata.BOMs[0].y+hl+gap})"> 
+	<rect width="${legendeblock.w +2*gap}" height="${legendeblock.h + hl/VpanFactor*2}" x="0" y="0" fill="none" stroke="gray" stroke-width="1"/>
+	<g transform="translate(5,${hl/2})">		
 	`;
 	for (const c of legendeblock.columns){
 		let nbi:number=0;
@@ -355,22 +357,22 @@ if (haslegend){
 			switch (i.type){
 
 				case "object":
-					tempstr+=`<use  href="#${i.name}" x="0" y="0" transform="translate(${c.x},${nbi*(hl+panv)}) scale(${hl/18},${hl/18})"/>
+					tempstr+=`<use  href="#${i.name}" x="0" y="0" transform="translate(${c.x},${nbi*((VpanFactor+1)/VpanFactor*hl)}) scale(${hl/18},${hl/18})"/>
 					`;
 					break;
 
 				case "status":
-					tempstr+=`<use  href="#${i.name}" x="0" y="0" transform="translate(${c.x},${nbi*(hl+panv)}) scale(${hl/18},${hl/18})"/>
+					tempstr+=`<use  href="#${i.name}" x="0" y="0" transform="translate(${c.x},${nbi*((VpanFactor+1)/VpanFactor*hl)}) scale(${hl/18},${hl/18})"/>
 					`;
 					break;
 				case "link" :
-					tempstr+=`<line x1="${c.x}" y1="${nbi*(hl+panv)+hl/2}" x2="${c.x+hl}" y2="${nbi*(hl+panv)+hl/2}" ${lineproperties(linkstyle[i.name],i.name)} stroke-linecap="round"/>
+					tempstr+=`<line x1="${c.x}" y1="${nbi*((VpanFactor+1)/VpanFactor*hl)+hl/2}" x2="${c.x+hl}" y2="${nbi*((VpanFactor+1)/VpanFactor*hl)+hl/2}" ${lineproperties(linkstyle[i.name],i.name)} stroke-linecap="round"/>
 					`;
 					break;
 				case "bubble":
 					// use 20 here because 20 is the basic size of def in the settings
-					tempstr+=`<use  href="#placeholder" x="0" y="0" transform="translate(${c.x},${nbi*(hl+panv)}) scale(${hl/18},${hl/18})"/>
-					<use  href="#${i.name}" x="0" y="0" transform="translate(${c.x},${nbi*(hl+panv)}) scale(${hl/18},${hl/18})"/>
+					tempstr+=`<use  href="#placeholder" x="0" y="0" transform="translate(${c.x},${nbi*((VpanFactor+1)/VpanFactor*hl)}) scale(${hl/18},${hl/18})"/>
+					<use  href="#${i.name}" x="0" y="0" transform="translate(${c.x},${nbi*((VpanFactor+1)/VpanFactor*hl)}) scale(${hl/18},${hl/18})"/>
 					`;
 
 					break;
@@ -381,7 +383,7 @@ if (haslegend){
 
 
 
-			tempstr+=`<text ${FondeftoString(fontdefs.legend)} x="${c.x+hl+gap}" y="${nbi*(hl+panv)+hl/2}" dominant-baseline="middle">
+			tempstr+=`<text ${FondeftoString(fontdefs.legend)} x="${c.x+hl+gap}" y="${nbi*((VpanFactor+1)/VpanFactor*hl)+hl/2}" dominant-baseline="middle">
 					${i.label}
 					</text>`;
 			nbi++;
@@ -476,10 +478,14 @@ if (haslegend){
 
 			// rendu de l'effectivité
 			if (BoMItem.effectivity){
-				if (BoMItem.effectivity.text=="o"){
-					tempstr+=`<use href="#eff" x="0" y="${(BoMItem.Label.h-BoMItem.effectivity.h)/2}"/>
+				if (BoMItem.effectivity.text=='<tspan  x="${X}" dy="1em">o</tspan>'){
+					tempstr+=`<use href="#eff" x="${-gap}" y="${BoMItem.Label.h/2}"/>
 					`;
 				} else {
+					tempstr+=`<line x1="${-panh+gap}" y1="${(BoMItem.Label.h)/2}" x2="${-panh+3*gap}" y2="${(BoMItem.Label.h)/2}" stroke="${fontdefs.eff.fill}" stroke-width="0.5"/> 
+					<line x1="${-panh+gap}" y1="${(BoMItem.Label.h-BoMItem.effectivity.h)/2}" x2="${-panh+gap}" y2="${(BoMItem.Label.h+BoMItem.effectivity.h)/2}" stroke="${fontdefs.eff.fill}" stroke-width="0.5"/> 
+					
+					`;
 					tempstr+=`<rect width="${BoMItem.effectivity.w}" height="${BoMItem.effectivity.h}" x="${-panh-(BoMItem.effectivity.w || 0)}" y="${(BoMItem.Label.h-BoMItem.effectivity.h)/2}" fill="url(#grad)" />
 					<text id="${"e_"+BoMItem.id}" ${FondeftoString(fontdefs.eff)}x="${-panh}" y="${(BoMItem.Label.h-BoMItem.effectivity.h)/2}" text-anchor="end">
     				${BoMItem.effectivity.text.replaceAll("${X}",String(-panh))}
@@ -512,6 +518,18 @@ if (haslegend){
 
 
 				
+			}
+			// tag
+			if (BoMItem.tags){
+				for (let tag of BoMItem.tags){
+					tempstr+=`<rect ${FondeftoString(tag.rect)}x="${tempfinItem}" y="${Math.round((BoMItem.Label.h-tag.Ltag.h)/2)}" width="${tag.Ltag.w}" height="${tag.Ltag.h}" rx="${iconw/5}"/>
+					<text ${FondeftoString(tag.font)}textLength="${tag.Ltag.w}" text-anchor="middle" x="${tempfinItem+tag.Ltag.w/2}" y="${(BoMItem.Label.h-tag.Ltag.h)/2}" >
+					${tag.Ltag.text.replaceAll("${X}",String(tempfinItem+tag.Ltag.w/2))} 
+					</text>
+				`;
+					tempfinItem+=gap+tag.Ltag.w
+				}
+
 			}
 			// fermeture du groupe
 			tempstr+=`</g>

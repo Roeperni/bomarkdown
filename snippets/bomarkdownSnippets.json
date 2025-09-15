@@ -34,6 +34,11 @@
 		"body": "(s:${1|D,IW,F,R,O|}",
 		"description": "bomarkdown status block"
 	},
+	"tag": {
+		"prefix": "(t:",
+		"body": "(t:${1:Label},${2:Color or style}",
+		"description": "bomarkdown tag block"
+	},
 	"item": {
 		"prefix": "(i:",
 		"body": "(i:${1|assembly,chapter,comment,component,file,folder,function,logical,mitem,plant,req,resource,routing,spec,worker|},${2:Label},${3:Revision}",

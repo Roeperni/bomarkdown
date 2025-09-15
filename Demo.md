@@ -8,8 +8,8 @@ ${{
 
 + **Requirement**
 + (i:folder,Requfolder)(b:context)
- + (i:spec,Spec 1,A)(e:[A->B[)
-  + (e:c'est un **commentaire** valable)(i:req,req1,1)(a:u1)
+ + (i:spec,Spec 1,A)texte ignoré (e:[A->B[)texte ignoré
+  + (e:c'est un **commentaire** valable§(mais pas essentiel))(i:req,req1,1)(a:u1)
   + (i:req,req2,1)
   + (i:req,req3,1)(a:u3)
   + (i:...)
@@ -21,7 +21,7 @@ ${{
 +newcolumn 100
 + **Design**
 + (i:assembly,Assembly,A.1)(s:R)
- + (i:assembly,SubAssembly1,A.1)(l:s:ma1!>begin,ma1!middle,ma1!<end)
+ + (i:assembly,SubAssembly1,A.1)(l:s:ma1!>begin,ma1!middle,ma1!<end)(e:o)
   + (i:component,Component 1,A.1)(b:matrice)
   + (i:component,Component 2§wesh,A.1)(b:lock)
   + (i:component,Component 3,A.1)
@@ -42,7 +42,10 @@ ${{
  + (i:mitem,SubAssembly1,A.1)(a:ma1)
   + (i:mitem,Component 1)
   + (i:mitem,Component 1)
+  -+ property1
   + (i:mitem,Component 1)
+  -+ property3
+  -+ property4
  + (i:mitem,Component 1)
  + (i:mitem,Component 1)
  + (i:mitem,SubAssembly3,A.1)
@@ -54,12 +57,15 @@ ${{
    + (i:mitem,Component 1)
 -->
 ![demo/Stock](demo/Stock.svg "demo/Stock")
-<!--bomarkdown simple
-+ (i:assembly,Ceci est un long label,A.1)(s:D)
-+ (i:assembly,Ceci est un long label§with two lines,A.1)(s:D)
+<!--bomarkdown demo/simple
++ (i:assembly,Ceci est un long label (parenthèse (nestées)),A.1)wesh(s:D)fin de truc en commentaire
++ (i:assembly,Ceci est un long label§with two lines,A.1)(s:D)(e:o)(t:RDO1,green)
 + no Item
-+ no item§2 lines
 -+ test property1
 -+ test property2
++ no item§2 lines
+
 
 -->
+
+![demo/simple](demo/simple.svg "demo/simple")
