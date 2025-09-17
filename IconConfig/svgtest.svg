@@ -1,13 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg">
-    <text x="20" y="50" font-size="12" fill="white" dominant-baseline="text-bottom">
-        <tspan x="20" dy="1em">
+    <rect x="20" y="50" width="56" height="30" stroke="green" fill="none"/>
+    <text x="0" y="0" font-size="12" fill="white" text-anchor="start" transform="translate(20,50)">
+        <tspan x="0" dy="1em">
             toto TOTOj
         </tspan>
-        <tspan  x="20" dy="1em">
+        <tspan  x="0" dy="1em">
             tata TATAj
         </tspan>
         
     </text>
+
+    <rect x="20" y="90" width="56" height="30" stroke="#e511d4" fill="none"/>
+    <text x="0" y="0" font-size="12" fill="white" text-anchor="middle" transform="translate(48,90) scale(0.9 0.9)">
+        <tspan x="0" dy="1em">
+            toto TOTOj
+        </tspan>
+        <tspan  x="0" dy="1em">
+            tata TATAj
+        </tspan>
+        
+    </text>
+
+    <rect x="20" y="130" width="56" height="30" stroke="blue" fill="none"/>
+    <text x="0" y="0" font-size="12" fill="white" text-anchor="middle" transform="translate(48,130) scale(0.9 0.9)">
+        <tspan x="0" dy="1em">
+            toto TOTOj
+        </tspan>
+        <tspan  x="0" dy="1em">
+            tata TATAj
+        </tspan>
+        
+    </text>
+
+
     <rect x="20" y="20" width="100" height="16" stroke="white" fill="none"/>
     <text x="20" y="20" font-size="12" fill="white" dominant-baseline="text-top">
           wesh      
@@ -15,9 +40,9 @@
 
 
 
-    <rect x="20" y="50" width="100" height="40" stroke="white" fill="none"/>
+  
     
-<rect x="20" y="50" width="100" height="32" stroke="white" fill="none"/>
+
 
 
 <g id="eff" transform="translate(20,20)"><circle r="4" cx="0" cy="0" fill="darkorange" stroke="white" stroke-width="0.25" /></g>

@@ -34,7 +34,7 @@ function emphparser(Label,emphasises){
 function getBBox (label,fontdefs){
     var Txtbox=document.getElementById("Textbox");
     Object.entries(fontdefs).forEach(([key,value])=>Txtbox.setAttribute (key.replace("_","-"),value));
-    Txtbox.innerHTML=label.text.replaceAll("${X}","22");
+    Txtbox.innerHTML=label.text;
     label.w=Math.round(Txtbox.getBBox().width);
     label.h=Math.round(Txtbox.getBBox().height);
 

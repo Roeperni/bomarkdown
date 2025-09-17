@@ -36,7 +36,7 @@
 	},
 	"tag": {
 		"prefix": "(t:",
-		"body": "(t:${1:Label},${2:Color or style}",
+		"body": "(t:${1:Label},${2:Color or style}$0",
 		"description": "bomarkdown tag block"
 	},
 	"item": {

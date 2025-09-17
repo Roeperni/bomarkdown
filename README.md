@@ -80,6 +80,7 @@ Right now the bomarkdown syntax is not supported in markdown as a workaround the
 
 ##### Type the items
 
+###### Simple typing
 an item can be typed by using a type block
 ````text
 ```bomarkdown Images/typeitem
@@ -98,6 +99,8 @@ an item can be typed by using a type block
 ![Images/typeitem](Images/typeitem.png "Images/typeitem")
 
 A snippet can be used to help [item block](#item-snippet) definition
+
+###### legend block
 
 The legend is automatically generated depending on a [global parameter](#legend)
 
@@ -121,6 +124,8 @@ ${{
 ````
 ![Images/typeitem-nolegend](Images/typeitem-nolegend.png "Images/typeitem-nolegend")
 
+
+###### Emphasis
 you can use markdown emphasis to highlight word in the label
 ````text
 ```bomarkdown Images/typeitem-emphasis
@@ -186,6 +191,25 @@ to list all the availables types reffer to [BOM Commands](#bom-commands)
 
 to add new type reffer to the [addicon](#addicon) command
 
+###### properties
+An item can have properties 
+
+````text
+```bomarkdown Images/typeitem-properties
+${{
+  "haslegend":false 
+}}$
++ (i:folder,A folder item)  
+ + (i:file, A file) 
+ -+ **access:** Readonly
+ -+ **size:** 50kb
+ + (i:file, Another File)
+ 
+  
+```
+````
+![Images/typeitem-properties](Images/typeitem-properties.svg "Images/typeitem-properties")
+
 ##### Define the status of the item
 
 you can define the satus of an item by adding a status block
@@ -223,24 +247,26 @@ The bom can be distributed in several column and several root can be stacked in 
 + (i:spec,Second Component Spec)
  + (i:req, req3)
  + (i:req, req4)
- + (i:comment,Label,Revision)
 
 you can define an additional gap between column 
 
 +newcolumn 100
-+(i:logical,Logical)
++ (i:logical,Logical)
 ```
-````
 
+
+````
+![Images/multicolumn](Images/multicolumn.svg "Images/multicolumn")
 ![Images/multicolumn](Images/multicolumn.png "Images/multicolumn")
 
 
-##### Aliases and implement link
+##### Aliases and link management
 
 In addition to the hierachical link you can create transverse link to do so you should use a link block (a:)
-the link block is in 2 parts (s:[alias])(l:i:[aliases of linked element separated by ,])
+the link block is in 2 parts (s:[alias])(l:[link type]:[aliases of linked element separated by ,])
 the link is drawn from the item to the ones in the (l:) block. you can have several (l:) block on an item to draw several link types
-The link can have labal to define it after the alias you should add a **!** for a label in the middle of the link **!>** for a label at the beginning of the link and **!<** for a label a the end.
+The link can have label. To define it after the alias you should add a **!** for a label in the middle of the link **!>** for a label at the beginning of the link and **!<** for a label a the end.
+You can also switch the link style by specifiying the link type just before the + of the line
 
 
 ````text
@@ -249,13 +275,15 @@ The link can have labal to define it after the alias you should add a **!** for 
 
 + (i:assembly,Assembly (avec parenthèse),1)(s:IW)
  + (i:component, First component,A)(s:R)(a:c1)
+ a+ (i:component,Alternate 1 of c1,A)(a:a1)(l:a:c1)
+ a+ (i:component,Alternate 2 of c1,A)(a:a2)(l:a:c1)
+   + (i:component,Subcomponent of alternate 2,A)
  + (i:component, Second component,A)(s:F)(a:c2)
-+ (i:component,Alternate 1 of c1,A)(a:a1)(l:a:c1)
-+ (i:component,Alternate 2 of c1,A)(a:a2)(l:a:c1)
+
 + (i:component,provided component,A)(s:R)(a:c3)
 + (i:component,Provided component 2,A)(s:IW)(a:c4)
 
-+newcolumn
++newcolumn 50
 + (i:spec,First Component Spec)(a:s1)(l:i:c1)
  + (i:req, req1)(a:specreq1)
  + (i:req, req2)(a:specreq2)
@@ -263,14 +291,16 @@ The link can have labal to define it after the alias you should add a **!** for 
  + (i:req, req3)
  + (i:req, req4)(a:dum)
 + (i:spec,Procurement Spec)(a:s3)(l:i:a2,a1)
- + (i:req, req5)(a:procreq1)(l:c:specreq1!>Label at the end,specreq2!label in the middle)(l:i:c4!<label at the beginning)
+ + (i:req, req5)(a:procreq1)(l:c:specreq1!>Label at the begining,specreq2!label in §the middle)(l:i:c4!<label at the end)
  + (i:req, req6)
  + (i:req, req7)
++newcolumn 50
+this empty column is there enlarge the image zone and avoid truncation of the label
 ```
 ````
+![Images/aliasesandlinks](Images/aliasesandlinks.svg "Images/aliasesandlinks")
 
 
-![Images/aliasesandlinks](Images/aliasesandlinks.png "Images/aliasesandlinks")
 
 A snippet can be used to help [link block](#link-snippet) definition
 A snippet can be used to help [alias block](#alias-snippet) definition
@@ -305,19 +335,71 @@ Effectivity can be defined before links with an effectivity block (e:)
 
 ````text
 ```bomarkdown Images/effectivity
+${{
+  "vpanfactor":3
+}}$
+// Vpan factor modification to give more room betweenline
 + (b:context)(i:component,Unvariable Component)
  + (e:o)(i:component,Use o to display an effetivity bubble)
  + (e:[A -> B[)(i:component,effectivity can be a range)
  + (e:[B -> #oo[)(i:component,effectivity special char can be defined)
  + (b:eff)(e:[C -> #oo[)(i:component,A trick to have bubble and text)
+ + (e:ModelA [A-> #oo[§ModelB [B->#oo[)(i:component,Effectivity on 2 lines)
 ```
-
 ````
+![Images/effectivity](Images/effectivity.svg "Images/effectivity")
 ![Images/effectivity](Images/effectivity.png "Images/effectivity")
+
 A snippet can be used to help [effectivity block](#effectivity-snippet) definition
 
 
 special char replacement are define in the [settings](#bomarkdownutf8replacement)
+
+##### Tags
+The tag block can add a tag at then end of the item. the syntax is (t:[tag label],[tag color OR tagstyle])
+
+````text
+```bomarkdown Images/tag
+${{
+  "tagstyles":{
+            "light":{
+            "rect":{
+            "stroke":"none",
+            "stroke_width":"0.25",
+            "stroke_linejoin":"round",
+            "fill":"yellow",
+            "fill_opacity":"1"
+              },
+            "fontdef":"btag"
+            },
+            "dark":{
+            "rect":{
+            "stroke":"none",
+            "stroke_width":"0.25",
+            "stroke_linejoin":"round",
+            "fill":"darkred",
+            "fill_opacity":"1"
+              },
+            "fontdef":"wtag"
+            }
+            }
+}}$
++ (i:assembly,Assembly,1)(s:IW)
+ + (i:component, First component,1)(s:R)
+ + (i:component, Second component,A)(s:F)
+
++newcolumn
++ (i:spec,First Component Spec)(t:ProjectA,blue)
+ + (i:req, req1)
+ + (i:req, req2)(t:ProjectB,red)
++ (i:spec,Second Component Spec)(t:ProjectC,dark)
+ + (i:req, req3)
+ + (i:req, req4)(t:banana,banana)
+```
+````
+![Images/tag](Images/tag.svg "Images/tag")
+
+if the second argument match a name of a Tagstyle in the bomarkdown settings, the tagstyle is used. Else it uses the regular tagstyle and tries to override the fill color with the parameter 
 
 ### BOM Export
 
@@ -544,6 +626,10 @@ link snippet is triggered by (l:
 Status snippet is triggered by (s:
 ![snippetstatus](Images/Insertstatus.gif)
 
+### Tag Snippets
+Tag snippet is triggered by (t:
+![snippetag](Images/Inserttags.gif)
+
 
 
 ## Extension Settings
@@ -553,7 +639,8 @@ Status snippet is triggered by (s:
 bomarkdown.h : Default Item height
 bomarkdown.gap : space between element on a line
 bomarkdown.panh : Horizontal pan distance between items
-bomarkdown.panv : Vertical pan distance between items
+bomarkdown.panv : Vertical pan distance between items (mostly deprecated)
+bomarkdown.vpanfactor : Vertical pan distance between line in fraction of line. 4 mean spacing will be 1/4 th of a line
 bomarkdown.legendscale : scale of the legend
 bomarkdown.renderlegend : Specifies if a legend block is computed and added a the bottom of the svg
 
@@ -582,17 +669,19 @@ This setting is used to define the links of the bom. Its a dictionnary of object
 Beware to escape the " in the marker svg definition
 The dasharray definition can be found [here](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray)
 
-#### bomarkdown.revision
+#### bomarkdown.revisionstyle
 
-It's a simple object with 2 properties with html color that defines the background and the font color of the revision block
+It's a simple object that defines in svg the properties of the rec object suroundidng the revision.
+note that the revision font is defined in the [fontdefs setting](#bomarkdownfontdefs)
 
 ```json
 "bomarkdown.revision": {
-        "font": "white",
-        "background":"dimgrey"
-    },
-
-
+            "stroke":"none",
+            "stroke_width":"0.25",
+            "stroke_linejoin":"round",
+            "fill":"dimgrey",
+            "fill_opacity":"1"
+            }
 ```
           
 #### bomarkdown.codeblockdelimiter
@@ -636,6 +725,127 @@ it's and object witch each key is a status, the value is a svg element with an i
                 "label":[label of the status]
                 },
             }
+```
+#### bomarkdown.emphasis
+A table of object that defines the emphasis keyword and how it will be handled in svg
+```json
+[
+  {
+    "regex":"\\*\\*\\*(.*?)\\*\\*\\*",
+    "expression":"***",
+    "svgparam":"",
+    "weight":"bold",
+    "style": "italic"
+  },{                
+    "regex":"\\*\\*(.*?)\\*\\*",
+    "expression":"**",
+    "svgparam":"",
+    "weight":"bold",
+    "style": "normal"
+  },{                
+    "regex":"\\*(.*?)\\*",
+    "expression":"*",
+    "svgparam":"",
+    "weight":"normal",
+    "style": "italic"
+  }
+]
+```
+The regex extract the text between the expression and replace the expression by a svg tspan object with a define weight and style. svgparam allows you to set additionnal parameter like stroke, fill ... (see [here](#emphasis)). Be aware that order matters we do the replace of the *** **before** the *.
+
+#### bomarkdown.fontdefs
+its a dictrionnary containing most of the svg text element parameter. Every key can be customised but adding new key is not supported
+
+
+```json
+"label":{
+    "font_family":"system-ui",
+    "font_weight":"normal",
+    "font_style":"normal",
+    "font_size":"13",
+    "stroke":"none",
+    "stroke_width":"0.25",
+    "fill":"black",
+    "paint-order":"stroke"
+
+},
+"rev":{
+    "font_family":"system-ui",
+    "font_weight":"bold",
+    "font_style":"normal",
+    "font_size":"10",
+    "stroke":"none",
+    "stroke_width":"0.25",
+    "fill":"white",
+    "paint_order":"stroke"
+
+},
+"wtag":{
+    "font_family":"system-ui",
+    "font_weight":"bold",
+    "font_style":"normal",
+    "font_size":"10",
+    "stroke":"none",
+    "stroke_width":"0.25",
+    "fill":"white",
+    "paint_order":"stroke"
+
+},                  
+"btag":{
+    "font_family":"system-ui",
+    "font_weight":"bold",
+    "font_style":"normal",
+    "font_size":"10",
+    "stroke":"none",
+    "stroke_width":"0.25",
+    "fill":"black",
+    "paint_order":"stroke"
+
+},
+"eff":{
+    "font_family":"system-ui",
+    "font_weight":"normal",
+    "font_style":"normal",
+    "font_size":"13",
+    "stroke":"none",
+    "stroke_width":"0.25",
+    "fill":"indigo",
+    "paint_order":"stroke"
+
+},
+"linklabel":{
+    "font_family":"system-ui",
+    "font_weight":"normal",
+    "font_style":"normal",
+    "font_size":"10",
+    "stroke":"none",
+    "stroke_width":"0.25",
+    "fill":"LinkColor",
+    "paint_order":"stroke"
+
+},                	
+"legend":{
+    "font_family":"system-ui",
+    "font_weight":"normal",
+    "font_style":"normal",
+    "font_size":"11",
+    "stroke":"none",
+    "stroke_width":"0.25",
+    "fill":"black",
+    "paint_order":"stroke"
+
+},                	
+"prop":{
+    "font_family":"system-ui",
+    "font_weight":"normal",
+    "font_style":"normal",
+    "font_size":"10",
+    "stroke":"none",
+    "stroke_width":"0.25",
+    "fill":"navy",
+    "paint_order":"stroke"
+
+}
 ```
 
           
@@ -686,4 +896,14 @@ Change in the parsing text after the last block is ignored and considered as com
 
 ### 0.3.2
   - fix update snippets command
+
+### 1.0.0
+  - New architecture for rendition
+  - Properties support for item
+  - effecivity on multine
+  - support of multiple font styling
+  - label on links
+  - Tag on items
+  - layout bug fix
+  - change link in hearachy
 ---

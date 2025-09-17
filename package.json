@@ -2,7 +2,7 @@
   "name": "bomarkdown",
   "displayName": "BoMarkdown",
   "description": "BoM in markdown",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Roeperni/bomarkdown"
@@ -79,7 +79,7 @@
           "scope":"tag.block.bomarkdown",
           "settings": {
              "fontStyle": "italic",
-             "foreground": "#4e44dd"
+             "foreground": "#8df140"
              
           }
         },{
@@ -131,7 +131,7 @@
           "scope":"tag.block.bomarkdown",
           "settings": {
              "fontStyle": "italic",
-             "foreground": "#4e44dd"
+             "foreground": "#3d32e1"
              
           }
         },{
@@ -170,24 +170,13 @@
     ],
     "commands": [
       {
-        "command": "bomarkdown.preview",
-        "title": "BOM Preview",
-        "category": "BoMarkdown"
-      },{
+
         "command": "bomarkdown.commands",
         "title": "BOM Commands",
         "category": "BoMarkdown"
       },{
         "command": "bomarkdown.addicons",
         "title": "AddIcons",
-        "category": "BoMarkdown"
-      },{
-        "command": "bomarkdown.export",
-        "title": "BOM Export",
-        "category": "BoMarkdown"
-      },{
-        "command": "bomarkdown.insertassvg",
-        "title": "Insert as SVG",
         "category": "BoMarkdown"
       },{
         "command": "bomarkdown.editusericon",
@@ -203,15 +192,15 @@
         "category": "BoMarkdown"
       },{
         "command": "bomarkdown.NewPreview",
-        "title": "New preview ",
+        "title": "Preview ",
         "category": "BoMarkdown"
       },{
         "command": "bomarkdown.NewXport",
-        "title": "New SVG export",
+        "title": "SVG export",
         "category": "BoMarkdown"
       },{
         "command": "bomarkdown.NewInsert",
-        "title": "New SVG Insert",
+        "title": "SVG Insert",
         "category": "BoMarkdown"
       }
     ],    
@@ -351,19 +340,19 @@
           "description": "Styling to display revision",
           "order":11,
           "default": {
-            "default":{
+            "regular":{
             "rect":{
             "stroke":"none",
             "stroke_width":"0.25",
             "stroke_linejoin":"round",
-            "fill":"blue",
+            "fill":"red",
             "fill_opacity":"1"
               },
-            "fontdef":"tag"
+            "fontdef":"wtag"
             }
           },
           "additionalProperties": {
-            "type":"string"
+            "type":"object"
           }
           
 
@@ -479,7 +468,7 @@
                       "paint_order":"stroke"
 
                   },
-                  "tag":{
+                  "wtag":{
                       "font_family":"system-ui",
                       "font_weight":"bold",
                       "font_style":"normal",
@@ -487,6 +476,17 @@
                       "stroke":"none",
                       "stroke_width":"0.25",
                       "fill":"white",
+                      "paint_order":"stroke"
+
+                  },                  
+                  "btag":{
+                      "font_family":"system-ui",
+                      "font_weight":"bold",
+                      "font_style":"normal",
+                      "font_size":"10",
+                      "stroke":"none",
+                      "stroke_width":"0.25",
+                      "fill":"black",
                       "paint_order":"stroke"
 
                   },

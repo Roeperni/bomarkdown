@@ -89,7 +89,7 @@ export class link {
 }
 export class tagstyle {
 	rect:SVGRectPresentation=new(SVGRectPresentation);
-	font:string="tag";
+	fontdef:string="wtag";
 }
 export type tagstyles={
 	[key:string]:tagstyle
@@ -197,7 +197,8 @@ export class fontsettings {
 	linklabel:fontdef=new(fontdef);
 	legend:fontdef=new(fontdef);
 	prop:fontdef=new(fontdef);
-	tag:fontdef=new(fontdef);
+	wtag:fontdef=new(fontdef);
+	btag:fontdef=new(fontdef);
 }
 
 
@@ -439,7 +440,7 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 						
 
 								createsvgfile(BOMuri, BOMtable.path, svgcode)
-
+							break;
 						}
 						case 'insertsvg':{
 							if (Editor!==undefined){
@@ -657,7 +658,7 @@ export function activate(context: vscode.ExtensionContext) {
 				'bomcommands', // Identifies the type of the webview. Used internally
 				'BoM Markdown Commands', // Title of the panel displayed to the user
 				vscode.ViewColumn.Two, // Editor column to show the new webview panel in.
-				{} // Webview options. More on these later.
+				{retainContextWhenHidden: true} // Webview options. More on these later.
 			);
 			let iconJSONS: string[] = vscode.workspace.getConfiguration('bomarkdown').get('IconJson') || [];
 			let selectedJsons = await vscode.window.showQuickPick(QPIfromTable(iconJSONS, context.extensionUri, true),
@@ -861,7 +862,7 @@ function getBBoxWebview(contexturi: vscode.Uri, wv: vscode.Webview) {
     </head>
     <body> 
         <svg>
-            <text id="Textbox" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="22" y="15" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke">
+            <text id="Textbox" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" x="0" y="0" stroke="white" stroke-width="0.25" fill="black" paint-order="stroke" transform="translate(22,15)>
                 Wesh <tspan font-weight="bold">les potos</tspan>
             </text>
         </svg>

@@ -70,17 +70,20 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 	const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
 	//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
 	let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
-	const VpanFactor:number=vscode.workspace.getConfiguration('bomarkdown').get('vpanfactor')||4;
+	let VpanFactor:number=vscode.workspace.getConfiguration('bomarkdown').get('vpanfactor')||4;
 	
 	const iconw:number=Math.round(+fontdefs.label.font_size*4/3);
   if ("bend" in BomTable.params){
 	BendFactor=BomTable.params.bend;
   }
+  if ("vpanfactor" in BomTable.params){
+	VpanFactor=BomTable.params.vpanfactor;
+  }
 
 	for (const iBOM of BomTable.BOMs) {
 		// premier scan de toute un bom pour determiner les abcisses de chaque item, la largeur de chaque item
 		let itemcount = 0;
-
+		if (iBOM.BoMItems.length>0){
 		for (let i=0; i< iBOM.BoMItems.length;i++) {
 			if (i==0){
 				iBOM.BoMItems[i].y = 0;
@@ -108,7 +111,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 			itemcount++;
 		}
 		iBOM.y = 2*iBOM.BoMItems[0].Label.h/2;
-
+		}
 		
 		
 		if (iBOM.column > 0) {
@@ -119,8 +122,10 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 
 	}
 	for (const iBOM of BomTable.BOMs) {
+		if (iBOM.BoMItems.length>0){
 		// Deuxieme scan de toute un bom pour determiner coordonnées des lien d'implément des des labels
 		for (const BoMItem of iBOM.BoMItems){
+			
 						if (BoMItem.relatives){
 							
 							for (var relative of BoMItem.relatives){
@@ -176,6 +181,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 					}
 
 		}
+	}
 
 	}
 

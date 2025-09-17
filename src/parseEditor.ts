@@ -41,10 +41,10 @@ function labelparser (transcoder:Transcoder,str:string,emphasises:emphasis[]):st
 		let labelarray:string[]=replacedstring.split("§");
 		let tempreturn:string;
 		if (labelarray.length>1){
-			tempreturn='<tspan  x="${X}" dy="1em">'+labelarray.join('</tspan><tspan  x="${X}" dy="1em">')+'</tspan>'
+			tempreturn='<tspan  x="0" dy="1em">'+labelarray.join('</tspan><tspan  x="0" dy="1em">')+'</tspan>'
 
 		}else{
-			tempreturn='<tspan  x="${X}" dy="1em">'+labelarray[0]+'</tspan>';
+			tempreturn='<tspan  x="0" dy="1em">'+labelarray[0]+'</tspan>';
 		}
 
 	return tempreturn;
@@ -179,7 +179,7 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMdata{
 	const UTF8replacement: Transcoder=vscode.workspace.getConfiguration('bomarkdown').get('UTF8replacement')||{};
 	const linkstyle:Linksdefinitions=vscode.workspace.getConfiguration('bomarkdown').get('Linksdefinition')||{};
-	const tagstyles:tagstyles=vscode.workspace.getConfiguration('bomarkdown').get('wesh')||{default:new(tagstyle)};;
+	let tagstyles:tagstyles=vscode.workspace.getConfiguration('bomarkdown').get('tagstyles')||{default:new(tagstyle)};;
 	let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
 	let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 
@@ -209,6 +209,10 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 		} 
 	}
 	if ("emphasis" in temparg) { emphasis = temparg.emphasis }
+	if ("tagstyles" in temparg){ 
+		let temptagstyles={...tagstyles,...temparg.tagstyles};
+		tagstyles=temptagstyles;
+	}
 	// Boucle sur toutes les ligne de l'editor
 	for (const item of EditorArray) {
 
@@ -361,30 +365,28 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								let temptag=new(tag);
 								
 								temptag.Ltag.text=labelparser(UTF8replacement,Tagarray[0],emphasis);
-								temptag.font=fontdefs.tag
-								switch (Tagarray.length) {
-									case 2:
+								temptag.font=fontdefs.wtag
+								if (Tagarray.length==2) {
+									
 										if (Tagarray[1] in tagstyles) {
 											temptag.rect=tagstyles[Tagarray[1]].rect
-											if (tagstyles[Tagarray[1]].font in fontdefs){
-												temptag.font=fontdefs[tagstyles[Tagarray[1]].font as keyof fontsettings];
+											const tempfont:string=tagstyles[Tagarray[1]].fontdef
+											if (tempfont in fontdefs){
+												temptag.font=fontdefs[tagstyles[Tagarray[1]].fontdef as keyof fontsettings];
 											}
 										}else{
-											temptag.rect=tagstyles.default.rect;
-											const tempfont= tagstyles.default.font
+											let temprect={...tagstyles.regular.rect};
+											temprect.fill=Tagarray[1];
+											temptag.rect={...temprect};
+											const tempfont= tagstyles.regular.fontdef
 											temptag.font=fontdefs[tempfont as keyof fontsettings];
-											temptag.rect.fill=Tagarray[1];
-
+											
 										}
 										
-										break;
-									case 3:
-										// si 3 valeur c'est Type label revision
-										
-										break;
-								}
+													
+
 								temptags.push(temptag);
-								
+									}
 								break;
 							default:
 								// Si on n'est pas dans les pattern d'avant

@@ -251,7 +251,7 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	const panh:number=vscode.workspace.getConfiguration('bomarkdown').get('panh')||20;
 	//const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('vpanfactor')||4;
 	//
-	const VpanFactor:number=vscode.workspace.getConfiguration('bomarkdown').get('vpanfactor')||4;
+	let VpanFactor:number=vscode.workspace.getConfiguration('bomarkdown').get('vpanfactor')||4;
 	
     const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
     const Status_Settings:ObjsettingWlabel=vscode.workspace.getConfiguration('bomarkdown').get('satus')||{};
@@ -269,6 +269,9 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	if ("haslegend" in BOMdata.params){
 		haslegend=BOMdata.params.haslegend;
 	}
+	  if ("vpanfactor" in BOMdata.params){
+	VpanFactor=BOMdata.params.vpanfactor;
+  }
 
 	let tempfinItem:number=0;
 	// load all the icons from all the files
@@ -443,8 +446,8 @@ if (haslegend){
 				const typeicon :any|undefined=icons.find(i =>i.name==BoMItem.Type);
 				// on fait de la place pour l'icone si il y a un type
 				tempstr+=`<rect width="${BoMItem.Label.w}" height="${BoMItem.Label.h}" x="${iconw+gap}" y="0" fill="url(#grad)" />
-				<text id="${"L_"+BoMItem.id}" x="${iconw+gap}" ${FondeftoString(fontdefs.label)} y="0">
-				${BoMItem.Label.text.replaceAll("${X}",String(iconw+gap))}	
+				<text id="${"L_"+BoMItem.id}" x="0" ${FondeftoString(fontdefs.label)} y="0" transform="translate(${iconw+gap} 0)">
+				${BoMItem.Label.text}	
 				</text>
 				`;
                 // il y a 2 gap ici car un entre l'icon et le texte et un autre apres
@@ -468,8 +471,8 @@ if (haslegend){
 					templabelfontdef=fontdefs.label
 				}
 				tempstr+=`<rect width="${BoMItem.Label.w}" height="${BoMItem.Label.h}" x="${gap}" fill="url(#grad)" />
-				<text id="${"L_"+BoMItem.id}" ${FondeftoString(templabelfontdef)}x="${gap}" y="0">
-				${BoMItem.Label.text.replaceAll("${X}",String(gap))}	
+				<text id="${"L_"+BoMItem.id}" ${FondeftoString(templabelfontdef)}x="0" y="0" transform="translate(${gap} 0)">
+				${BoMItem.Label.text}	
 				</text>
 				`;
 
@@ -478,7 +481,7 @@ if (haslegend){
 
 			// rendu de l'effectivité
 			if (BoMItem.effectivity){
-				if (BoMItem.effectivity.text=='<tspan  x="${X}" dy="1em">o</tspan>'){
+				if (BoMItem.effectivity.text=='<tspan  x="0" dy="1em">o</tspan>'){
 					tempstr+=`<use href="#eff" x="${-gap}" y="${BoMItem.Label.h/2}"/>
 					`;
 				} else {
@@ -487,8 +490,8 @@ if (haslegend){
 					
 					`;
 					tempstr+=`<rect width="${BoMItem.effectivity.w}" height="${BoMItem.effectivity.h}" x="${-panh-(BoMItem.effectivity.w || 0)}" y="${(BoMItem.Label.h-BoMItem.effectivity.h)/2}" fill="url(#grad)" />
-					<text id="${"e_"+BoMItem.id}" ${FondeftoString(fontdefs.eff)}x="${-panh}" y="${(BoMItem.Label.h-BoMItem.effectivity.h)/2}" text-anchor="end">
-    				${BoMItem.effectivity.text.replaceAll("${X}",String(-panh))}
+					<text id="${"e_"+BoMItem.id}" ${FondeftoString(fontdefs.eff)}x="0" y="0" text-anchor="end" transform="translate(${-panh} ${(BoMItem.Label.h-BoMItem.effectivity.h)/2})">
+    				${BoMItem.effectivity.text}
     				</text>
 					`;
 				}
@@ -523,8 +526,8 @@ if (haslegend){
 			if (BoMItem.tags){
 				for (let tag of BoMItem.tags){
 					tempstr+=`<rect ${FondeftoString(tag.rect)}x="${tempfinItem}" y="${Math.round((BoMItem.Label.h-tag.Ltag.h)/2)}" width="${tag.Ltag.w}" height="${tag.Ltag.h}" rx="${iconw/5}"/>
-					<text ${FondeftoString(tag.font)}textLength="${tag.Ltag.w}" text-anchor="middle" x="${tempfinItem+tag.Ltag.w/2}" y="${(BoMItem.Label.h-tag.Ltag.h)/2}" >
-					${tag.Ltag.text.replaceAll("${X}",String(tempfinItem+tag.Ltag.w/2))} 
+					<text ${FondeftoString(tag.font)}textLength="${tag.Ltag.w}" text-anchor="middle" x="0" y="0" transform="translate(${tempfinItem+tag.Ltag.w/2} ${(BoMItem.Label.h-tag.Ltag.h)/2}) scale(0.9 0.9)" >
+					${tag.Ltag.text} 
 					</text>
 				`;
 					tempfinItem+=gap+tag.Ltag.w
@@ -544,8 +547,8 @@ if (haslegend){
 						const labelfont_h:number=Math.round(+fontdefs.linklabel.font_size*4/3);
 						var stringdef:string=FondeftoString(fontdefs.linklabel).replace("LinkColor",linkstyle[relative.linktype].Color);
 						tempstr+=`<rect width="${relative.linklabel.w}" height="${relative.linklabel.h}" x="${relative.label_box_x}" y="${relative.label_y-relative.linklabel.h/2}" fill="url(#grad)" />
-						<text ${stringdef}x="${relative.label_x}" y="${relative.label_y-relative.linklabel.h/2}" text-anchor="${relative.label_align}">
-						${relative.linklabel.text.replaceAll("${X}",String(relative.label_x))}
+						<text ${stringdef}x="0" y="0" text-anchor="${relative.label_align}" transform="translate(${relative.label_x} ${relative.label_y-relative.linklabel.h/2})">
+						${relative.linklabel.text}
 						</text>
 						`;
 					}
