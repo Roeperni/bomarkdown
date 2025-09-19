@@ -1,7 +1,7 @@
 # Demo of bomarkdown capabilities
 ## Stock capabilities
 
-<!--bomarkdown demo/Stock
+<!--bomarkdown Stock
 ${{
 "legendcolumns":4
 }}$
@@ -56,7 +56,7 @@ ${{
    + (i:mitem,Component 1)
    + (i:mitem,Component 1)
 -->
-![demo/Stock](demo/Stock.svg "demo/Stock")
+![demo/Stock](Stock.svg "demo/Stock")
 <!--bomarkdown demo/simple
 + (i:assembly,Ceci est un long label (parenthèse (nestées)),A.1)wesh(s:D)fin de truc en commentaire
 + (i:assembly,Ceci est un long label§with two lines,A.1)(s:D)(e:o)(t:RDO1,green)
@@ -68,4 +68,4 @@ ${{
 
 -->
 
-![demo/simple](demo/simple.svg "demo/simple")
+![demo/simple](simple.svg "demo/simple")
