@@ -302,7 +302,7 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 	// extraction de la legende
 	let svgh:number;
 	if (haslegend){
-		svgh=maxbomh+BOMdata.BOMs[0].y+legendeblock.h+5/2*VpanFactor*hl;
+		svgh=maxbomh+BOMdata.BOMs[0].y+legendeblock.h+hl*(1+3/VpanFactor)+gap;
 	} else {
 		svgh=maxbomh+BOMdata.BOMs[0].y+hl;
 	}

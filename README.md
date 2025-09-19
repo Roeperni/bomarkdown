@@ -208,7 +208,7 @@ ${{
   
 ```
 ````
-![Images/typeitem-properties](Images/typeitem-properties.svg "Images/typeitem-properties")
+![Images/typeitem-properties](Images/typeitem-properties.png "Images/typeitem-properties")
 
 ##### Define the status of the item
 
@@ -256,7 +256,6 @@ you can define an additional gap between column
 
 
 ````
-![Images/multicolumn](Images/multicolumn.svg "Images/multicolumn")
 ![Images/multicolumn](Images/multicolumn.png "Images/multicolumn")
 
 
@@ -298,7 +297,7 @@ You can also switch the link style by specifiying the link type just before the 
 this empty column is there enlarge the image zone and avoid truncation of the label
 ```
 ````
-![Images/aliasesandlinks](Images/aliasesandlinks.svg "Images/aliasesandlinks")
+![Images/aliasesandlinks](Images/aliasesandlinks.png "Images/aliasesandlinks")
 
 
 
@@ -346,8 +345,9 @@ ${{
  + (b:eff)(e:[C -> #oo[)(i:component,A trick to have bubble and text)
  + (e:ModelA [A-> #oo[§ModelB [B->#oo[)(i:component,Effectivity on 2 lines)
 ```
+
+
 ````
-![Images/effectivity](Images/effectivity.svg "Images/effectivity")
 ![Images/effectivity](Images/effectivity.png "Images/effectivity")
 
 A snippet can be used to help [effectivity block](#effectivity-snippet) definition
@@ -397,7 +397,7 @@ ${{
  + (i:req, req4)(t:banana,banana)
 ```
 ````
-![Images/tag](Images/tag.svg "Images/tag")
+![Images/tag](Images/tag.png "Images/tag")
 
 if the second argument match a name of a Tagstyle in the bomarkdown settings, the tagstyle is used. Else it uses the regular tagstyle and tries to override the fill color with the parameter 
 
@@ -473,7 +473,6 @@ ${{
   + ...
 + (i:file,Image Folder_icons.json)
 -->
-
 
 
 ![Images/addicon](Images/addicon.png "Images/addicon")

@@ -1,4 +1,4 @@
-<svg width="612" height="350.25" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="612" height="228.5" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<defs>
 	<marker id="arrow_i" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
         <marker id="arrow_c" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="hotpink"/></marker>
@@ -89,16 +89,16 @@ O
 					<polyline fill="none" stroke="black" stroke-width="1" points="257.5,89.25 257.5,131.75 269,131.75"/>
 					
 			<g id="0" transform="translate(20,17)">
-			<rect width="55" height="17" x="19" y="0" fill="url(#grad)" />
+			<rect width="56" height="17" x="19" y="0" fill="url(#grad)" />
 				<text id="L_0" x="0" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  y="0" transform="translate(19 0)">
 				<tspan  x="0" dy="1em">Assembly</tspan>	
 				</text>
 				<use  href="#assembly" x="0" y="0"/>
-					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="76" y="1" width="15" height="15" rx="3.4"/>
-				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="84" y="8.5" >
+					<rect stroke="none" stroke-width="0.25" stroke-linejoin="round" fill="dimgrey" fill-opacity="1" x="77" y="1" width="15" height="15" rx="3.4"/>
+				<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="white" paint-order="stroke" textLength="12" dominant-baseline="middle" text-anchor="middle" x="85" y="8.5" >
 				1 
 				</text>
-				<use href="#IW" transform="translate(95,0) scale(0.85,0.85)" />
+				<use href="#IW" transform="translate(96,0) scale(0.85,0.85)" />
 				</g>
 			
 			<g id="1" transform="translate(40,38.25)">
