@@ -221,7 +221,7 @@
           "group": "bomarkdown"
         },
         {
-          "when": "editorLangId == markdown",
+          "when": "editorLangId == markdown || editorLangId == bomarkdown",
           "command": "bomarkdown.commands",
           "group": "bomarkdown"
         }

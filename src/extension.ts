@@ -795,14 +795,17 @@ export function activate(context: vscode.ExtensionContext) {
 			let iconJSONS: string[] = vscode.workspace.getConfiguration('bomarkdown').get('IconJson') || [];
 			const settingforsnippet = [
 				{
+					"snipetname": "link",
 					"settingname": "Linksdefinition",
 					"body": "(l:${1|$LIST|}:$0"
 				},
 				{
+					"snipetname": "bubble",
 					"settingname": "bubbles",
 					"body": "(b:${1|$LIST|}$0"
 				},
 				{
+					"snipetname": "satus",
 					"settingname": "satus",
 					"body": "(s:${1|$LIST|}$0"
 				},
@@ -813,8 +816,8 @@ export function activate(context: vscode.ExtensionContext) {
 			// update snippets for bubble, status and linkdefinition
 			for (let p of settingforsnippet) {
 				const setting = vscode.workspace.getConfiguration('bomarkdown').get(p.settingname) || {};
-				if (p.settingname in snippet) {
-					snippet[p.settingname].body = p.body.replace("$LIST", Object.keys(setting).join(","))
+				if (p.snipetname in snippet) {
+					snippet[p.snipetname].body = p.body.replace("$LIST", Object.keys(setting).join(","));
 				}
 
 			}
@@ -824,7 +827,7 @@ export function activate(context: vscode.ExtensionContext) {
 			for (let Iconjson of iconJSONS) {
 				if (Iconjson == "[embedded]") {
 
-					Iconjson = vscode.Uri.joinPath(context.extensionUri, "IconConfig", "DefaultIcons.json").fsPath
+					Iconjson = vscode.Uri.joinPath(context.extensionUri, "IconConfig", "DefaultIcons.json").fsPath;
 				}
 
 				let rawdata = fs.readFileSync(Iconjson, "utf-8");
@@ -834,7 +837,7 @@ export function activate(context: vscode.ExtensionContext) {
 			// update the snippet
 			snippet["item"].body = "(i:${1|" + icons.map(i => i.name).join(",") + "|},${2:Label},${3:Revision}";
 			//update the json snippet
-			vscode.workspace.fs.writeFile(vscode.Uri.joinPath(context.extensionUri, "snippets", "bomarkdownSnippets.json"), Buffer.from(JSON.stringify(snippet, null, "\t"), "utf8"))
+			vscode.workspace.fs.writeFile(vscode.Uri.joinPath(context.extensionUri, "snippets", "bomarkdownSnippets.json"), Buffer.from(JSON.stringify(snippet, null, "\t"), "utf8"));
 
 			// reload workbench to take into account
 			vscode.commands.executeCommand("workbench.action.reloadWindow");

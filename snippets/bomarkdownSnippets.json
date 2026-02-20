@@ -17,16 +17,15 @@
 			"--"
 		],
 		"description": "Invisible bomardown codeblock"
-		
 	},
 	"link": {
 		"prefix": "(l:",
-		"body": "(l:${1|h,i,c,a|}:$0",
+		"body": "(l:${1|h,i,c,a,s,t,d|}:$0",
 		"description": "bomarkdown link block"
 	},
 	"bubble": {
 		"prefix": "(b:",
-		"body": "(b:${1|matrix,context,lock,unlock,noway|}$0",
+		"body": "(b:${1|matrice,context,lock,unlock,noway,manual|}$0",
 		"description": "bomarkdown bubble block"
 	},
 	"status": {
@@ -41,7 +40,7 @@
 	},
 	"item": {
 		"prefix": "(i:",
-		"body": "(i:${1|assembly,chapter,comment,component,file,folder,function,logical,mitem,plant,req,resource,routing,spec,worker|},${2:Label},${3:Revision}",
+		"body": "(i:${1|assembly,chapter,comment,component,file,folder,function,logical,mitem,plant,req,resource,routing,spec,worker,ca,class,co,fbook,lib,mod,mv,pc,pl,cr,var,vvalue,ia,3dshp,book,ci,coremat,cos,covmat,crep,ctx,doc,dp,drw,ep,eps,filter,fpipe,gbn,isr,mei,ope,prd,rpipe,sam,sn,spart,stddoc,image51,swp,swb,cont,generalop,indusdoc,kit,mass,mat,mcell,methodcont,method,prov,routing,tool,workcenter,worker,workerrr|},${2:Label},${3:Revision}",
 		"description": "bomarkdown item block"
 	},
 	"newcolumn": {
