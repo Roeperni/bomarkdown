@@ -56,6 +56,8 @@ ${{
    + (i:mitem,Component 1)
    + (i:mitem,Component 1)
 -->
+
+![Stock](Stock.svg "Stock")
 ![demo/Stock](Stock.svg "demo/Stock")
 <!--bomarkdown demo/simple
 + (i:assembly,Ceci est un long label (parenthèse (nestées)),A.1)wesh(s:D)fin de truc en commentaire
