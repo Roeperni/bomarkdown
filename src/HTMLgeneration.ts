@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import {Icon,BOM,SVGRectPresentation,BoMItem,extlog,Objsetting,ObjsettingWlabel,BOMdata,blocdelim,fontdef,fontsettings,FondeftoString,legendtable} from "./extension";
-import {ReplacewithObject, Transcoder} from "./parseEditor"
+import {ReplacewithObject, Transcoder} from "./parseEditor";
 
 
 
@@ -40,15 +40,15 @@ function getBOMCommandsB64(jsonpath:string):string{
 		commands+=`<g transform="translate(0,${nbicon*(h+gap)})">
 		<text font-family="system-ui" font-weight="bold" font-style="normal" font-size="13" x="25" y="15"
      fill="black">
-     ${icon.name} ${icon.label==undefined?"":`: <tspan  font-weight="normal" font-style="italic"> ${icon.label}</tspan>`}
+     ${icon.name} ${icon.label===undefined?"":`: <tspan  font-weight="normal" font-style="italic"> ${icon.label}</tspan>`}
     </text>
 	<image  xlink:href="${icon.icon}" witdh="20" height="20" x="0" y="0"/>
 	</g>
-	`
+	`;
 	nbicon++;
 	}
 
-	return commands + "</svg>"
+	return commands + "</svg>";
 }
 
 
@@ -107,12 +107,12 @@ export function generateCommandHTML(jsonpaths:string[]):string {
   </tr>
 	`;
 	const tablebegin=blocdelim.begin.split(" ");
-	const tablefin=blocdelim.end.split(" ")
+	const tablefin=blocdelim.end.split(" ");
 	for (let i=0;i<tablebegin.length;i++){
 		comandhtml+=`<tr>
 			<td><code> ${ReplacewithObject({"<":"&lt;",">":"&gt;"},tablebegin[i])} </code> </td>
 			<td> <code> ${ReplacewithObject({"<":"&lt;",">":"&gt;"},tablefin[i])}</code></td>
-		</tr>`
+		</tr>`;
 	}
 	comandhtml+=`
 	</table>
@@ -171,13 +171,13 @@ function generateSVGforSetting (obj:ObjsettingWlabel,gap:number,includesvg?:stri
         ${includesvg}
         ${obj[key].svg}
         <text font-family="system-ui" font-weight="bold" font-style="normal" font-size="13" x="${iconw+gap}" y="15" fill="black">
-				${key} ${obj[key].label==undefined?"":`: <tspan  font-weight="normal" font-style="italic"> ${obj[key].label}</tspan>`}
+				${key} ${obj[key].label===undefined?"":`: <tspan  font-weight="normal" font-style="italic"> ${obj[key].label}</tspan>`}
 				</text>
                 
         </g>`;
         nbkey ++; 
     }
-    return comandhtml+ "</svg>"
+    return comandhtml+ "</svg>";
 }
 
 function generateSVGforLinks (obj:Linksdefinitions,gap:number,svgheader?:boolean):string{
@@ -196,13 +196,13 @@ function generateSVGforLinks (obj:Linksdefinitions,gap:number,svgheader?:boolean
         comandhtml+=`<g transform="translate(15,${gap+nbkey*(h+2*gap)})">
         <line x1="0" y1="${h/2}" x2="${iconw}" y2="${h/2}" ${lineproperties(obj[key],key)} stroke-linecap="round"/>
         <text font-family="system-ui" font-weight="bold" font-style="normal" font-size="13" x="${iconw+gap}" y="15" fill="black">
-			${key} ${obj[key].label==undefined?"":`: <tspan  font-weight="normal" font-style="italic"> ${obj[key].label}</tspan>`}
+			${key} ${obj[key].label===undefined?"":`: <tspan  font-weight="normal" font-style="italic"> ${obj[key].label}</tspan>`}
 				</text>
                 
         </g>`;
         nbkey ++; 
     }
-    return comandhtml+ "</svg>"
+    return comandhtml+ "</svg>";
 }
 
 
@@ -213,7 +213,7 @@ function ExtractDefFromObject (obj:Objsetting):string{
         comandhtml+=`${obj[key]}
         `;
          }
-    return comandhtml
+    return comandhtml;
 }
 
 function ExtractDefFromObjectWlabel (obj:ObjsettingWlabel):string{
@@ -222,7 +222,7 @@ function ExtractDefFromObjectWlabel (obj:ObjsettingWlabel):string{
         comandhtml+=`${obj[key].svg}
         `;
          }
-    return comandhtml
+    return comandhtml;
 }
 
 function Extractarrows (linkstyle:Linksdefinitions):string {
@@ -232,13 +232,13 @@ function Extractarrows (linkstyle:Linksdefinitions):string {
 		comandhtml+=`${linkstyle[key].arrow}
         `;}
 	}
-	return comandhtml
+	return comandhtml;
 }
 
 function lineproperties (link:Linksdefinition,key:string):string {
 	let templineprop:string=`stroke="${link.Color}" stroke-width="${link.thickness}"`;
-	if (link.dashpattern){templineprop+=' stroke-dasharray="'+link.dashpattern +'"'};
-	if (link.arrow){templineprop+=' marker-end="url(#arrow_'+key +')"'};
+	if (link.dashpattern){templineprop+=' stroke-dasharray="'+link.dashpattern +'"';};
+	if (link.arrow){templineprop+=' marker-end="url(#arrow_'+key +')"';};
 	return templineprop;
 
 }
@@ -281,9 +281,9 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 
 	let icons:Icon[]=[];
 	for (let Iconjson of iconJSONS){
-		if (Iconjson=="[embedded]"){
+		if (Iconjson==="[embedded]"){
 
-			Iconjson=vscode.Uri.joinPath(contexturi,"IconConfig","DefaultIcons.json").fsPath
+			Iconjson=vscode.Uri.joinPath(contexturi,"IconConfig","DefaultIcons.json").fsPath;
 			}
 	
 		let rawdata = fs.readFileSync(Iconjson,"utf-8");
@@ -329,7 +329,7 @@ export function generateSVG2(contexturi:vscode.Uri ,BOMdata:BOMdata,legendeblock
 
 	// creation d'un def pour chaque type
 	for (const typ of UniqueType){
-		const typeicon =icons.find(i =>i.name==typ);
+		const typeicon =icons.find(i =>i.name===typ);
 		if (typeicon !==undefined){
 			tempstr+=`<image  id="${typ}" witdh="${iconw}" height="${iconw}" x="0" y="0" preserveAspectRatio="xMinYMid" xlink:href="${typeicon.icon}"/>
 			`;
@@ -408,7 +408,7 @@ if (haslegend){
 			// construction des lien parent / enfant on le fait en premier pour avoir les bulles sur les liens
 			if (BoMItem.Parentid>=0){
 				const papa: BoMItem|undefined=iBOM.BoMItems.find(B => B.id===BoMItem.Parentid);
-				if (papa !==undefined && BoMItem.parent_link_type!="-"){
+				if (papa !==undefined && BoMItem.parent_link_type!=="-"){
 					tempstr+=`<polyline fill="none" ${lineproperties(linkstyle[BoMItem.parent_link_type],BoMItem.parent_link_type)} points="${papa.x+iBOM.x+iconw/2},${papa.y+iBOM.y+papa.Label.h/2} ${papa.x+iBOM.x+iconw/2},${BoMItem.y+iBOM.y+BoMItem.Label.h/2} ${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y+BoMItem.Label.h/2}"/>
 					`;
 				}
@@ -443,7 +443,7 @@ if (haslegend){
 			`;
 			// test de presence d'un type et de sa validite
 			if (BoMItem.Type){
-				const typeicon :any|undefined=icons.find(i =>i.name==BoMItem.Type);
+				const typeicon :any|undefined=icons.find(i =>i.name===BoMItem.Type);
 				// on fait de la place pour l'icone si il y a un type
 				tempstr+=`<rect width="${BoMItem.Label.w}" height="${BoMItem.Label.h}" x="${iconw+gap}" y="0" fill="url(#grad)" />
 				<text id="${"L_"+BoMItem.id}" x="0" ${FondeftoString(fontdefs.label)} y="0" transform="translate(${iconw+gap} 0)">
@@ -465,10 +465,10 @@ if (haslegend){
 				// si pas de type pas d'icone
 				// test si c'est une property
 				let templabelfontdef:fontdef;
-				if (BoMItem.parent_link_type=="-"){
-					templabelfontdef=fontdefs.prop
+				if (BoMItem.parent_link_type==="-"){
+					templabelfontdef=fontdefs.prop;
 				}else{
-					templabelfontdef=fontdefs.label
+					templabelfontdef=fontdefs.label;
 				}
 				tempstr+=`<rect width="${BoMItem.Label.w}" height="${BoMItem.Label.h}" x="${gap}" fill="url(#grad)" />
 				<text id="${"L_"+BoMItem.id}" ${FondeftoString(templabelfontdef)}x="0" y="0" transform="translate(${gap} 0)">
@@ -481,7 +481,7 @@ if (haslegend){
 
 			// rendu de l'effectivité
 			if (BoMItem.effectivity){
-				if (BoMItem.effectivity.text=='<tspan  x="0" dy="1em">o</tspan>'){
+				if (BoMItem.effectivity.text==='<tspan  x="0" dy="1em">o</tspan>'){
 					tempstr+=`<use href="#eff" x="${-gap}" y="${BoMItem.Label.h/2}"/>
 					`;
 				} else {
@@ -530,7 +530,7 @@ if (haslegend){
 					${tag.Ltag.text} 
 					</text>
 				`;
-					tempfinItem+=gap+tag.Ltag.w
+					tempfinItem+=gap+tag.Ltag.w;
 				}
 
 			}
@@ -561,5 +561,5 @@ if (haslegend){
 		if ("verbose" in BOMdata.params){extlog.appendLine('itemed');}
 	}
 
-	return tempstr + '</svg>'
+	return tempstr + '</svg>';
 }

@@ -84,7 +84,7 @@ export class link {
 	label_x: number=0;
 	label_y: number=0;
 	label_align:string="";
-	label_box_x:number=0
+	label_box_x:number=0;
 	geom:linkgeom=new(linkgeom);
 }
 export class tagstyle {
@@ -225,10 +225,10 @@ export function FondeftoString (fontdef: fontdef|SVGRectPresentation):string {
 	//Object.entries(fontdef).forEach(([key,value])=>tempstr+=`${key}="${value}" `);
 	for (const[key,value] of Object.entries(fontdef)){
 
-			tempstr+=`${key.replace("_","-")}="${value}" `
+			tempstr+=`${key.replace("_","-")}="${value}" `;
 		
 	}
-	return tempstr
+	return tempstr;
 }
 
 export function Fondefsizecompute(fontdefs:fontsettings,defsize:number):fontsettings{
@@ -246,22 +246,22 @@ export function Fondefsizecompute(fontdefs:fontsettings,defsize:number):fontsett
 
 function QPIfromTable(table: string[], exturi: vscode.Uri, preselect: boolean): vscode.QuickPickItem[] {
 	// generate quick pick item from a table
-	let tempitemtable: vscode.QuickPickItem[] = []
+	let tempitemtable: vscode.QuickPickItem[] = [];
 
 	for (let item of table) {
-		let tempqpi: vscode.QuickPickItem = { label: "", picked: preselect }
-		if (item == "[embedded]") {
-			tempqpi.label = item
-			tempqpi.description = vscode.Uri.joinPath(exturi, "IconConfig", "DefaultIcons.json").fsPath
+		let tempqpi: vscode.QuickPickItem = { label: "", picked: preselect };
+		if (item === "[embedded]") {
+			tempqpi.label = item;
+			tempqpi.description = vscode.Uri.joinPath(exturi, "IconConfig", "DefaultIcons.json").fsPath;
 		} else {
-			tempqpi.label = item.substring(item.lastIndexOf("\\") + 1)
-			tempqpi.description = item
+			tempqpi.label = item.substring(item.lastIndexOf("\\") + 1);
+			tempqpi.description = item;
 
 		}
-		tempitemtable.push(tempqpi)
+		tempitemtable.push(tempqpi);
 	}
 
-	return tempitemtable
+	return tempitemtable;
 
 }
 
@@ -269,15 +269,15 @@ function QPIfromTable(table: string[], exturi: vscode.Uri, preselect: boolean): 
 
 function B64slicer(str: string, size: number): string[] {
 	//experimental fucntion to slice B64 
-	const numChunks = Math.ceil(str.length / size)
-	const chunks = new Array(numChunks)
+	const numChunks = Math.ceil(str.length / size);
+	const chunks = new Array(numChunks);
 	let start: number = 0;
 	for (let i = 0; i < numChunks; i++) {
-		chunks[i] = str.substring(start, start + size)
+		chunks[i] = str.substring(start, start + size);
 		start += size;
 	}
 
-	return chunks
+	return chunks;
 }
 
 
@@ -295,7 +295,8 @@ function getBomBlock(line: number, editortext: string): BoMBLock {
 	let i = 0;
 	let beginline = 0;
 	let temppath: string[] = [];
-	for (i = line; i >= 0; i--) {bboxservice
+	for (i = line; i >= 0; i--) {
+		bboxservice;
 		//console.log("Ligne:" + EditorArray[i] + " Bloc:" + beginbloc[0]);
 		if (beginbloc.some(bloc => EditorArray[i].startsWith(bloc))) {
 			temppath = EditorArray[i].split(" ");
@@ -307,7 +308,7 @@ function getBomBlock(line: number, editortext: string): BoMBLock {
 	}
 
 	for (i = line; i < EditorArray.length; i++) {
-		console.log(endbloc.toString())
+		console.log(endbloc.toString());
 		if (endbloc.some(fbloc => EditorArray[i].startsWith(fbloc))) {
 			console.log("trouvé fin");
 			break;
@@ -321,7 +322,7 @@ function getBomBlock(line: number, editortext: string): BoMBLock {
 function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 	//create a svg file from a string containing a svg code
 	let tempuri:vscode.Uri;
-	if (uri.scheme != "untitled") {
+	if (uri.scheme !== "untitled") {
 		if (path) {
 			
 			tempuri=vscode.Uri.joinPath(uri, "../");
@@ -369,8 +370,8 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 							let BOMuri:vscode.Uri=vscode.Uri.file(BOMtable.Duri);
 							let legenditems= message.legenditems;
 							let legendcolumns:number=3;
-							if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Layouted'); }
-							if ("legendcolumns" in BOMtable.params){ legendcolumns=BOMtable.params.legendcolumns}
+							if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Layouted'); };
+							if ("legendcolumns" in BOMtable.params){ legendcolumns=BOMtable.params.legendcolumns;};
 							BOMtable.BOMs=Computelayout2(BOMtable);
 							const totalw=BOMtable.BOMs[BOMtable.BOMs.length-1].x + BOMtable.BOMs[BOMtable.BOMs.length-1].maxw;
 							let legendeblock=initlegendbloc2(legenditems,legendcolumns,totalw,Math.round(Number(fontdefs.legend.font_size)*4/3));
@@ -439,7 +440,7 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 						case 'gensvg':{
 						
 
-								createsvgfile(BOMuri, BOMtable.path, svgcode)
+								createsvgfile(BOMuri, BOMtable.path, svgcode);
 							break;
 						}
 						case 'insertsvg':{
@@ -485,7 +486,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('bomarkdown.BBoxservice', () => {
 			if (!bboxservice) {
 				
-				bboxservice = CreateRenditionWebView(context)
+				bboxservice = CreateRenditionWebView(context);
 			}
 		})
 	);
@@ -494,7 +495,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.NewPreview', () => {
 
-			let Editor = vscode.window.activeTextEditor
+			let Editor = vscode.window.activeTextEditor;
 			if (Editor === undefined) {
 				vscode.window.showInformationMessage('No Active editor');
 			} else {
@@ -524,9 +525,9 @@ export function activate(context: vscode.ExtensionContext) {
 					} 
 					let icons:Icon[]=[];
 			for (let Iconjson of iconJSONS){
-				if (Iconjson=="[embedded]"){
+				if (Iconjson==="[embedded]"){
 
-					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath
+					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath;
 					}
 			
 		let rawdata = fs.readFileSync(Iconjson,"utf-8");
@@ -534,9 +535,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	}
 
-				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis }
+				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis; }
 				const legende:legend=legendextract(BOMtable.BOMs);
-				let legenditems:legenditem[]=Parselegendbloc(legende,icons)
+				let legenditems:legenditem[]=Parselegendbloc(legende,icons);
 				bboxservice.webview.postMessage({ command: 'getbboxes',context:"preview", boms: BOMtable, fontdefs: fontdefs,emphasises:emphasis,legenditems:legenditems });
 
 
@@ -550,7 +551,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.NewInsert', () => {
 
-			let Editor = vscode.window.activeTextEditor
+			let Editor = vscode.window.activeTextEditor;
 			if (Editor === undefined) {
 				vscode.window.showInformationMessage('No Active editor');
 			} else {
@@ -577,9 +578,9 @@ export function activate(context: vscode.ExtensionContext) {
 					} 
 					let icons:Icon[]=[];
 			for (let Iconjson of iconJSONS){
-				if (Iconjson=="[embedded]"){
+				if (Iconjson==="[embedded]"){
 
-					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath
+					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath;
 					}
 			
 		let rawdata = fs.readFileSync(Iconjson,"utf-8");
@@ -587,9 +588,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	}
 
-				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis }
+				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis ;}
 				const legende:legend=legendextract(BOMtable.BOMs);
-				let legenditems:legenditem[]=Parselegendbloc(legende,icons)
+				let legenditems:legenditem[]=Parselegendbloc(legende,icons);
 				bboxservice.webview.postMessage({ command: 'getbboxes',context:"insertsvg", boms: BOMtable, fontdefs: fontdefs,emphasises:emphasis,legenditems:legenditems });
 
 
@@ -600,7 +601,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.NewXport', () => {
 
-			let Editor = vscode.window.activeTextEditor
+			let Editor = vscode.window.activeTextEditor;
 			if (Editor === undefined) {
 				vscode.window.showInformationMessage('No Active editor');
 			} else {
@@ -629,9 +630,9 @@ export function activate(context: vscode.ExtensionContext) {
 					} 
 					let icons:Icon[]=[];
 			for (let Iconjson of iconJSONS){
-				if (Iconjson=="[embedded]"){
+				if (Iconjson==="[embedded]"){
 
-					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath
+					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath;
 					}
 			
 		let rawdata = fs.readFileSync(Iconjson,"utf-8");
@@ -639,9 +640,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	}
 
-				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis }
+				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis; }
 				const legende:legend=legendextract(BOMtable.BOMs);
-				let legenditems:legenditem[]=Parselegendbloc(legende,icons)
+				let legenditems:legenditem[]=Parselegendbloc(legende,icons);
 				bboxservice.webview.postMessage({ command: 'getbboxes',context:"gensvg", boms: BOMtable, fontdefs: fontdefs,emphasises:emphasis,legenditems:legenditems });
 
 
@@ -668,7 +669,7 @@ export function activate(context: vscode.ExtensionContext) {
 				let selectedjsonpath: string[] = [];
 				for (let selectedjson of selectedJsons) {
 					if (selectedjson.description) {
-						selectedjsonpath.push(selectedjson.description)
+						selectedjsonpath.push(selectedjson.description);
 					}
 				}
 				panel.webview.html = generateCommandHTML(selectedjsonpath);
@@ -711,7 +712,7 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showOpenDialog(options).then(fileUri => {
 				if (fileUri && fileUri[0]) {
 					// Jsonpath
-					const jsonpath: string = fileUri[0].fsPath + "_Icons.json"
+					const jsonpath: string = fileUri[0].fsPath + "_Icons.json";
 					extlog.appendLine("liste des types :" + fileUri[0].fsPath);
 					// read the folder
 					// load the json if it exists 
@@ -724,13 +725,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 					extlog.appendLine("Json Location :" + jsonpath);
 
-					const IconFiles = fs.readdirSync(fileUri[0].fsPath)
+					const IconFiles = fs.readdirSync(fileUri[0].fsPath);
 
 					for (const Iconfile of IconFiles) {
 						// extension detection
-						const spitIconfile = Iconfile.split(".")
-						if (spitIconfile[1].toLowerCase() == "jpg" || spitIconfile[1].toLowerCase() == "png" || spitIconfile[1].toLowerCase() == "jpeg") {
-							const Iconindex = icons.findIndex(i => i.filename == Iconfile);
+						const spitIconfile = Iconfile.split(".");
+						if (spitIconfile[1].toLowerCase() === "jpg" || spitIconfile[1].toLowerCase() === "png" || spitIconfile[1].toLowerCase() === "jpeg") {
+							const Iconindex = icons.findIndex(i => i.filename === Iconfile);
 							extlog.appendLine(fileUri[0].fsPath + " | " + Iconfile);
 							extlog.appendLine(path.join(fileUri[0].fsPath, Iconfile));
 							// converstion of the file in B64
@@ -756,7 +757,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 								};
 								extlog.appendLine("Add :" + spitIconfile[0]);
-								icons.push(tempicon)
+								icons.push(tempicon);
 							}
 						}
 					}
@@ -764,9 +765,9 @@ export function activate(context: vscode.ExtensionContext) {
 					let rawdata2 = JSON.stringify(icons, null, 2);
 					fs.writeFileSync(jsonpath, rawdata2);
 
-					if (iconJSONS.find(i => i == jsonpath) == undefined) {
-						iconJSONS.push(jsonpath)
-						vscode.workspace.getConfiguration('bomarkdown').update("IconJson", iconJSONS, vscode.ConfigurationTarget.Global)
+					if (iconJSONS.find(i => i === jsonpath) === undefined) {
+						iconJSONS.push(jsonpath);
+						vscode.workspace.getConfiguration('bomarkdown').update("IconJson", iconJSONS, vscode.ConfigurationTarget.Global);
 					}
 					// display the new icons
 					const panel = vscode.window.createWebviewPanel(
@@ -775,7 +776,7 @@ export function activate(context: vscode.ExtensionContext) {
 						vscode.ViewColumn.Two, // Editor column to show the new webview panel in.
 						{} // Webview options. More on these later.
 					);
-					const idembedded = iconJSONS.findIndex(i => i == "[embedded]");
+					const idembedded = iconJSONS.findIndex(i => i === "[embedded]");
 					if (idembedded > -1) {
 						iconJSONS[idembedded] = vscode.Uri.joinPath(context.extensionUri, "IconConfig", "DefaultIcons.json").fsPath;
 					}
@@ -825,7 +826,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 			let icons: Icon[] = [];
 			for (let Iconjson of iconJSONS) {
-				if (Iconjson == "[embedded]") {
+				if (Iconjson === "[embedded]") {
 
 					Iconjson = vscode.Uri.joinPath(context.extensionUri, "IconConfig", "DefaultIcons.json").fsPath;
 				}

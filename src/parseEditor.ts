@@ -18,7 +18,7 @@ export function ReplacewithObject (transcoder:Transcoder,str:string):string{
 
 function emphparser(Label:string,emphasises:emphasis[]){
     for (let emph of emphasises){
-        const re=new RegExp(emph.regex,"g")
+        const re=new RegExp(emph.regex,"g");
         const matched=Label.match(re);
         if (matched){
         for (let m of matched){
@@ -37,11 +37,11 @@ function emphparser(Label:string,emphasises:emphasis[]){
 
 
 function labelparser (transcoder:Transcoder,str:string,emphasises:emphasis[]):string{
-		let replacedstring:string=emphparser(ReplacewithObject(transcoder,str),emphasises)
+		let replacedstring:string=emphparser(ReplacewithObject(transcoder,str),emphasises);
 		let labelarray:string[]=replacedstring.split("§");
 		let tempreturn:string;
 		if (labelarray.length>1){
-			tempreturn='<tspan  x="0" dy="1em">'+labelarray.join('</tspan><tspan  x="0" dy="1em">')+'</tspan>'
+			tempreturn='<tspan  x="0" dy="1em">'+labelarray.join('</tspan><tspan  x="0" dy="1em">')+'</tspan>';
 
 		}else{
 			tempreturn='<tspan  x="0" dy="1em">'+labelarray[0]+'</tspan>';
@@ -55,23 +55,23 @@ export function legendextract (BOMtable:BOM[]):legend {
 	let templegend:legend={types:[],links:[],status:[],bubbles:[]};
 	for (const BOM of BOMtable){
 		for( const item of BOM.BoMItems){
-			if (!templegend.types.includes(item.Type)){templegend.types.push(item.Type)}
-			if (item.parent_link_type!="h"){
-				if (!templegend.links.includes(item.parent_link_type)){templegend.links.push(item.parent_link_type)}
+			if (!templegend.types.includes(item.Type)){templegend.types.push(item.Type);}
+			if (item.parent_link_type!=="h"){
+				if (!templegend.links.includes(item.parent_link_type)){templegend.links.push(item.parent_link_type);}
 			}
 			if (item.relatives){
 				for (const rel of item.relatives){
-					if (!templegend.links.includes(rel.linktype)){templegend.links.push(rel.linktype)}
+					if (!templegend.links.includes(rel.linktype)){templegend.links.push(rel.linktype);}
 				}
 			}
 			if (item.bubbles){
 				for (const bub of item.bubbles){
-					if (!templegend.bubbles.includes(bub)){templegend.bubbles.push(bub)}
+					if (!templegend.bubbles.includes(bub)){templegend.bubbles.push(bub);}
 				}
 			}
 			if (item.status){
 				
-					if (!templegend.status.includes(item.status)){templegend.status.push(item.status)}
+					if (!templegend.status.includes(item.status)){templegend.status.push(item.status);}
 				
 			}
 		}
@@ -91,14 +91,14 @@ export function Parselegendbloc (legend:legend,icons:Icon[]):legenditem[]{
 	let templegenditems:legenditem[]=[];
 	let templabel:string="";
 	for (const typ of legend.types ){
-		const typeicon :any|undefined=icons.find(i =>i.name==typ);
+		const typeicon :any|undefined=icons.find(i =>i.name===typ);
 		if (typeicon){
 			if (typeicon.label){
 				templabel=typeicon.label;
 			}else {
 				templabel=typeicon.name;
 			}
-			templegenditems.push({type:"object",name:typ,label:templabel,w:0})
+			templegenditems.push({type:"object",name:typ,label:templabel,w:0});
 		}
 	}
 	for (const typ of legend.links ){
@@ -110,7 +110,7 @@ export function Parselegendbloc (legend:legend,icons:Icon[]):legenditem[]{
 			}
 			
 
-			templegenditems.push({type:"link",name:typ,label:templabel,w:0})
+			templegenditems.push({type:"link",name:typ,label:templabel,w:0});
 		}
 		}
 		for (const status of legend.status ){
@@ -158,11 +158,11 @@ function blockparser (inputtable:string[],startbloc:RegExp,endbloc:RegExp):strin
 		inputtable[i]=inputtable[i].substring(1);
 		}
 	}
-	let i=inputtable.length-1
+	let i=inputtable.length-1;
 	while (i>Bindex && !inputtable[i].match(endbloc)){
 		i--;
 	}
-	if (Bindex==-1){
+	if (Bindex===-1){
 		tempbloctable.push(inputtable.join(""));
 
 	} else {
@@ -197,9 +197,9 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 	let temparg:Objsetting={};
 
 	// test de la presence d'un bloc de param
-	if (EditorArray[0]=="${{"){
+	if (EditorArray[0]==="${{"){
 	
-		const endparambloc=EditorArray.findIndex((end)=>end=="}}$");
+		const endparambloc=EditorArray.findIndex((end)=>end==="}}$");
 		//un bloc de param a été trouvé
 		if (endparambloc>0){
 			 bomstart=endparambloc+1;
@@ -208,7 +208,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 
 		} 
 	}
-	if ("emphasis" in temparg) { emphasis = temparg.emphasis }
+	if ("emphasis" in temparg) { emphasis = temparg.emphasis; }
 	if ("tagstyles" in temparg){ 
 		let temptagstyles={...tagstyles,...temparg.tagstyles};
 		tagstyles=temptagstyles;
@@ -218,20 +218,20 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 
 		let tempitem: BoMItem = new(BoMItem);
 		// test de la comande new column
-		if (item.substring(0,10) == "+newcolumn") {
+		if (item.substring(0,10) === "+newcolumn") {
 			tempBOM.column = tempcolumn;
 			BOMtable.push(tempBOM);
 			tempBOM = new(BOM);
 			// detection d'un gap suppplémentaire pour la nouvelle colonne
 			let tempcolumngap=item.substring(11);
-			if (tempcolumngap){tempBOM.x=Number(tempcolumngap)}
+			if (tempcolumngap){tempBOM.x=Number(tempcolumngap);}
 			tempcolumn++;
 		} else {
 			// on detecte le niveau	
 			let tempArray: string[] = [];
 			tempArray = item.split("+ ");
 			// on ignore les ligne qui n'ont pas de +, le + est aussi un caractère interdit dans la ligne
-			if (tempArray.length == 2) {
+			if (tempArray.length === 2) {
 				tempitem.id = tempid;
 				let tempargs: string = tempArray[1];
 				let temptags:tag[]=[];
@@ -240,7 +240,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 				tempitem.Parentid = tempparentid[tempitem.level];
 				if (tempitem.level>0){
 					const linkkey:string=tempArray[0].slice(-1);
-					if (linkkey in linkstyle || linkkey=="-"){
+					if (linkkey in linkstyle || linkkey==="-"){
 						tempitem.parent_link_type=linkkey;
 					} 
 
@@ -268,7 +268,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 							case "i:":
 								// TNR
 								const TNRarray = arg.substring(2).split(",");
-								tempitem.Label=new(Label)
+								tempitem.Label=new(Label);
 								switch (TNRarray.length) {
 									case 1:
 										// si une valeur alors c'est un label
@@ -308,7 +308,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								if (larray.length >= 1) {
 									templink.linktype = larray[0];
 								}
-								if (larray.length == 2) {
+								if (larray.length === 2) {
 									const temprelatives = larray[1].split(",").filter((c: string) => c !== "");
 									for (const alias of temprelatives){
 										let pushrelative=new(link);
@@ -320,17 +320,17 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 											switch (alias.substring(lblidx+1,lblidx+2)){
 												case "<":
 													pushrelative.linklabel.text=labelparser(UTF8replacement,alias.substring(lblidx+2),emphasis);
-													pushrelative.aliaspos="e"
+													pushrelative.aliaspos="e";
 													
 													break;
 												case ">":
 													pushrelative.linklabel.text=labelparser(UTF8replacement,alias.substring(lblidx+2),emphasis);
-													pushrelative.aliaspos="b"
+													pushrelative.aliaspos="b";
 													
 													break;
 												default:
 													pushrelative.linklabel.text=labelparser(UTF8replacement,alias.substring(lblidx+1),emphasis);
-													pushrelative.aliaspos="m"
+													pushrelative.aliaspos="m";
 													
 													break;
 											}
@@ -341,7 +341,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 										pushrelative.linktype=larray[0];
 										
 									}
-									objprelatives.push(pushrelative)
+									objprelatives.push(pushrelative);
 									}
 									tempitem.relatives=objprelatives;
 								}
@@ -365,12 +365,12 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								let temptag=new(tag);
 								
 								temptag.Ltag.text=labelparser(UTF8replacement,Tagarray[0],emphasis);
-								temptag.font=fontdefs.wtag
-								if (Tagarray.length==2) {
+								temptag.font=fontdefs.wtag;
+								if (Tagarray.length===2) {
 									
 										if (Tagarray[1] in tagstyles) {
-											temptag.rect=tagstyles[Tagarray[1]].rect
-											const tempfont:string=tagstyles[Tagarray[1]].fontdef
+											temptag.rect=tagstyles[Tagarray[1]].rect;
+											const tempfont:string=tagstyles[Tagarray[1]].fontdef;
 											if (tempfont in fontdefs){
 												temptag.font=fontdefs[tagstyles[Tagarray[1]].fontdef as keyof fontsettings];
 											}
@@ -378,7 +378,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 											let temprect={...tagstyles.regular.rect};
 											temprect.fill=Tagarray[1];
 											temptag.rect={...temprect};
-											const tempfont= tagstyles.regular.fontdef
+											const tempfont= tagstyles.regular.fontdef;
 											temptag.font=fontdefs[tempfont as keyof fontsettings];
 											
 										}
@@ -390,7 +390,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								break;
 							default:
 								// Si on n'est pas dans les pattern d'avant
-								if (tempArray2.length == 1) {
+								if (tempArray2.length === 1) {
 									// si il n'y a rien on a juste un label
 
 									tempitem.Label.text = labelparser(UTF8replacement,tempargs,emphasis);
@@ -413,7 +413,7 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 					}
 				}
 
-				tempitem.tags=temptags
+				tempitem.tags=temptags;
 				tempBOM.BoMItems.push(tempitem);
 				
 			}

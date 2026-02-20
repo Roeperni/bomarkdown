@@ -13,17 +13,17 @@ export function initlegendbloc2 (legenditems:legenditem[],estnbcol:number,totalw
 	const panv:number=vscode.workspace.getConfiguration('bomarkdown').get('panv')||20;
 	const iconw:number=h;
 	const gap: number=vscode.workspace.getConfiguration('bomarkdown').get('gap')||2;
-	const maxi:number=legenditems.length
+	const maxi:number=legenditems.length;
 	if (estnbcol<0){
 
 		let i:number=0;
 		let tempw:number=legenditems[i].w;
 		
 		 do {
-			tempw+=legenditems[i].w
-			i++
+			tempw+=legenditems[i].w;
+			i++;
 
-		}while (tempw < totalw && i<maxi )
+		}while (tempw < totalw && i<maxi );
 		estnbcol=i+1;
 	}
 
@@ -40,14 +40,14 @@ export function initlegendbloc2 (legenditems:legenditem[],estnbcol:number,totalw
 			slicestart+=maxitempercolum;
 
 		let tempcolumn:legendColumn={x:0,w:0,items:[]};
-		if (k==0){
+		if (k===0){
 			tempcolumn.x=0;
 		}else{
 			tempcolumn.x=tempcolumns[k-1].x + tempcolumns[k-1].w;
 		}
 		tempcolumn.w=Math.max(...tempcolumnitems.map(w =>w.w))+iconw+ 3* gap;
 		tempcolumn.items=tempcolumnitems;
-		tempcolumns.push(tempcolumn)
+		tempcolumns.push(tempcolumn);
 	}
 
 	const tempw:number=tempcolumns[nbcol-1].x + tempcolumns[nbcol-1].w;
@@ -85,13 +85,13 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 		let itemcount = 0;
 		if (iBOM.BoMItems.length>0){
 		for (let i=0; i< iBOM.BoMItems.length;i++) {
-			if (i==0){
+			if (i===0){
 				iBOM.BoMItems[i].y = 0;
 				
 			} else {
 				iBOM.BoMItems[i].y = iBOM.h+iBOM.BoMItems[i].Label.h/VpanFactor;
 			}
-			iBOM.h=iBOM.BoMItems[i].y+iBOM.BoMItems[i].Label.h
+			iBOM.h=iBOM.BoMItems[i].y+iBOM.BoMItems[i].Label.h;
 			
 			iBOM.BoMItems[i].x = iBOM.BoMItems[i].level * panh;
 			iBOM.BoMItems[i].h = 100;
@@ -134,7 +134,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 								for (const bom of BomTable.BOMs){
 								let relbomitem: BoMItem|undefined=bom.BoMItems.find( R=>R.alias===relative.relative);
 								if (relbomitem!==undefined){
-									if (bom.column==iBOM.column){
+									if (bom.column===iBOM.column){
 										// meme colonne 
 										// attention piege le w le x du bord droit de l'item
 										relative.geom.spx=iBOM.x+BoMItem.w+gap;
@@ -143,7 +143,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 										relative.geom.fpy=bom.y+relbomitem.y+BoMItem.Label.h/2;
 										relative.geom.cs=(iBOM.maxw-BoMItem.w)*BendFactor+ panh;
 										relative.geom.cf=(iBOM.maxw-relbomitem.w)*BendFactor + panh ;
-										relative=LinklabelCompute(relative,0,panh,iBOM.maxw+iBOM.x)
+										relative=LinklabelCompute(relative,0,panh,iBOM.maxw+iBOM.x);
 										
 			
 			
@@ -156,7 +156,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 										relative.geom.fpy=bom.y+relbomitem.y+BoMItem.Label.h/2;
 										relative.geom.cs=-(relative.geom.spx-relative.geom.fpx)/2;
 										relative.geom.cf=-relative.geom.cs;
-										relative=LinklabelCompute(relative,1,panh,iBOM.maxw+iBOM.x)
+										relative=LinklabelCompute(relative,1,panh,iBOM.maxw+iBOM.x);
 			
 									} else{
 										// cible à droite
@@ -167,7 +167,7 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 										relative.geom.fpy=bom.y+relbomitem.y+BoMItem.Label.h/2;
 										relative.geom.cs=(relative.geom.fpx-relative.geom.spx)/2;
 										relative.geom.cf=-relative.geom.cs;
-										relative=LinklabelCompute(relative,2,panh,iBOM.maxw+iBOM.x)
+										relative=LinklabelCompute(relative,2,panh,iBOM.maxw+iBOM.x);
 									}
 
 							}
@@ -208,21 +208,21 @@ function LinklabelCompute (templink:link,targetpos:number,clearance:number,maxw:
 			aliasposcode=2;
 			break;
 	}
-	const linkcomb:number=aliasposcode+3*targetpos
+	const linkcomb:number=aliasposcode+3*targetpos;
 	switch (linkcomb){
 		// label au mileu quelque soit la target
 		case 0:
 			templink.label_x=maxw;
 			templink.label_y=(templink.geom.fpy-templink.geom.spy)/2+templink.geom.spy;
 			templink.label_align="middle";
-			templink.label_box_x=templink.label_x-templink.linklabel.w/2
+			templink.label_box_x=templink.label_x-templink.linklabel.w/2;
 			break;
 		case 3:
 		case 6:
 			templink.label_x=(templink.geom.fpx-templink.geom.spx)/2+templink.geom.spx;
 			templink.label_y=(templink.geom.fpy-templink.geom.spy)/2+templink.geom.spy;
 			templink.label_align="middle";
-			templink.label_box_x=templink.label_x-templink.linklabel.w/2
+			templink.label_box_x=templink.label_x-templink.linklabel.w/2;
 			break;
 
 		// label au debut  meme col	
@@ -230,44 +230,44 @@ function LinklabelCompute (templink:link,targetpos:number,clearance:number,maxw:
 			templink.label_x=templink.geom.spx+ clearance;
 			templink.label_y=templink.geom.spy;
 			templink.label_align="begin";
-			templink.label_box_x=templink.label_x
+			templink.label_box_x=templink.label_x;
 			break;
 		// label a la fin meme col
 		case 2:
 			templink.label_x=templink.geom.fpx+ clearance;
 			templink.label_y=templink.geom.fpy;
 			templink.label_align="begin";
-			templink.label_box_x=templink.label_x
+			templink.label_box_x=templink.label_x;
 			break;
 		// label debut col gauche
 		case 4:
 			templink.label_x=templink.geom.spx- clearance;
 			templink.label_y=templink.geom.spy;
 			templink.label_align="end";
-			templink.label_box_x=templink.label_x-templink.linklabel.w
+			templink.label_box_x=templink.label_x-templink.linklabel.w;
 			break;
 		// label fin col gauche
 		case 5:
 			templink.label_x=templink.geom.fpx+ clearance;
 			templink.label_y=templink.geom.fpy;
 			templink.label_align="begin";
-			templink.label_box_x=templink.label_x
+			templink.label_box_x=templink.label_x;
 			break;
 		// label debut col droite
 		case 7:
 			templink.label_x=templink.geom.spx+ clearance;
 			templink.label_y=templink.geom.spy;
 			templink.label_align="begin";
-			templink.label_box_x=templink.label_x
+			templink.label_box_x=templink.label_x;
 			break;
 		// label fin col droite
 		case 8:
 			templink.label_x=templink.geom.fpx- clearance;
 			templink.label_y=templink.geom.fpy;
 			templink.label_align="end";
-			templink.label_box_x=templink.label_x-templink.linklabel.w
+			templink.label_box_x=templink.label_x-templink.linklabel.w;
 			break;
 	}
 
-	return templink
+	return templink;
 }

@@ -16,7 +16,7 @@ function testtextbox(Ff,Fweight,Fstyle,Fsize,txt){
 
 function emphparser(Label,emphasises){
     for (let emph of emphasises){
-        const re=new RegExp(emph.regex,"g")
+        const re=new RegExp(emph.regex,"g");
         const matched=Label.match(re);
         if (matched){
         for (let m of matched){
@@ -38,7 +38,7 @@ function getBBox (label,fontdefs){
     label.w=Math.round(Txtbox.getBBox().width);
     label.h=Math.round(Txtbox.getBBox().height);
 
-    return label
+    return label;
 
 }
 
@@ -51,7 +51,7 @@ function getBBox (label,fontdefs){
                 case 'getbbox':
                     var Txtbox=document.getElementById("Textbox");
                     Txtbox.setAttribute ('font-size',message.payload.Fsize);
-                    Txtbox.innerHTML=message.payload.txt
+                    Txtbox.innerHTML=message.payload.txt;
                     
                     vscode.postMessage({
                         command: 'Bbox',
@@ -60,11 +60,11 @@ function getBBox (label,fontdefs){
                     break;
                 case 'getbboxes':
                     var Txtbox=document.getElementById("Textbox");
-                    var response=message
+                    var response=message;
                     for (let ibom of response.boms.BOMs){
                         for (let bomitem of ibom.BoMItems){
                             if (bomitem.Label) {
-                            if (bomitem.parent_link_type=="-"){
+                            if (bomitem.parent_link_type==="-"){
                                 bomitem.Label=getBBox(bomitem.Label,message.fontdefs.prop);
                             }else{
                                 bomitem.Label=getBBox(bomitem.Label,message.fontdefs.label);
@@ -92,7 +92,7 @@ function getBBox (label,fontdefs){
                     }
                    
                     for (let legenditem of response.legenditems){
-                        legenditem.w=Math.round(getBBox({text:legenditem.label,w:0,h:0},message.fontdefs.legend).w)
+                        legenditem.w=Math.round(getBBox({text:legenditem.label,w:0,h:0},message.fontdefs.legend).w);
                     }
 
                     vscode.postMessage({
