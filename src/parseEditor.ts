@@ -426,3 +426,31 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 	BOMtable.push(tempBOM);
 	return {BOMs:BOMtable,params:temparg,path:path,Duri:Duri.fsPath};
 }
+
+export function bomgen(Eltab:string[],lvl:number,prefix:string):string{
+// todo controle de l'input + gestion type de lien
+	let tempstr:string="";
+	let nb:number;
+	if (Eltab[0] !== undefined){
+	const Elem=Eltab[0].split(",");
+	// on a type , nombre, prefix ,lien
+	const type=Elem[0];
+	if (Elem[1].includes("-")){
+		const tabminmax=Elem[1].split("-");
+		 nb=Math.round(Math.random()*(Number(tabminmax[1])-Number(tabminmax[0]))+Number(tabminmax[0]));
+	} else{
+		nb=+Elem[1];
+	}
+
+	let childtab:string[]=Eltab.slice(1);
+	for (let i=1;i<=nb ;i++){
+			tempstr+=" ".repeat(lvl)+"+ (i:"+Elem[0]+","+Elem[2]+prefix+i+")"+"\n";
+			if (childtab.length>0){
+				tempstr+=bomgen(childtab,lvl+1,prefix+i+".");
+			}
+	}
+	
+	}
+	return tempstr;
+
+}

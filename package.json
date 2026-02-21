@@ -202,6 +202,10 @@
         "command": "bomarkdown.NewInsert",
         "title": "SVG Insert",
         "category": "BoMarkdown"
+      },{
+        "command": "bomarkdown.bomgen",
+        "title": "Generate Bom",
+        "category": "BoMarkdown"
       }
     ],    
     "menus": {
@@ -223,6 +227,11 @@
         {
           "when": "editorLangId == markdown || editorLangId == bomarkdown",
           "command": "bomarkdown.commands",
+          "group": "bomarkdown"
+        },
+        {
+          "when": "editorLangId == markdown || editorLangId == bomarkdown",
+          "command": "bomarkdown.bomgen",
           "group": "bomarkdown"
         }
       ]

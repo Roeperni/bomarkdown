@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { Computelayout2,initlegendbloc2} from './Computelayout';
-import { parseEditor,legendextract,Parselegendbloc} from './parseEditor';
+import { parseEditor,legendextract,Parselegendbloc,bomgen} from './parseEditor';
 import { generateCommandHTML, generateSVG2 } from './HTMLgeneration';
 import { buffer } from 'stream/consumers';
 
@@ -844,6 +844,26 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.commands.executeCommand("workbench.action.reloadWindow");
 			vscode.window.showInformationMessage("Snippets Updated");
 
+		})
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand('bomarkdown.bomgen', async () => {
+			let Editor = vscode.window.activeTextEditor;
+			if (Editor === undefined) {
+				vscode.window.showInformationMessage('No Active editor');
+			} else {
+				const line =Editor.selection.active.line
+				const linetxt = Editor.document.lineAt(line).text;
+				if (linetxt.substring(0,7)==="genbom:"){
+					const bomtab=linetxt.substring(7).split(";");
+					let strbom:string=bomgen(bomtab,0,"");
+					Editor.edit(editbuilder => {
+										editbuilder.insert(Editor.selection.active.translate(1), "\n" + strbom + "\n");
+
+									});
+
+				}
+			}
 		})
 	);
 }
