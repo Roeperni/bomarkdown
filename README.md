@@ -482,6 +482,53 @@ You can also edit the UserIcons.json to remove unwanted types and a folder with 
 
 After an icon update you can launch the bomarkdown.updatesnippets command to update the item type in the snippet
 
+### Genbom command
+
+This command in the right click is used to generate a bom
+to be interpreted the line must start by 
+```
+genbom:
+```
+Then you can add block separated by a ;
+Each block is defined as followings
+
+```
+type,number of object to create,prefix,revision="",link=" "
+```
+ - **type** : the type of object to create
+ - **number** : the number of object to create it can be a range a-b. it will be a random number between a b (both value included)
+ - **prefix** : the prefix for this type it will automatically  completed with an identifer like x.x..x
+ - **revision** (optionnal): if not left empty the revision value for each item
+ - **link** (optionnal): for part with a level greater than 0 specify the link.
+
+example
+
+ ```bomarkdown
+genbom:assembly,2-5,Product ,1;component,1-3,Part ,A.1;component,2,Alternatives ,A.1,a
++ (i:assembly,Product 1,1)
+ + (i:component,Part 1.1,A.1)
+ a+ (i:component,Alternatives 1.1.1,A.1)
+ a+ (i:component,Alternatives 1.1.2,A.1)
+ + (i:component,Part 1.2,A.1)
+ a+ (i:component,Alternatives 1.2.1,A.1)
+ a+ (i:component,Alternatives 1.2.2,A.1)
++ (i:assembly,Product 2,1)
+ + (i:component,Part 2.1,A.1)
+ a+ (i:component,Alternatives 2.1.1,A.1)
+ a+ (i:component,Alternatives 2.1.2,A.1)
++ (i:assembly,Product 3,1)
+ + (i:component,Part 3.1,A.1)
+ a+ (i:component,Alternatives 3.1.1,A.1)
+ a+ (i:component,Alternatives 3.1.2,A.1)
+ + (i:component,Part 3.2,A.1)
+ a+ (i:component,Alternatives 3.2.1,A.1)
+ a+ (i:component,Alternatives 3.2.2,A.1)
+ + (i:component,Part 3.3,A.1)
+ a+ (i:component,Alternatives 3.3.1,A.1)
+ a+ (i:component,Alternatives 3.3.2,A.1)
+ 
+ ```
+
 ### Edit UserIcons.json
 This command is only in the command palette.
 It opens the selected json icon file for edition
@@ -599,17 +646,17 @@ Note : those snippet are not automatic and the use of the crt+ space shortcut is
 ![codeblockgif](Images/InsertCodeBlock.gif)
 
 ### Item snippet
-item snippet is triggered by (i:
+item snippet is triggered by i:
 ![snippetitem](Images/InsertItem.gif)
 
 ### Alias snippet
-Alias snippet is triggered by (a:
+Alias snippet is triggered by a:
 ![snipetalias](Images/Insertalias.gif)
 ### Bubble snippet
-Bubble snippet is triggered by (b:
+Bubble snippet is triggered by b:
 ![snipetbubble](Images/Insertbubble.gif)
 ### Effectivity snippet
-Effectivity snippet is triggered by (e:
+Effectivity snippet is triggered by e:
 ![snippetteff](Images/Inserteff.gif)
 
 ### Newbom snippet
@@ -617,16 +664,16 @@ newbom snippet is triggered by +new
 ![snippetnewbom](Images/Insernewbom.gif)
 
 ### Link snippet
-link snippet is triggered by (l:
+link snippet is triggered by l:
 ![snippetlink](Images/Inserlink.gif)
 
 
 ### Status snippet
-Status snippet is triggered by (s:
+Status snippet is triggered by s:
 ![snippetstatus](Images/Insertstatus.gif)
 
 ### Tag Snippets
-Tag snippet is triggered by (t:
+Tag snippet is triggered by t:
 ![snippetag](Images/Inserttags.gif)
 
 
@@ -905,4 +952,10 @@ Change in the parsing text after the last block is ignored and considered as com
   - Tag on items
   - layout bug fix
   - change link in hearachy
+
+### 1.1.0
+ - New genbom command
+ - Fix update snippet command for custom link
+ - code cleanup
+
 ---

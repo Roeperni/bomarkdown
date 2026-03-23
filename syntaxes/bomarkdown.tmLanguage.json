@@ -31,7 +31,19 @@
 			"patterns": [
 				{
 				"match": "^(\\+newcolumn)\\s*([0-9]*)",
-				"name":"command.bomarkdown",
+				"name":"command.newcol.bomarkdown",
+				"captures": {
+						"1":{
+							"name":"keyword.control.command.bomarkdown"
+						},
+						"2":{
+							"name":"support.variable.command.bomarkdown"
+						}
+					}
+				},
+				{
+				"match": "^(\\+genbom:)(.*)$",
+				"name":"command.genbom.bomarkdown",
 				"captures": {
 						"1":{
 							"name":"keyword.control.command.bomarkdown"

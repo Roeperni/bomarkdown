@@ -51,3 +51,27 @@ ${{
   + (i:mitem,PhantomAssembly2,A.1)
    + (i:mitem,Component 1)
    + (i:mitem,Component 1)
+ 
+
+
++genbom:mass,2,assy;prov,4,prov,A.1;dp,1,Alt,A,a
++ (i:mass,assy1)
+ + (i:prov,prov1.1,A.1)
+ a+ (i:dp,Alt1.1.1,A)
+ + (i:prov,prov1.2,A.1)
+ a+ (i:dp,Alt1.2.1,A)
+ + (i:prov,prov1.3,A.1)
+ a+ (i:dp,Alt1.3.1,A)
+ + (i:prov,prov1.4,A.1)
+ a+ (i:dp,Alt1.4.1,A)
++ (i:mass,assy2)
+ + (i:prov,prov2.1,A.1)
+ a+ (i:dp,Alt2.1.1,A)
+ + (i:prov,prov2.2,A.1)
+ a+ (i:dp,Alt2.2.1,A)
+ + (i:prov,prov2.3,A.1)
+ a+ (i:dp,Alt2.3.1,A)
+ + (i:prov,prov2.4,A.1)
+ a+ (i:dp,Alt2.4.1,A)
+
+

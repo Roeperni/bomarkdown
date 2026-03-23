@@ -250,8 +250,8 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 				tempArray = [];
 				// Parsing du texte a droite des +
 				tempArray = tempargs.split(/\(|\)/).filter((c: string) => c !== "");
-				let tempArray2=tempargs.split(/(\([ialbset]\:|\))/).filter((c: string) => c !== "");
-				tempArray2=blockparser(tempArray2,/\([ialbset]\:/,/\)/).filter((c: string) => c !== "");
+				let tempArray2=tempargs.split(/(\([ialbset@]\:|\))/).filter((c: string) => c !== "");
+				tempArray2=blockparser(tempArray2,/\([ialbset@]\:/,/\)/).filter((c: string) => c !== "");
 				//console.log(tempArray2.join("|"))
 
 				// Block pour sortir en cas d'erreur de parsing
@@ -388,6 +388,8 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								temptags.push(temptag);
 									}
 								break;
+							case "@":
+								break;
 							default:
 								// Si on n'est pas dans les pattern d'avant
 								if (tempArray2.length === 1) {
@@ -431,10 +433,16 @@ export function bomgen(Eltab:string[],lvl:number,prefix:string):string{
 // todo controle de l'input + gestion type de lien
 	let tempstr:string="";
 	let nb:number;
+	
 	if (Eltab[0] !== undefined){
 	const Elem=Eltab[0].split(",");
+	let link:string=" ";
+	let rev:string="";
 	// on a type , nombre, prefix ,lien
+	if (Elem.length>=3){
 	const type=Elem[0];
+	if (Elem[4] !==undefined){link=Elem[4];}
+	if (Elem[3] !==undefined){rev=(Elem[3]);}
 	if (Elem[1].includes("-")){
 		const tabminmax=Elem[1].split("-");
 		 nb=Math.round(Math.random()*(Number(tabminmax[1])-Number(tabminmax[0]))+Number(tabminmax[0]));
@@ -444,12 +452,23 @@ export function bomgen(Eltab:string[],lvl:number,prefix:string):string{
 
 	let childtab:string[]=Eltab.slice(1);
 	for (let i=1;i<=nb ;i++){
-			tempstr+=" ".repeat(lvl)+"+ (i:"+Elem[0]+","+Elem[2]+prefix+i+")"+"\n";
+			if(lvl>0){
+				tempstr+=" ".repeat(lvl-1)+link+"+ (i:"+Elem[0]+","+Elem[2]+prefix+i;
+			} else{
+				tempstr+="+ (i:"+Elem[0]+","+Elem[2]+prefix+i;
+			}
+			if(rev!==""){
+				tempstr+=","+rev+")\n";
+			} else{
+				tempstr+=")\n";
+
+			}
 			if (childtab.length>0){
 				tempstr+=bomgen(childtab,lvl+1,prefix+i+".");
 			}
 	}
 	
+	}
 	}
 	return tempstr;
 

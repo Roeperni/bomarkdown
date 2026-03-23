@@ -847,22 +847,25 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 	context.subscriptions.push(
-		vscode.commands.registerCommand('bomarkdown.bomgen', async () => {
+		vscode.commands.registerCommand('bomarkdown.bomgen', () => {
 			let Editor = vscode.window.activeTextEditor;
 			if (Editor === undefined) {
 				vscode.window.showInformationMessage('No Active editor');
 			} else {
-				const line =Editor.selection.active.line
+				const line =Editor.selection.active.line;
 				const linetxt = Editor.document.lineAt(line).text;
-				if (linetxt.substring(0,7)==="genbom:"){
-					const bomtab=linetxt.substring(7).split(";");
+				if (linetxt.substring(0,8)==="+genbom:"){
+					const bomtab=linetxt.substring(8).split(";");
+					if (bomtab[0] !==''){
 					let strbom:string=bomgen(bomtab,0,"");
 					Editor.edit(editbuilder => {
-										editbuilder.insert(Editor.selection.active.translate(1), "\n" + strbom + "\n");
+										editbuilder.insert(new vscode.Position(line+1,0), strbom);
 
 									});
 
 				}
+				}
+
 			}
 		})
 	);

@@ -1,12 +1,17 @@
 {
+	"genbom": {
+		"prefix": "+gen",
+		"body": "+genbom:${1:type},${2:nb},${3:prefix}",
+		"description": "Command to generate a BOM"
+	},
 	"effectivity": {
-		"prefix": "(e:",
-		"body": "(e:[${2}->${3}${4|[,]|}",
+		"prefix": "e:",
+		"body": "(e:[${2}->${3}${4|[,]|})$0",
 		"description": "Define effectivity expression of bomardown"
 	},
 	"alias": {
-		"prefix": "(a:",
-		"body": "(a:$1",
+		"prefix": "a:",
+		"body": "(a:$1)$0",
 		"description": "Alias block of bomarkdown"
 	},
 	"codeblock": {
@@ -19,28 +24,28 @@
 		"description": "Invisible bomardown codeblock"
 	},
 	"link": {
-		"prefix": "(l:",
-		"body": "(l:${1|h,i,c,a,s,t,d|}:$0",
+		"prefix": "l:",
+		"body": "(l:${1|h,i,c,a,s,t,d|}:${2:list of alias})$0",
 		"description": "bomarkdown link block"
 	},
 	"bubble": {
-		"prefix": "(b:",
-		"body": "(b:${1|matrice,context,lock,unlock,noway,manual|}$0",
+		"prefix": "b:",
+		"body": "(b:${1|matrice,context,lock,unlock,noway,manual|})$0",
 		"description": "bomarkdown bubble block"
 	},
 	"status": {
-		"prefix": "(s:",
-		"body": "(s:${1|D,IW,F,R,O|}",
+		"prefix": "s:",
+		"body": "(s:${1|D,IW,F,R,O|})$0",
 		"description": "bomarkdown status block"
 	},
 	"tag": {
-		"prefix": "(t:",
-		"body": "(t:${1:Label},${2:Color or style}$0",
+		"prefix": "t:",
+		"body": "(t:${1:Label},${2:Color or style})$0",
 		"description": "bomarkdown tag block"
 	},
 	"item": {
-		"prefix": "(i:",
-		"body": "(i:${1|assembly,chapter,comment,component,file,folder,function,logical,mitem,plant,req,resource,routing,spec,worker,ca,class,co,fbook,lib,mod,mv,pc,pl,cr,var,vvalue,ia,3dshp,book,ci,coremat,cos,covmat,crep,ctx,doc,dp,drw,ep,eps,filter,fpipe,gbn,isr,mei,ope,prd,rpipe,sam,sn,spart,stddoc,image51,swp,swb,cont,generalop,indusdoc,kit,mass,mat,mcell,methodcont,method,prov,routing,tool,workcenter,worker,workerrr|},${2:Label},${3:Revision}",
+		"prefix": "i:",
+		"body": "(i:${1|assembly,chapter,comment,component,file,folder,function,logical,mitem,plant,req,resource,routing,spec,worker,ca,class,co,fbook,lib,mod,mv,pc,pl,cr,var,vvalue,ia,3dshp,book,ci,coremat,cos,covmat,crep,ctx,doc,dp,drw,ep,eps,filter,fpipe,gbn,isr,mei,ope,prd,rpipe,sam,sn,spart,stddoc,image51,swp,swb,cont,generalop,indusdoc,kit,mass,mat,mcell,methodcont,method,prov,routing,tool,workcenter,worker,workerrr|},${2:Label}${3:, ${4:Revision}})$0",
 		"description": "bomarkdown item block"
 	},
 	"newcolumn": {
