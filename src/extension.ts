@@ -3,6 +3,12 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import {
+  LanguageClient,
+  LanguageClientOptions,
+  ServerOptions,
+  TransportKind
+} from "vscode-languageclient/node";
 
 import { Computelayout2,initlegendbloc2} from './Computelayout';
 import { parseEditor,legendextract,Parselegendbloc,bomgen} from './parseEditor';
@@ -22,6 +28,7 @@ export class SVGRectPresentation {
 	fill_opacity:string="1";
 
 }
+
 
 // courbure des lien d'implement
 export let extlog = vscode.window.createOutputChannel("BoMarkdownLogs");
@@ -477,9 +484,39 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
+
+
+
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "bomarkdown" is now active!');
+
+	// start of language serveur
+
+  const serverModule = context.asAbsolutePath(
+    path.join("out", "langagueServer.ts")
+  );
+
+  const serverOptions: ServerOptions = {
+    run: { module: serverModule, transport: TransportKind.ipc },
+    debug: { module: serverModule, transport: TransportKind.ipc }
+  };
+
+  const clientOptions: LanguageClientOptions = {
+    documentSelector: [{ language: "bomarkdown" }]
+  };
+
+  const client = new LanguageClient(
+    "bomarkdown-lsp",
+    "BOMarkdown Language Server",
+    serverOptions,
+    clientOptions
+  );
+
+  context.subscriptions.push(client.start());
+
+
+
 
 	// open rendering view
 	context.subscriptions.push(
