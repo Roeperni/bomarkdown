@@ -406,7 +406,7 @@ if (haslegend){
 	for (const iBOM of BOMdata.BOMs){
 		for (const BoMItem of iBOM.BoMItems){
 			// construction des lien parent / enfant on le fait en premier pour avoir les bulles sur les liens
-			if (BoMItem.Parentid>=0){
+			if (BoMItem.Parentid>=0 && BoMItem.Label.text!=="" ){
 				const papa: BoMItem|undefined=iBOM.BoMItems.find(B => B.id===BoMItem.Parentid);
 				if (papa !==undefined && BoMItem.parent_link_type!=="-"){
 					tempstr+=`<polyline fill="none" ${lineproperties(linkstyle[BoMItem.parent_link_type],BoMItem.parent_link_type)} points="${papa.x+iBOM.x+iconw/2},${papa.y+iBOM.y+papa.Label.h/2} ${papa.x+iBOM.x+iconw/2},${BoMItem.y+iBOM.y+BoMItem.Label.h/2} ${BoMItem.x+iBOM.x},${BoMItem.y+iBOM.y+BoMItem.Label.h/2}"/>

@@ -34,7 +34,12 @@ function emphparser(Label,emphasises){
 function getBBox (label,fontdefs){
     var Txtbox=document.getElementById("Textbox");
     Object.entries(fontdefs).forEach(([key,value])=>Txtbox.setAttribute (key.replace("_","-"),value));
-    Txtbox.innerHTML=label.text;
+    if (label.text!==""){
+        Txtbox.innerHTML=label.text;
+    }else{
+        Txtbox.innerHTML="A";
+    }
+    
     label.w=Math.round(Txtbox.getBBox().width);
     label.h=Math.round(Txtbox.getBBox().height);
 
@@ -64,6 +69,7 @@ function getBBox (label,fontdefs){
                     for (let ibom of response.boms.BOMs){
                         for (let bomitem of ibom.BoMItems){
                             if (bomitem.Label) {
+
                             if (bomitem.parent_link_type==="-"){
                                 bomitem.Label=getBBox(bomitem.Label,message.fontdefs.prop);
                             }else{

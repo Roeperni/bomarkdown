@@ -52,15 +52,19 @@
        "other": true,
        "comments": false,
        "strings": true
+
        
-       }},
+       }
+
+      
+      },
        "[bomarkdown]": {
         
         "editor.tabSize": 1,
+        "editor.indentSize": 1,
         "editor.insertSpaces": true,      
         "editor.detectIndentation": false, 
-
-           "editor.quickSuggestions": {
+        "editor.quickSuggestions": {
              "other": true,
              "comments": false,
              "strings": true

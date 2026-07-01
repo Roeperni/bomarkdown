@@ -9,6 +9,7 @@ ${{
 + **Requirement**
 + (i:folder,Requfolder)(b:context)
  + (i:spec,Spec 1,A)texte ignoré (e:[A->B[)texte ignoré
+  + __
   + (e:c'est un **commentaire** valable§(mais pas essentiel))(i:req,req1,1)(a:u1)
   + (i:req,req2,1)
   + (i:req,req3,1)(a:u3)
@@ -24,6 +25,7 @@ ${{
  + (i:assembly,SubAssembly1,A.1)(l:s:ma1!>begin,ma1!middle,ma1!<end)(e:o)
   + (i:component,Component 1,A.1)(b:matrice)
   + (i:component,Component 2§wesh,A.1)(b:lock)
+
   + (i:component,Component 3,A.1)
  + (i:assembly,SubAssembly2,A.1)(e:Model1[A->#oo[§Model2[C->#oo[)
   + (i:component,Component 1,A.1)

@@ -3,15 +3,18 @@ ${{
 }}$
 
 + **Requirement**
+
 + (i:folder,Requfolder)(b:context)
  + (i:spec,Spec 1,A)texte ignoré (e:[A->B[)texte ignoré
   + (e:c'est un **commentaire** valable§(mais pas essentiel))(i:req,req1,1)(a:u1)
   + (i:req,req2,1)
+  + 
   + (i:req,req3,1)(a:u3)
   + (i:...)
  + (i:spec,Spec 2,A)(a:spec1)(e:[B->#oo[)
   + (i:req,req1,1)(l:i:u3!middle label)
   + (i:req,req2,1)
+  
   + (i:req,req3,1)(l:i:u1!>begin label,u1!<end label)
   + (i:...)
 +newcolumn 100

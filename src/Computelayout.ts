@@ -94,7 +94,6 @@ export function Computelayout2(BomTable: BOMdata): BOM[] {
 			iBOM.h=iBOM.BoMItems[i].y+iBOM.BoMItems[i].Label.h;
 			
 			iBOM.BoMItems[i].x = iBOM.BoMItems[i].level * panh;
-			iBOM.BoMItems[i].h = 100;
 			iBOM.BoMItems[i].w = iBOM.BoMItems[i].x + iBOM.BoMItems[i].Label.w;
 			if (iBOM.BoMItems[i].Type) { iBOM.BoMItems[i].w += iconw + gap; }
 			

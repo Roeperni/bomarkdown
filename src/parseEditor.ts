@@ -394,8 +394,12 @@ export function parseEditor(EditorTxt: string,path:string,Duri:vscode.Uri): BOMd
 								// Si on n'est pas dans les pattern d'avant
 								if (tempArray2.length === 1) {
 									// si il n'y a rien on a juste un label
+									if (tempargs==="__"){
+										tempitem.Label.text="";
+									}else{
 
 									tempitem.Label.text = labelparser(UTF8replacement,tempargs,emphasis);
+									}
 								}
 									// il il y a quand meme des ()
 									//delete tempitem.revision;
