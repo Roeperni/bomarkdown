@@ -115,7 +115,6 @@ O
 	<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="11" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke"  x="20" y="0" dominant-baseline="middle">
 	Legend
 	</text></g><polyline fill="none" stroke="black" stroke-width="1" points="160.5,49.5 160.5,72 172,72"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="180.5,72 180.5,94.5 192,94.5"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="180.5,72 180.5,117 192,117"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="180.5,72 180.5,139.5 192,139.5"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="180.5,72 180.5,162 192,162"/>
@@ -197,9 +196,9 @@ O
 				</g>
 			
 			<g id="6" transform="translate(192,85.5)">
-			<rect width="12" height="18" x="2" fill="url(#grad)" />
+			<rect width="10" height="18" x="2" fill="url(#grad)" />
 				<text id="L_6" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
-				<tspan  x="0" dy="1em">__</tspan>	
+					
 				</text>
 				</g>
 			

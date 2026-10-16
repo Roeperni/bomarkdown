@@ -19,6 +19,7 @@
   "publisher": "Roeperni",
   "main": "./out/extension.js",
   "contributes": {
+    "markdown.markdownItPlugins": true,
     "languages": [{
       "id": "bomarkdown",
       "aliases": ["bomarkdown", "BoMarkdown"],
@@ -299,6 +300,13 @@
         "bomarkdown.Linksdefinition":{
           "type":"object",
           "default":{
+          "s": {
+            "label": "scope",
+            "arrow": "",
+            "Color": "red",
+            "thickness": 1,
+            "dashpattern": ""
+        },
             "h":{
               "label":"Child",
               "arrow":"",
@@ -581,7 +589,9 @@
             "default":{
               "#oo":"&#x221E;",
               "->":"&#x2192;",
-              "<-":"&#x2190;"
+              "<-":"&#x2190;",
+              "&&": "&amp;",
+              "#null":"&#x2800;"
             },
             "additionalProperties": {
               "type": "string"

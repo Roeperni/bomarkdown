@@ -4,8 +4,10 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { Computelayout2,initlegendbloc2} from './Computelayout';
-import { parseEditor,legendextract,Parselegendbloc,bomgen} from './parseEditor';
+
+
+import { Computelayout2, initlegendbloc2 } from './Computelayout';
+import { parseEditor, legendextract, Parselegendbloc, bomgen } from './parseEditor';
 import { generateCommandHTML, generateSVG2 } from './HTMLgeneration';
 import { buffer } from 'stream/consumers';
 
@@ -15,11 +17,11 @@ let previewpanel: vscode.WebviewPanel | undefined = undefined;
 
 
 export class SVGRectPresentation {
-	stroke:string="none";
-	stroke_width:string="0.25";
-	stroke_linejoin:string="round";
-	fill:string="grey";
-	fill_opacity:string="1";
+	stroke: string = "none";
+	stroke_width: string = "0.25";
+	stroke_linejoin: string = "round";
+	fill: string = "grey";
+	fill_opacity: string = "1";
 
 }
 
@@ -27,79 +29,79 @@ export class SVGRectPresentation {
 export let extlog = vscode.window.createOutputChannel("BoMarkdownLogs");
 //Define Item interface
 export class linkgeom {
-spx:number=0;
-spy:number=0;
-fpx:number=0;
-fpy:number=0;
-cf:number=0;
-cs:number=0;
+	spx: number = 0;
+	spy: number = 0;
+	fpx: number = 0;
+	fpy: number = 0;
+	cf: number = 0;
+	cs: number = 0;
 }
 
-export type legendtable ={
-	w:number;
-	h:number;
-	columns:legendColumn[];
+export type legendtable = {
+	w: number;
+	h: number;
+	columns: legendColumn[];
 }
 
 
- export type legendColumn ={
-		x:number;
-		w:number;
-		items:legenditem[];
+export type legendColumn = {
+	x: number;
+	w: number;
+	items: legenditem[];
 }
 
 
 export interface Linksdefinitions {
-	[key:string]:Linksdefinition
+	[key: string]: Linksdefinition
 
 }
 export interface Linksdefinition {
-	label:"string";
-	arrow:"string";
+	label: "string";
+	arrow: "string";
 	Color: "string";
-	thickness:number;
-	dashpattern:"string";
+	thickness: number;
+	dashpattern: "string";
 }
 
 
 export interface legend {
-	types:string[];
-	links:string[];
-	status:string[];
-	bubbles:string[];
+	types: string[];
+	links: string[];
+	status: string[];
+	bubbles: string[];
 }
 
-export type legenditem ={
-		type:string;
-		name:string;
-		label:string;
-		w:number;
+export type legenditem = {
+	type: string;
+	name: string;
+	label: string;
+	w: number;
 }
 
 export class link {
-	relative: string="";
-	linktype: string="";
-	linklabel: Label=new(Label);
-	aliaspos: string="m";
-	label_x: number=0;
-	label_y: number=0;
-	label_align:string="";
-	label_box_x:number=0;
-	geom:linkgeom=new(linkgeom);
+	relative: string = "";
+	linktype: string = "";
+	linklabel: Label = new (Label);
+	aliaspos: string = "m";
+	label_x: number = 0;
+	label_y: number = 0;
+	label_align: string = "";
+	label_box_x: number = 0;
+	geom: linkgeom = new (linkgeom);
 }
 export class tagstyle {
-	rect:SVGRectPresentation=new(SVGRectPresentation);
-	fontdef:string="wtag";
+	rect: SVGRectPresentation = new (SVGRectPresentation);
+	fontdef: string = "wtag";
 }
-export type tagstyles={
-	[key:string]:tagstyle
+export type tagstyles = {
+	[key: string]: tagstyle
 }
 
 export class tag {
-	Ltag:Label=new(Label);
-	font:fontdef=new(fontdef);
-	rect:SVGRectPresentation=new(SVGRectPresentation);
-	
+	Ltag: Label = new (Label);
+	font: fontdef = new (fontdef);
+	rect: SVGRectPresentation = new (SVGRectPresentation);
+
 }
 
 export type emphasis = {
@@ -111,38 +113,38 @@ export type emphasis = {
 }
 
 export class BoMItem {
-	id: number=0;
-	Parentid: number=-1;
-	level: number=0;
-	Type: string="";
-	Label: Label= new (Label);
+	id: number = 0;
+	Parentid: number = -1;
+	level: number = 0;
+	Type: string = "";
+	Label: Label = new (Label);
 	alias?: string;
-	x: number=0;
-	y: number=0;
-	h: number=0;
-	w: number=0;
-	parent_link_type:string="h";
+	x: number = 0;
+	y: number = 0;
+	h: number = 0;
+	w: number = 0;
+	parent_link_type: string = "h";
 	effectivity?: Label;
-	tags?:Array<tag>;
+	tags?: Array<tag>;
 	status?: string;
 	revision?: string;
 	bubbles?: string[];
 	relatives?: link[];
-	badparsing: boolean=true;
+	badparsing: boolean = true;
 }
 export class Label {
-	text:string="";
-	w:number=0;
-	h:number=0;
+	text: string = "";
+	w: number = 0;
+	h: number = 0;
 }
 export class BOM {
-	BoMItems: BoMItem[]=[];
-	column: number=0;
-	x: number=0;
-	y: number=0;
-	maxw: number=0;
-	maxnegw: number=0;
-	h: number=0;
+	BoMItems: BoMItem[] = [];
+	column: number = 0;
+	x: number = 0;
+	y: number = 0;
+	maxw: number = 0;
+	maxnegw: number = 0;
+	h: number = 0;
 
 }
 
@@ -180,25 +182,25 @@ export type blocdelim = {
 }
 
 export class fontdef {
-	font_family:string="sytem-ui";
-	font_weight:string="normal"; 
-	font_style:string="normal"; 
-	font_size:string="12";
-	stroke:string="none"; 
-	stroke_width:string="0";
-	fill:string="black";
-	paint_order:string="stroke";
+	font_family: string = "sytem-ui";
+	font_weight: string = "normal";
+	font_style: string = "normal";
+	font_size: string = "12";
+	stroke: string = "none";
+	stroke_width: string = "0";
+	fill: string = "black";
+	paint_order: string = "stroke";
 }
 
 export class fontsettings {
-	label:fontdef=new(fontdef);
-	rev:fontdef=new(fontdef);
-	eff:fontdef=new(fontdef);
-	linklabel:fontdef=new(fontdef);
-	legend:fontdef=new(fontdef);
-	prop:fontdef=new(fontdef);
-	wtag:fontdef=new(fontdef);
-	btag:fontdef=new(fontdef);
+	label: fontdef = new (fontdef);
+	rev: fontdef = new (fontdef);
+	eff: fontdef = new (fontdef);
+	linklabel: fontdef = new (fontdef);
+	legend: fontdef = new (fontdef);
+	prop: fontdef = new (fontdef);
+	wtag: fontdef = new (fontdef);
+	btag: fontdef = new (fontdef);
 }
 
 
@@ -219,26 +221,26 @@ interface BoMBLock {
 	"end": number
 }
 
-export function FondeftoString (fontdef: fontdef|SVGRectPresentation):string {
+export function FondeftoString(fontdef: fontdef | SVGRectPresentation): string {
 	// Function that transform a dict into a string key1="value1" key2="value2"
-	let tempstr:string="";
+	let tempstr: string = "";
 	//Object.entries(fontdef).forEach(([key,value])=>tempstr+=`${key}="${value}" `);
-	for (const[key,value] of Object.entries(fontdef)){
+	for (const [key, value] of Object.entries(fontdef)) {
 
-			tempstr+=`${key.replace("_","-")}="${value}" `;
-		
+		tempstr += `${key.replace("_", "-")}="${value}" `;
+
 	}
 	return tempstr;
 }
 
-export function Fondefsizecompute(fontdefs:fontsettings,defsize:number):fontsettings{
+export function Fondefsizecompute(fontdefs: fontsettings, defsize: number): fontsettings {
 	// function to conpute fontsize from fontdefs
-	let def:keyof fontsettings;
-	let tempfontdefs:fontsettings=fontdefs;
-	for (def in fontdefs){
-		let tempfontdef:fontdef=fontdefs[def];
-		tempfontdef.font_size=`${(Math.round(Number(tempfontdef.font_size)*defsize))}`;
-		tempfontdefs[def]=tempfontdef;
+	let def: keyof fontsettings;
+	let tempfontdefs: fontsettings = fontdefs;
+	for (def in fontdefs) {
+		let tempfontdef: fontdef = fontdefs[def];
+		tempfontdef.font_size = `${(Math.round(Number(tempfontdef.font_size) * defsize))}`;
+		tempfontdefs[def] = tempfontdef;
 	}
 	return tempfontdefs;
 }
@@ -281,11 +283,50 @@ function B64slicer(str: string, size: number): string[] {
 }
 
 
+function getallBomBlock( editortext: string): BoMBLock []{
+	// function to extract a bommardown bom from a markdown document 
+	// Split de l'editor sur les saut de line
+	let EditorArray: string[] = editortext.split(/\r?\n/);
+	const blocdelim: blocdelim = vscode.workspace.getConfiguration('bomarkdown').get('codeblockdelimiter') || { "begin": "", "end": "" };
+	const beginbloc = blocdelim.begin.split(" ");
+	const endbloc = blocdelim.end.split(" ");
+	// recherche de la limite sup du codeblock
+	let i = 0;
+	const maxi=EditorArray.length;
+	let beginline = 0;
+	let temppath: string[] = [];
+	let tempbomblocklist:BoMBLock[]=[];
+	while ( i < maxi ) {
+
+		for (let k=0;k<beginbloc.length;k++){
+			if (EditorArray[i].startsWith(beginbloc[k])){
+				temppath = EditorArray[i].split(" ");
+				i++;
+				beginline=i;
+				while (!(EditorArray[i].startsWith(endbloc[k])) && i<maxi){
+					i++;
+
+				}
+				if (i<maxi){
+					const tempblock: BoMBLock = { "path": temppath[1], "content": EditorArray.slice(beginline, i).join("\n"), "begin": beginline, "end": i };
+					tempbomblocklist.push(tempblock);
+
+				}
+			
+
+			}
+			
+		}
+		i++;
+
+	}
+		return tempbomblocklist;
+}
 
 
 
 function getBomBlock(line: number, editortext: string): BoMBLock {
-// function to extract a bommardown bom from a markdown document 
+	// function to extract a bommardown bom from a markdown document 
 	// Split de l'editor sur les saut de line
 	let EditorArray: string[] = editortext.split(/\r?\n/);
 	const blocdelim: blocdelim = vscode.workspace.getConfiguration('bomarkdown').get('codeblockdelimiter') || { "begin": "", "end": "" };
@@ -321,12 +362,12 @@ function getBomBlock(line: number, editortext: string): BoMBLock {
 
 function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 	//create a svg file from a string containing a svg code
-	let tempuri:vscode.Uri;
+	let tempuri: vscode.Uri;
 	if (uri.scheme !== "untitled") {
 		if (path) {
-			
-			tempuri=vscode.Uri.joinPath(uri, "../");
-			tempuri=vscode.Uri.joinPath(tempuri,path+".svg");
+
+			tempuri = vscode.Uri.joinPath(uri, "../");
+			tempuri = vscode.Uri.joinPath(tempuri, path + ".svg");
 		} else {
 
 			tempuri = uri.with({ path: uri.path.substring(0, uri.path.lastIndexOf(".")) + ".svg" });
@@ -339,72 +380,72 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 }
 
 
- function CreateRenditionWebView(ctx:vscode.ExtensionContext):vscode.WebviewPanel{
+function CreateRenditionWebView(ctx: vscode.ExtensionContext): vscode.WebviewPanel {
 	//create the webview used for rendition , also define the handler for commands
-				bboxservice = vscode.window.createWebviewPanel(
-					'BBoxservice',
-					'BBoxservice',
-					{preserveFocus:true,viewColumn:vscode.ViewColumn.Two},
-					
-					{
-						enableScripts: true,
-						retainContextWhenHidden: true
-					}
-				);
-				bboxservice.webview.html = getBBoxWebview(ctx.extensionUri, bboxservice.webview);
-				bboxservice.onDidDispose(
-					() => {
-						bboxservice = undefined;
-					},
-					undefined,
-					ctx.subscriptions
-				);
-			
-			// Get message from the BBOX service.
-			bboxservice.webview.onDidReceiveMessage(
-				message => {
-											
-						let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
-						
-							let BOMtable:BOMdata = message.boms;
-							let BOMuri:vscode.Uri=vscode.Uri.file(BOMtable.Duri);
-							let legenditems= message.legenditems;
-							let legendcolumns:number=3;
-							if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Layouted'); };
-							if ("legendcolumns" in BOMtable.params){ legendcolumns=BOMtable.params.legendcolumns;};
-							BOMtable.BOMs=Computelayout2(BOMtable);
-							const totalw=BOMtable.BOMs[BOMtable.BOMs.length-1].x + BOMtable.BOMs[BOMtable.BOMs.length-1].maxw;
-							let legendeblock=initlegendbloc2(legenditems,legendcolumns,totalw,Math.round(Number(fontdefs.legend.font_size)*4/3));
-							const svgcode=generateSVG2(ctx.extensionUri, BOMtable,legendeblock);
-							let Editor = vscode.window.activeTextEditor;
-							
+	bboxservice = vscode.window.createWebviewPanel(
+		'BBoxservice',
+		'BBoxservice',
+		{ preserveFocus: true, viewColumn: vscode.ViewColumn.Two },
+
+		{
+			enableScripts: true,
+			retainContextWhenHidden: true
+		}
+	);
+	bboxservice.webview.html = getBBoxWebview(ctx.extensionUri, bboxservice.webview);
+	bboxservice.onDidDispose(
+		() => {
+			bboxservice = undefined;
+		},
+		undefined,
+		ctx.subscriptions
+	);
+
+	// Get message from the BBOX service.
+	bboxservice.webview.onDidReceiveMessage(
+		message => {
+
+			let fontdefs: fontsettings = vscode.workspace.getConfiguration('bomarkdown').get('fontdefs') || new (fontsettings);
+
+			let BOMtable: BOMdata = message.boms;
+			let BOMuri: vscode.Uri = vscode.Uri.file(BOMtable.Duri);
+			let legenditems = message.legenditems;
+			let legendcolumns: number = 3;
+			if ("verbose" in BOMtable.params) { vscode.window.showInformationMessage('Layouted'); };
+			if ("legendcolumns" in BOMtable.params) { legendcolumns = BOMtable.params.legendcolumns; };
+			BOMtable.BOMs = Computelayout2(BOMtable);
+			const totalw = BOMtable.BOMs[BOMtable.BOMs.length - 1].x + BOMtable.BOMs[BOMtable.BOMs.length - 1].maxw;
+			let legendeblock = initlegendbloc2(legenditems, legendcolumns, totalw, Math.round(Number(fontdefs.legend.font_size) * 4 / 3));
+			const svgcode = generateSVG2(ctx.extensionUri, BOMtable, legendeblock);
+			let Editor = vscode.window.activeTextEditor;
 
 
 
-					switch (message.context) {
-						case 'preview': {
 
-							// Create and show a new webview
-							if (!previewpanel) {
+			switch (message.context) {
+				case 'preview': {
 
-								previewpanel = vscode.window.createWebviewPanel(
-									'previewpanel',
-									'previewpanel',
-									vscode.ViewColumn.Two,
-									{
-										retainContextWhenHidden: true
-									}
-								);
-								previewpanel.onDidDispose(
-									() => {
-										previewpanel = undefined;
-									},
-									undefined,
-									ctx.subscriptions
-								);
+					// Create and show a new webview
+					if (!previewpanel) {
+
+						previewpanel = vscode.window.createWebviewPanel(
+							'previewpanel',
+							'previewpanel',
+							vscode.ViewColumn.Two,
+							{
+								retainContextWhenHidden: true
 							}
-							
-							previewpanel.webview.html = `<!DOCTYPE html>
+						);
+						previewpanel.onDidDispose(
+							() => {
+								previewpanel = undefined;
+							},
+							undefined,
+							ctx.subscriptions
+						);
+					}
+
+					previewpanel.webview.html = `<!DOCTYPE html>
 				<html lang="en">
 				<head>
 				<meta charset="UTF-8">
@@ -435,38 +476,49 @@ function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): void {
 				</html>`;
 
 
-							break;
-						}
-						case 'gensvg':{
-						
+					break;
+				}
+				case 'gensvg': {
 
-								createsvgfile(BOMuri, BOMtable.path, svgcode);
-							break;
-						}
-						case 'insertsvg':{
-							if (Editor!==undefined){
-								const editortext = Editor.document.getText();
-								let temptxtbloc = getBomBlock(Editor.selection.active.line, editortext);
-								createsvgfile(BOMuri, BOMtable.path, svgcode);
-								const temposition: vscode.Position = new vscode.Position(temptxtbloc.end + 1, 0);
-								const tempSVGmd = `![${temptxtbloc.path}](${temptxtbloc.path + ".svg"} "${temptxtbloc.path}")`;
-								if (!editortext.includes(tempSVGmd)) {
-									Editor.edit(editbuilder => {
-										editbuilder.insert(temposition, "\n" + tempSVGmd + "\n");
 
-									});
-								}
-								vscode.commands.executeCommand('markdown-preview-enhanced.openPreviewToTheSide');
+					createsvgfile(BOMuri, BOMtable.path, svgcode);
+					vscode.commands.executeCommand('markdown.preview.refresh');
 
-							}
+					break;
+				}
+				case 'RegenOnSave': {
+
+
+					createsvgfile(BOMuri, BOMtable.path, svgcode);
+					vscode.commands.executeCommand('markdown.preview.refresh');
+
+					break;
+				}
+
+				case 'insertsvg': {
+					if (Editor !== undefined) {
+						const editortext = Editor.document.getText();
+						let temptxtbloc = getBomBlock(Editor.selection.active.line, editortext);
+						createsvgfile(BOMuri, BOMtable.path, svgcode);
+						const temposition: vscode.Position = new vscode.Position(temptxtbloc.end + 1, 0);
+						const tempSVGmd = `![${temptxtbloc.path}](${temptxtbloc.path + ".svg"} "${temptxtbloc.path}")`;
+						if (!editortext.includes(tempSVGmd)) {
+							Editor.edit(editbuilder => {
+								editbuilder.insert(temposition, "\n" + tempSVGmd + "\n");
+
+							});
 						}
+						vscode.commands.executeCommand('markdown-preview-enhanced.openPreviewToTheSide');
+
 					}
-				},
-				undefined,
-				ctx.subscriptions
-			);
+				}
+			}
+		},
+		undefined,
+		ctx.subscriptions
+	);
 
-			return bboxservice;
+	return bboxservice;
 }
 
 
@@ -485,7 +537,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.BBoxservice', () => {
 			if (!bboxservice) {
-				
+
 				bboxservice = CreateRenditionWebView(context);
 			}
 		})
@@ -501,44 +553,44 @@ export function activate(context: vscode.ExtensionContext) {
 			} else {
 				// Export to file
 				if (!bboxservice) {
-					bboxservice=CreateRenditionWebView(context);
+					bboxservice = CreateRenditionWebView(context);
 
-			}
+				}
 
 
 				const editortext = Editor.document.getText();
 				let temptxtbloc = getBomBlock(Editor.selection.active.line, editortext);
-				let BOMtable: BOMdata = parseEditor(temptxtbloc.content,temptxtbloc.path,Editor.document.uri);
+				let BOMtable: BOMdata = parseEditor(temptxtbloc.content, temptxtbloc.path, Editor.document.uri);
 
 				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
-				
-				
+
+
 				//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
-				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
+				let fontdefs: fontsettings = vscode.workspace.getConfiguration('bomarkdown').get('fontdefs') || new (fontsettings);
 
-				
 
-				
-				let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
-					if ("IconJsons" in BOMtable.params) {
-					iconJSONS=BOMtable.params.iconJSONS;
-					} 
-					let icons:Icon[]=[];
-			for (let Iconjson of iconJSONS){
-				if (Iconjson==="[embedded]"){
 
-					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath;
+
+				let iconJSONS: string[] = vscode.workspace.getConfiguration('bomarkdown').get('IconJson') || [];
+				if ("IconJsons" in BOMtable.params) {
+					iconJSONS = BOMtable.params.iconJSONS;
+				}
+				let icons: Icon[] = [];
+				for (let Iconjson of iconJSONS) {
+					if (Iconjson === "[embedded]") {
+
+						Iconjson = vscode.Uri.joinPath(context.extensionUri, "IconConfig", "DefaultIcons.json").fsPath;
 					}
-			
-		let rawdata = fs.readFileSync(Iconjson,"utf-8");
-		icons.push(...JSON.parse(rawdata));
 
-	}
+					let rawdata = fs.readFileSync(Iconjson, "utf-8");
+					icons.push(...JSON.parse(rawdata));
+
+				}
 
 				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis; }
-				const legende:legend=legendextract(BOMtable.BOMs);
-				let legenditems:legenditem[]=Parselegendbloc(legende,icons);
-				bboxservice.webview.postMessage({ command: 'getbboxes',context:"preview", boms: BOMtable, fontdefs: fontdefs,emphasises:emphasis,legenditems:legenditems });
+				const legende: legend = legendextract(BOMtable.BOMs);
+				let legenditems: legenditem[] = Parselegendbloc(legende, icons);
+				bboxservice.webview.postMessage({ command: 'getbboxes', context: "preview", boms: BOMtable, fontdefs: fontdefs, emphasises: emphasis, legenditems: legenditems });
 
 
 			}
@@ -557,41 +609,41 @@ export function activate(context: vscode.ExtensionContext) {
 			} else {
 				// Export to file
 				if (!bboxservice) {
-					bboxservice=CreateRenditionWebView(context);
+					bboxservice = CreateRenditionWebView(context);
 
-			}
+				}
 
 
 				const editortext = Editor.document.getText();
 				let temptxtbloc = getBomBlock(Editor.selection.active.line, editortext);
-				let BOMtable: BOMdata = parseEditor(temptxtbloc.content,temptxtbloc.path,Editor.document.uri);
-				
+				let BOMtable: BOMdata = parseEditor(temptxtbloc.content, temptxtbloc.path, Editor.document.uri);
+
 				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
-				
-				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 
-				
-				
-				let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
-					if ("IconJsons" in BOMtable.params) {
-					iconJSONS=BOMtable.params.iconJSONS;
-					} 
-					let icons:Icon[]=[];
-			for (let Iconjson of iconJSONS){
-				if (Iconjson==="[embedded]"){
+				let fontdefs: fontsettings = vscode.workspace.getConfiguration('bomarkdown').get('fontdefs') || new (fontsettings);
 
-					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath;
+
+
+				let iconJSONS: string[] = vscode.workspace.getConfiguration('bomarkdown').get('IconJson') || [];
+				if ("IconJsons" in BOMtable.params) {
+					iconJSONS = BOMtable.params.iconJSONS;
+				}
+				let icons: Icon[] = [];
+				for (let Iconjson of iconJSONS) {
+					if (Iconjson === "[embedded]") {
+
+						Iconjson = vscode.Uri.joinPath(context.extensionUri, "IconConfig", "DefaultIcons.json").fsPath;
 					}
-			
-		let rawdata = fs.readFileSync(Iconjson,"utf-8");
-		icons.push(...JSON.parse(rawdata));
 
-	}
+					let rawdata = fs.readFileSync(Iconjson, "utf-8");
+					icons.push(...JSON.parse(rawdata));
 
-				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis ;}
-				const legende:legend=legendextract(BOMtable.BOMs);
-				let legenditems:legenditem[]=Parselegendbloc(legende,icons);
-				bboxservice.webview.postMessage({ command: 'getbboxes',context:"insertsvg", boms: BOMtable, fontdefs: fontdefs,emphasises:emphasis,legenditems:legenditems });
+				}
+
+				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis; }
+				const legende: legend = legendextract(BOMtable.BOMs);
+				let legenditems: legenditem[] = Parselegendbloc(legende, icons);
+				bboxservice.webview.postMessage({ command: 'getbboxes', context: "insertsvg", boms: BOMtable, fontdefs: fontdefs, emphasises: emphasis, legenditems: legenditems });
 
 
 			}
@@ -607,50 +659,112 @@ export function activate(context: vscode.ExtensionContext) {
 			} else {
 				// Export to file
 				if (!bboxservice) {
-					bboxservice=CreateRenditionWebView(context);
+					bboxservice = CreateRenditionWebView(context);
 
-			}
+				}
 
 
 				const editortext = Editor.document.getText();
 				let temptxtbloc = getBomBlock(Editor.selection.active.line, editortext);
-				let BOMtable: BOMdata = parseEditor(temptxtbloc.content,temptxtbloc.path,Editor.document.uri);
-				
+				let BOMtable: BOMdata = parseEditor(temptxtbloc.content, temptxtbloc.path, Editor.document.uri);
+
 				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
-				
-				const emptyfontdef:fontdef={font_family:"",font_weight:"", font_style:"",font_size:"",stroke:"",stroke_width:"",fill:"",paint_order:""};
-	//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
-				let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||new(fontsettings);
 
-				
-				
-				let iconJSONS:string[]=vscode.workspace.getConfiguration('bomarkdown').get('IconJson')||[];
-					if ("IconJsons" in BOMtable.params) {
-					iconJSONS=BOMtable.params.iconJSONS;
-					} 
-					let icons:Icon[]=[];
-			for (let Iconjson of iconJSONS){
-				if (Iconjson==="[embedded]"){
+				const emptyfontdef: fontdef = { font_family: "", font_weight: "", font_style: "", font_size: "", stroke: "", stroke_width: "", fill: "", paint_order: "" };
+				//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
+				let fontdefs: fontsettings = vscode.workspace.getConfiguration('bomarkdown').get('fontdefs') || new (fontsettings);
 
-					Iconjson=vscode.Uri.joinPath(context.extensionUri,"IconConfig","DefaultIcons.json").fsPath;
+
+
+				let iconJSONS: string[] = vscode.workspace.getConfiguration('bomarkdown').get('IconJson') || [];
+				if ("IconJsons" in BOMtable.params) {
+					iconJSONS = BOMtable.params.iconJSONS;
+				}
+				let icons: Icon[] = [];
+				for (let Iconjson of iconJSONS) {
+					if (Iconjson === "[embedded]") {
+
+						Iconjson = vscode.Uri.joinPath(context.extensionUri, "IconConfig", "DefaultIcons.json").fsPath;
 					}
-			
-		let rawdata = fs.readFileSync(Iconjson,"utf-8");
-		icons.push(...JSON.parse(rawdata));
 
-	}
+					let rawdata = fs.readFileSync(Iconjson, "utf-8");
+					icons.push(...JSON.parse(rawdata));
+
+				}
 
 				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis; }
-				const legende:legend=legendextract(BOMtable.BOMs);
-				let legenditems:legenditem[]=Parselegendbloc(legende,icons);
-				bboxservice.webview.postMessage({ command: 'getbboxes',context:"gensvg", boms: BOMtable, fontdefs: fontdefs,emphasises:emphasis,legenditems:legenditems });
+				const legende: legend = legendextract(BOMtable.BOMs);
+				let legenditems: legenditem[] = Parselegendbloc(legende, icons);
+				bboxservice.webview.postMessage({ command: 'getbboxes', context: "gensvg", boms: BOMtable, fontdefs: fontdefs, emphasises: emphasis, legenditems: legenditems });
 
 
 			}
 		})
 	);
+	// Regenerate all diagram of the document on save 
+	context.subscriptions.push(
+		vscode.workspace.onDidSaveTextDocument(
+			async document => {
 
-	// show commands 
+				if (document.languageId !== "markdown") {
+					return;
+				}
+				let Editor = vscode.window.activeTextEditor;
+				if (Editor === undefined) {
+					vscode.window.showInformationMessage('No Active editor');
+				} else {
+					// Export to file
+					if (!bboxservice) {
+						bboxservice = CreateRenditionWebView(context);
+
+					}
+
+					console.log("readytoparse");
+					const editortext = Editor.document.getText();
+					let temptxtbloc :BoMBLock[]= getallBomBlock(editortext);
+					console.log(temptxtbloc);
+					let Allboms:BOMdata[]=[];
+					for (var bloc of temptxtbloc){
+						Allboms.push(parseEditor(bloc.content,bloc.path,Editor.document.uri));
+					}
+
+					let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
+
+					//const emptyfontdef: fontdef = { font_family: "", font_weight: "", font_style: "", font_size: "", stroke: "", stroke_width: "", fill: "", paint_order: "" };
+					//let fontdefs:fontsettings=vscode.workspace.getConfiguration('bomarkdown').get('fontdefs')||{	eff:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},label:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},linklabel:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""},	rev:{"font-family":"","font-weight":"", "font-style":"","font-size":"","stroke":"","stroke-width":"","fill":"","paint-order":""}};
+					let fontdefs: fontsettings = vscode.workspace.getConfiguration('bomarkdown').get('fontdefs') || new (fontsettings);
+
+
+
+					let iconJSONS: string[] = vscode.workspace.getConfiguration('bomarkdown').get('IconJson') || [];
+					if ("IconJsons" in BOMtable.params) {
+						iconJSONS = BOMtable.params.iconJSONS;
+					}
+					let icons: Icon[] = [];
+					for (let Iconjson of iconJSONS) {
+						if (Iconjson === "[embedded]") {
+
+							Iconjson = vscode.Uri.joinPath(context.extensionUri, "IconConfig", "DefaultIcons.json").fsPath;
+						}
+
+						let rawdata = fs.readFileSync(Iconjson, "utf-8");
+						icons.push(...JSON.parse(rawdata));
+
+					}
+
+					if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis; }
+					const legende: legend = legendextract(BOMtable.BOMs);
+					let legenditems: legenditem[] = Parselegendbloc(legende, icons);
+					bboxservice.webview.postMessage({ command: 'getAllbboxes', context: "RegenOnSave", boms: BOMtable, fontdefs: fontdefs, emphasises: emphasis, legenditems: legenditems });
+				
+				}
+
+			}
+		)
+	);
+
+
+
 	context.subscriptions.push(
 		vscode.commands.registerCommand('bomarkdown.commands', async () => {
 
@@ -659,7 +773,7 @@ export function activate(context: vscode.ExtensionContext) {
 				'bomcommands', // Identifies the type of the webview. Used internally
 				'BoM Markdown Commands', // Title of the panel displayed to the user
 				vscode.ViewColumn.Two, // Editor column to show the new webview panel in.
-				{retainContextWhenHidden: true} // Webview options. More on these later.
+				{ retainContextWhenHidden: true } // Webview options. More on these later.
 			);
 			let iconJSONS: string[] = vscode.workspace.getConfiguration('bomarkdown').get('IconJson') || [];
 			let selectedJsons = await vscode.window.showQuickPick(QPIfromTable(iconJSONS, context.extensionUri, true),
@@ -852,24 +966,59 @@ export function activate(context: vscode.ExtensionContext) {
 			if (Editor === undefined) {
 				vscode.window.showInformationMessage('No Active editor');
 			} else {
-				const line =Editor.selection.active.line;
+				const line = Editor.selection.active.line;
 				const linetxt = Editor.document.lineAt(line).text;
-				if (linetxt.substring(0,8)==="+genbom:"){
-					const bomtab=linetxt.substring(8).split(";");
-					if (bomtab[0] !==''){
-					let strbom:string=bomgen(bomtab,0,"");
-					Editor.edit(editbuilder => {
-										editbuilder.insert(new vscode.Position(line+1,0), strbom);
+				if (linetxt.substring(0, 8) === "+genbom:") {
+					const bomtab = linetxt.substring(8).split(";");
+					if (bomtab[0] !== '') {
+						let strbom: string = bomgen(bomtab, 0, "");
+						Editor.edit(editbuilder => {
+							editbuilder.insert(new vscode.Position(line + 1, 0), strbom);
 
-									});
+						});
 
-				}
+					}
 				}
 
 			}
 		})
 	);
+
+	return {
+		extendMarkdownIt(md: any) {
+			const renderFence = md.renderer.rules.fence;
+
+			md.renderer.rules.fence = (
+				tokens: any[],
+				idx: number,
+				options: any,
+				env: any,
+				self: any
+			) => {
+				const token = tokens[idx];
+				const [keyword, outputPath] = token.info.trim().split(/\s+/, 2);
+
+				if (!outputPath) {
+					return renderFence
+						? renderFence(tokens, idx, options, env, self)
+						: self.renderToken(tokens, idx, options);
+				}
+
+				const mdstring = `
+		<img  src="${outputPath}.svg"  alt="${outputPath}" />
+		`;
+
+				return mdstring;
+			};
+
+			return md;
+		}
+	};
+
 }
+
+
+
 
 // This method is called when your extension is deactivated
 export function deactivate() { }
