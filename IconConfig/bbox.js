@@ -110,7 +110,8 @@ window.addEventListener('message', event => {
         case 'getAllbboxes':
             var Txtbox = document.getElementById("Textbox");
             var response = message;
-            for (let ibom of response.boms.BOMs) {
+            for (let Bom of response.boms){
+            for (let ibom of Bom.BOMs) {
                 for (let bomitem of ibom.BoMItems) {
                     if (bomitem.Label) {
 
@@ -140,11 +141,12 @@ window.addEventListener('message', event => {
 
                 }
             }
-
-            for (let legenditem of response.legenditems) {
+        }
+            for (let templegend of response.legenditems){
+            for (let legenditem of templegend) {
                 legenditem.w = Math.round(getBBox({ text: legenditem.label, w: 0, h: 0 }, message.fontdefs.legend).w);
             }
-
+            }
             vscode.postMessage({
                 context: message.context,
                 boms: response.boms,

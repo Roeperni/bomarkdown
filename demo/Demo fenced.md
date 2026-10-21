@@ -8,7 +8,7 @@ ${{
 "legendcolumns":4
 }}$
 
-+ **Requirement**
++ **Requirement MOD**
 + (i:folder,Requfolder)(b:context)
  + (i:spec,Spec 1,A)texte ignoré (e:[A->B[)texte ignoré
   + __
@@ -64,6 +64,7 @@ ${{
 ```
 
 ```bomarkdown demo/simple
++ **MOD**
 + (i:assembly,Ceci est un long label (parenthèse (nestées)),A.1)wesh(s:D)fin de truc en commentaire
 + (i:assembly,Ceci est un long label§with two lines,A.1)(s:D)(e:o)(t:RDO1,green)
 + no Item
@@ -72,5 +73,7 @@ ${{
 + no item§2 lines
 
 ```
+
+![demo/simple](demo/simple.svg "demo/simple")
 
 
