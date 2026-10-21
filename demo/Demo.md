@@ -72,4 +72,17 @@ ${{
 
 -->
 
-![demo/simple](simple.svg "demo/simple")
+
+
+<!--bomarkdown demo/supersimple
++ #null
++ **Very     simple**
++ #null
+-->
+
+![demo/supersimple](demo/supersimple.svg "demo/supersimple")
+<!--bomarkdown demo/supersimple2
++ **Very     simple2**
+-->
+
+![demo/supersimple2](demo/supersimple2.svg "demo/supersimple2")

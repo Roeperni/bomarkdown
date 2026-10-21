@@ -248,7 +248,13 @@
       },
     "configuration":{
       "title": "BoMarkdown",
-      "properties": {        
+      "properties": {  
+        "bomarkdown.refreshdelay":{
+        "type":"integer",
+        "default":300,
+        "description": "Default refresh delay for markdowit",
+        "order":0
+        },      
         "bomarkdown.h":{
         "type":"integer",
         "default":20,

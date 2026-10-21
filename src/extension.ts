@@ -372,10 +372,11 @@ async function createsvgfile(uri: vscode.Uri, path: string, txtsvg: string): Pro
 
 			tempuri = uri.with({ path: uri.path.substring(0, uri.path.lastIndexOf(".")) + ".svg" });
 		}
-		
+await vscode.workspace.fs.writeFile(tempuri, Buffer.from(txtsvg, "utf-8"));
+console.log("WRITE DONE", tempuri.fsPath);
 		vscode.window.showInformationMessage('File created : ' + tempuri.toString());
-		return vscode.workspace.fs.writeFile(tempuri, Buffer.from(txtsvg, "utf-8"));
 		
+
 	} else {
 		vscode.window.showInformationMessage('File is not saved no svg creation');
 	}
@@ -416,9 +417,16 @@ function CreateRenditionWebView(ctx: vscode.ExtensionContext): vscode.WebviewPan
 						let legenditems = message.legenditems[i];
 						let legendcolumns: number = 3;
 						if ("legendcolumns" in BOMtable.params) { legendcolumns = BOMtable.params.legendcolumns; };
+
 						BOMtable.BOMs = Computelayout2(BOMtable);
 						let totalw = BOMtable.BOMs[BOMtable.BOMs.length - 1].x + BOMtable.BOMs[BOMtable.BOMs.length - 1].maxw;
-						let legendeblock = initlegendbloc2(legenditems, legendcolumns, totalw, Math.round(Number(fontdefs.legend.font_size) * 4 / 3));
+											let legendeblock:legendtable={w:0,h:0,columns:[]};
+					if (legenditems.length>0){
+						 legendeblock = initlegendbloc2(legenditems, legendcolumns, totalw, Math.round(Number(fontdefs.legend.font_size) * 4 / 3));
+					} else {
+						BOMtable.params.haslegend=false;
+					}
+						
 						let svgcode = generateSVG2(ctx.extensionUri, BOMtable, legendeblock);
 
 						writes.push(createsvgfile(BOMuri, BOMtable.path, svgcode));
@@ -426,15 +434,16 @@ function CreateRenditionWebView(ctx: vscode.ExtensionContext): vscode.WebviewPan
 						//			createsvgfile(BOMuri, BOMtable.path, svgcode);
 
 					}
-await Promise.all(writes);
+					await Promise.all(writes);
 
-console.log("all files written");
-
-await new Promise(resolve => setTimeout(resolve, 50));
-
-await vscode.commands.executeCommand(
-    'markdown.preview.refresh'
-);
+					console.log("all files written");
+					//await vscode.workspace.saveAll(false);
+					await new Promise(resolve => setTimeout(resolve, vscode.workspace.getConfiguration('bomarkdown').get('refreshdelay') || 500));
+					
+					//
+					await vscode.commands.executeCommand('markdown.showPreviewToSide');
+					const refreshresult=await vscode.commands.executeCommand('markdown.preview.refresh');
+					console.log("refresh done: ",refreshresult);
 
 				} else {
 					let BOMtable: BOMdata = message.boms;
@@ -445,7 +454,12 @@ await vscode.commands.executeCommand(
 					if ("legendcolumns" in BOMtable.params) { legendcolumns = BOMtable.params.legendcolumns; };
 					BOMtable.BOMs = Computelayout2(BOMtable);
 					const totalw = BOMtable.BOMs[BOMtable.BOMs.length - 1].x + BOMtable.BOMs[BOMtable.BOMs.length - 1].maxw;
-					let legendeblock = initlegendbloc2(legenditems, legendcolumns, totalw, Math.round(Number(fontdefs.legend.font_size) * 4 / 3));
+					let legendeblock:legendtable={w:0,h:0,columns:[]};
+					if (legenditems.length>0){
+						 legendeblock = initlegendbloc2(legenditems, legendcolumns, totalw, Math.round(Number(fontdefs.legend.font_size) * 4 / 3));
+					} else {
+						BOMtable.params.haslegend=false;
+					}
 					const svgcode = generateSVG2(ctx.extensionUri, BOMtable, legendeblock);
 					let Editor = vscode.window.activeTextEditor;
 
@@ -454,7 +468,7 @@ await vscode.commands.executeCommand(
 
 					switch (message.context) {
 						case 'preview': {
-
+							
 							// Create and show a new webview
 							if (!previewpanel) {
 
@@ -592,8 +606,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 				const editortext = Editor.document.getText();
 				let temptxtbloc = getBomBlock(Editor.selection.active.line, editortext);
+				console.log("txtbloc",temptxtbloc);
 				let BOMtable: BOMdata = parseEditor(temptxtbloc.content, temptxtbloc.path, Editor.document.uri);
-
+				console.log("Bomtable :",BOMtable);
 				let emphasis: emphasis[] = vscode.workspace.getConfiguration('bomarkdown').get('emphasis') || [];
 
 
@@ -621,6 +636,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis; }
 				const legende: legend = legendextract(BOMtable.BOMs);
+				console.log("legend:",legende)
 				let legenditems: legenditem[] = Parselegendbloc(legende, icons);
 				bboxservice.webview.postMessage({ command: 'getbboxes', context: "preview", boms: BOMtable, fontdefs: fontdefs, emphasises: emphasis, legenditems: legenditems });
 
