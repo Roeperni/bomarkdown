@@ -16,6 +16,8 @@ let previewpanel: vscode.WebviewPanel | undefined = undefined;
 
 
 
+
+
 export class SVGRectPresentation {
 	stroke: string = "none";
 	stroke_width: string = "0.25";

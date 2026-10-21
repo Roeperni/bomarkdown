@@ -503,8 +503,8 @@ type,number of object to create,prefix,revision="",link=" "
 
 example
 
- ```bomarkdown
-genbom:assembly,2-5,Product ,1;component,1-3,Part ,A.1;component,2,Alternatives ,A.1,a
+ ```bomarkdown Images/genbom
++genbom:assembly,2-5,Product ,1;component,1-3,Part ,A.1;component,2,Alternatives ,A.1,a
 + (i:assembly,Product 1,1)
  + (i:component,Part 1.1,A.1)
  a+ (i:component,Alternatives 1.1.1,A.1)
@@ -538,6 +538,8 @@ It opens the selected json icon file for edition
 you can add a label to a icon for the legend :
 
 ```json
+
+![Images/addicon](Images/addicon.svg "Images/addicon")
 [
   {
     "name": "assembly",

@@ -52,8 +52,7 @@ O
 					<polyline fill="none" stroke="black" stroke-width="1" points="48.5,68 48.5,89.25 60,89.25"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="48.5,68 48.5,110.5 60,110.5"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="48.5,68 48.5,131.75 60,131.75"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="48.5,68 48.5,140.25 60,140.25"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="48.5,68 48.5,153 60,153"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="48.5,68 48.5,174.25 60,174.25"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="190.5,46.75 190.5,68 202,68"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="210.5,68 210.5,89.25 222,89.25"/>
 					<polyline fill="none" stroke="black" stroke-width="1" points="210.5,68 210.5,110.5 222,110.5"/>
@@ -107,14 +106,14 @@ O
 				<use  href="#spec" x="0" y="0"/>
 					</g>
 			
-			<g id="9" transform="translate(60,140.25)">
-			<rect width="0" height="0" x="2" fill="url(#grad)" />
+			<g id="9" transform="translate(60,144.5)">
+			<rect width="10" height="17" x="2" fill="url(#grad)" />
 				<text id="L_9" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 					
 				</text>
 				</g>
 			
-			<g id="10" transform="translate(60,144.5)">
+			<g id="10" transform="translate(60,165.75)">
 			<rect width="9" height="17" x="2" fill="url(#grad)" />
 				<text id="L_10" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em">...</tspan>	

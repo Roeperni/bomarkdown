@@ -145,8 +145,8 @@ O
 				A 
 				</text>
 				</g>
-			<rect width="0" height="0" x="346" y="57.375" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="green" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(346 57.375)">
+			<rect width="8" height="14" x="342" y="50.375" fill="url(#grad)" />
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="green" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(346 50.375)">
 						
 						</text>
 						
@@ -161,8 +161,8 @@ O
 				A 
 				</text>
 				</g>
-			<rect width="0" height="0" x="346" y="68" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="green" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(346 68)">
+			<rect width="8" height="14" x="342" y="61" fill="url(#grad)" />
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="green" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(346 61)">
 						
 						</text>
 						
@@ -224,8 +224,8 @@ O
 				</text>
 				<use  href="#spec" x="0" y="0"/>
 					</g>
-			<rect width="0" height="0" x="299.5" y="36.125" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(299.5 36.125)">
+			<rect width="8" height="14" x="295.5" y="29.125" fill="url(#grad)" />
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(299.5 29.125)">
 						
 						</text>
 						
@@ -252,8 +252,8 @@ O
 				</text>
 				<use  href="#spec" x="0" y="0"/>
 					</g>
-			<rect width="0" height="0" x="308.5" y="110.5" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(308.5 110.5)">
+			<rect width="8" height="14" x="304.5" y="103.5" fill="url(#grad)" />
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(308.5 103.5)">
 						
 						</text>
 						
@@ -280,12 +280,12 @@ O
 				</text>
 				<use  href="#spec" x="0" y="0"/>
 					</g>
-			<rect width="0" height="0" x="301" y="121.125" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(301 121.125)">
+			<rect width="8" height="14" x="297" y="114.125" fill="url(#grad)" />
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(301 114.125)">
 						
 						</text>
-						<rect width="0" height="0" x="301" y="110.5" fill="url(#grad)" />
-						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(301 110.5)">
+						<rect width="8" height="14" x="297" y="103.5" fill="url(#grad)" />
+						<text font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="steelblue" paint-order="stroke" x="0" y="0" text-anchor="middle" transform="translate(301 103.5)">
 						
 						</text>
 						
