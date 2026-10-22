@@ -1,8 +1,12 @@
-<svg width="594" height="130.25" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="594" height="134.75" style="background-color:white" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<defs>
 	<marker id="arrow_i" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
         <marker id="arrow_c" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="hotpink"/></marker>
         <marker id="arrow_a" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="green"/></marker>
+        <marker id="arrow_y" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
+        <marker id="arrow_t" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
+        <marker id="arrow_g" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="steelblue"/></marker>
+        <marker id="arrow_d" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">  <path d="M 0 0 L 6 3 L 0 6 z" fill="darkviolet"/></marker>
         <g id="undef"><rect x="0" y="0" width="18" height="18" fill="red" rx="4"/><text font-family="system-ui" dominant-baseline="middle" text-anchor="middle" font-weight="bolder" font-style="normal" font-size="16" x="10" y="11" fill="white" >?</text></g>
         <g id="placeholder">
 <rect x="0" y="0" width="18" height="18" fill="LightCyan" rx="4"/>
@@ -44,71 +48,74 @@ O
         <g id="lock" >   <rect x="13" y="-2" width="8" height="8" fill="indigo" stroke="white" stroke-width="0.25"/>   <path d="M 14 -2 A 3 3, 0,1,1,20 -2" stroke-width="2" fill="none" stroke="indigo" /> </g>
         <g id="unlock" >   <rect x="13" y="-2" width="8" height="8" fill="indigo" stroke="white" stroke-width="0.25" />   <path d="M 14 -2 A 3 3, 0,1,0,8 -2" stroke-width="2" fill="none" stroke="indigo" /> </g>
         <g id="noway">   <circle r="7" cx="20" cy="0" fill="red" stroke="white" stroke-width="0.25"/>   <line x1="16" y1="0" x2="24" y2="0" stroke="white" stroke-width="2.5"/> </g>
+        <g id="effb"><circle r="4" cx="-4" cy="0" fill="darkorange" stroke="white" stroke-width="0.25" /></g>
+        <g id="manual"> <circle r="7" cx="0" cy="0" fill="blue" stroke="white" stroke-width="0.25"/> <text x="0" y="0" font-size="10" fill="white"  dominant-baseline="central" text-anchor="middle" font-weight="bold"> M </text> </g>
+        <g id="en" transform="rotate(-90,3,3)"><path  fill="#272dff" stroke="black" stroke-width="0.2" d="m 3.2223336,-2.7237341 c 1.990231,0 1.7677084,2.10588444 1.2170373,2.73676613 l 3.0095175,-3.492e-5 V 3.3096942 c 0.6307064,-0.5509091 2.7359876,-0.7734959 2.7359876,1.2173286 0,1.9908247 -2.1052812,1.7682358 -2.7359876,1.2173053 V 9.041002 L 4.0564729,9.04099 C 4.6071894,8.4100603 4.8297122,6.3041773 2.839481,6.3041773 c -1.99023081,0 -1.7677338,2.105883 -1.2170398,2.7368127 l -3.198635,1.2e-5 -4.7e-5,-3.2966739 c 0.63065934,0.5509305 2.7359392,0.7735194 2.7359392,-1.2173053 0,-1.9908245 -2.10527986,-1.7682377 -2.7359393,-1.217326 L -1.5797206,0.00948378 2.003575,0.01131963 C 1.4546039,-0.61785086 1.232104,-2.7237352 3.2223372,-2.7237352"/></g>
         </defs> 
-	<polyline fill="none" stroke="black" stroke-width="1" points="28.5,25.5 28.5,64.25 40,64.25"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="28.5,25.5 28.5,85.5 40,85.5"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="48.5,85.5 48.5,106.75 60,106.75"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="394.5,25.5 394.5,46.75 406,46.75"/>
-					<polyline fill="none" stroke="black" stroke-width="1" points="394.5,68 394.5,89.25 406,89.25"/>
+	<polyline fill="none" stroke="black" stroke-width="1" points="28.5,27 28.5,65.75 40,65.75"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="28.5,27 28.5,88.25 40,88.25"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="48.5,88.25 48.5,110.75 60,110.75"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="394.5,27 394.5,49.5 406,49.5"/>
+					<polyline fill="none" stroke="black" stroke-width="1" points="394.5,72 394.5,94.5 406,94.5"/>
 					
-			<g id="0" transform="translate(20,17)">
-			<rect width="121" height="17" x="2" fill="url(#grad)" />
+			<g id="0" transform="translate(20,18)">
+			<rect width="121" height="18" x="2" fill="url(#grad)" />
 				<text id="L_0" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em">first root first column</tspan>	
 				</text>
 				</g>
 			
-			<g id="1" transform="translate(40,37.5)">
-			<rect width="23" height="14" x="2" fill="url(#grad)" />
+			<g id="1" transform="translate(40,39.25)">
+			<rect width="23" height="13" x="2" fill="url(#grad)" />
 				<text id="L_1" font-family="system-ui" font-weight="normal" font-style="normal" font-size="10" stroke="none" stroke-width="0.25" fill="navy" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em">Child</tspan>	
 				</text>
 				</g>
 			
-			<g id="2" transform="translate(40,55.75)">
-			<rect width="306" height="17" x="2" fill="url(#grad)" />
+			<g id="2" transform="translate(40,56.75)">
+			<rect width="306" height="18" x="2" fill="url(#grad)" />
 				<text id="L_2" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em">It works as long as there is a plus followed by a space</tspan>	
 				</text>
 				</g>
 			
-			<g id="3" transform="translate(40,77)">
-			<rect width="226" height="17" x="2" fill="url(#grad)" />
+			<g id="3" transform="translate(40,79.25)">
+			<rect width="225" height="18" x="2" fill="url(#grad)" />
 				<text id="L_3" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em">but space is more convinient in vs code</tspan>	
 				</text>
 				</g>
 			
-			<g id="4" transform="translate(60,98.25)">
-			<rect width="77" height="17" x="2" fill="url(#grad)" />
+			<g id="4" transform="translate(60,101.75)">
+			<rect width="77" height="18" x="2" fill="url(#grad)" />
 				<text id="L_4" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em">new sub level</tspan>	
 				</text>
 				</g>
 			
-			<g id="8" transform="translate(386,17)">
-			<rect width="149" height="17" x="2" fill="url(#grad)" />
+			<g id="8" transform="translate(386,18)">
+			<rect width="149" height="18" x="2" fill="url(#grad)" />
 				<text id="L_8" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em">second root new ncolumn</tspan>	
 				</text>
 				</g>
 			
-			<g id="9" transform="translate(406,38.25)">
-			<rect width="40" height="17" x="2" fill="url(#grad)" />
+			<g id="9" transform="translate(406,40.5)">
+			<rect width="40" height="18" x="2" fill="url(#grad)" />
 				<text id="L_9" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em"> A child</tspan>	
 				</text>
 				</g>
 			
-			<g id="10" transform="translate(386,59.5)">
-			<rect width="188" height="17" x="2" fill="url(#grad)" />
+			<g id="10" transform="translate(386,63)">
+			<rect width="188" height="18" x="2" fill="url(#grad)" />
 				<text id="L_10" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em">several root on the same column</tspan>	
 				</text>
 				</g>
 			
-			<g id="11" transform="translate(406,80.75)">
-			<rect width="76" height="17" x="2" fill="url(#grad)" />
+			<g id="11" transform="translate(406,85.5)">
+			<rect width="76" height="18" x="2" fill="url(#grad)" />
 				<text id="L_11" font-family="system-ui" font-weight="normal" font-style="normal" font-size="13" stroke="none" stroke-width="0.25" fill="black" paint-order="stroke" x="0" y="0" transform="translate(2 0)">
 				<tspan  x="0" dy="1em">another child</tspan>	
 				</text>

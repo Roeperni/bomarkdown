@@ -1,5 +1,7 @@
 # BoMarkdown README
 
+![](.svg "")
+
 BoMarkdown is an extension that generetates a SVG representation of a Bill of material (like a tree) from a textual description. It is inspired by other text to graph tools like plantuml or mermaid.js
 
 ````
@@ -501,8 +503,15 @@ type,number of object to create,prefix,revision="",link=" "
  - **revision** (optionnal): if not left empty the revision value for each item
  - **link** (optionnal): for part with a level greater than 0 specify the link.
 
-example
+Before the command
+````text
+ ```bomarkdown Images/genbom
++genbom:assembly,2-5,Product ,1;component,1-3,Part ,A.1;component,2,Alternatives ,A.1,a
 
+ ```
+ ````
+ After the command
+ ````text
  ```bomarkdown Images/genbom
 +genbom:assembly,2-5,Product ,1;component,1-3,Part ,A.1;component,2,Alternatives ,A.1,a
 + (i:assembly,Product 1,1)
@@ -528,6 +537,7 @@ example
  a+ (i:component,Alternatives 3.3.2,A.1)
  
  ```
+ ````
 
 ### Edit UserIcons.json
 This command is only in the command palette.
@@ -536,10 +546,10 @@ It opens the selected json icon file for edition
 ![bomarkdown](Images/EditJson%20select.png "Json Selection")
 
 you can add a label to a icon for the legend :
+![Images/addicon](Images/addicon.svg "Images/addicon")
+
 
 ```json
-
-![Images/addicon](Images/addicon.svg "Images/addicon")
 [
   {
     "name": "assembly",
@@ -744,6 +754,7 @@ the identifiers can't contain space, the begin and end propeties contains a stri
             }
 ```
 
+
 #### bomarkdown.bubbles
 
 it's and object witch each key is a bubble, the value is a svg element with an id equal to the bubble key
@@ -908,11 +919,39 @@ Object containing svg element mandatory for the rendition
 
 #### bomarkdown.UTF8replacement
 
-Objet used to replace a string by an utf8 symbol in the effectivity. For instance #00 is redenred as &#x221E; or -> as &#x2192;
+Objet used to replace a string by an utf8 symbol in all the labels. For instance #00 is redenred as &#x221E; or -> as &#x2192;
+
+```` text
+```bomarkdown Images/UTF8rep
++ #oo
++ ->
++ <-
++ #null
++ &&
++ +!
+
+```
+````
+
+
+
+![Images/UTF8rep](Images/UTF8rep.svg "Images/UTF8rep")
+
+note that #null is inserting an empty line
+
+Fun fact if you use UTF8 code in the text it works the setting is just here to make it more readable
+
+```` text
+```bomarkdown Images/funUTF8rep
+
++ Emoji can be supported &#128540;
+```
+````
+![Images/funUTF8rep](Images/funUTF8rep.svg "Images/funUTF8rep")
 
 ## Known Issues
 
-None yet
+Beware of the special characters in the label they can work in preview but genrerate an invalid svg
 
 ## Release Notes
 
@@ -959,5 +998,12 @@ Change in the parsing text after the last block is ignored and considered as com
  - New genbom command
  - Fix update snippet command for custom link
  - code cleanup
+
+### 1.2.0
+ - First support of markdown-it
+ - All svg are regenerated on save of markdown
+ - new default replacement char
+ - small bugs solved :
+   - support graph with no item (and automatically do not show the legend)
 
 ---

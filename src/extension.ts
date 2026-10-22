@@ -328,37 +328,10 @@ function getallBomBlock(editortext: string): BoMBLock[] {
 
 
 function getBomBlock(line: number, editortext: string): BoMBLock {
-	// function to extract a bommardown bom from a markdown document 
-	// Split de l'editor sur les saut de line
-	let EditorArray: string[] = editortext.split(/\r?\n/);
-	const blocdelim: blocdelim = vscode.workspace.getConfiguration('bomarkdown').get('codeblockdelimiter') || { "begin": "", "end": "" };
-	const beginbloc = blocdelim.begin.split(" ");
-	const endbloc = blocdelim.end.split(" ");
-	// recherche de la limite sup du codeblock
-	let i = 0;
-	let beginline = 0;
-	let temppath: string[] = [];
-	for (i = line; i >= 0; i--) {
-		bboxservice;
-		//console.log("Ligne:" + EditorArray[i] + " Bloc:" + beginbloc[0]);
-		if (beginbloc.some(bloc => EditorArray[i].startsWith(bloc))) {
-			temppath = EditorArray[i].split(" ");
-			//console.log("trouvé debut");
-			beginline = i + 1;
-			break;
-
-		}
-	}
-
-	for (i = line; i < EditorArray.length; i++) {
-		console.log(endbloc.toString());
-		if (endbloc.some(fbloc => EditorArray[i].startsWith(fbloc))) {
-			console.log("trouvé fin");
-			break;
-		}
-	}
-	const endline = i;
-	const tempblock: BoMBLock = { "path": temppath[1], "content": EditorArray.slice(beginline, endline).join("\n"), "begin": beginline, "end": endline };
+	const allblock:BoMBLock[]=getallBomBlock(editortext);
+	const tempblock:BoMBLock=allblock.find(
+        block => block.begin < line && block.end > line
+    )||{path:"",content:"",begin:0,end:0};
 	return tempblock;
 }
 
