@@ -1,14 +1,12 @@
 # BoMarkdown README
 
-![](.svg "")
-
 BoMarkdown is an extension that generetates a SVG representation of a Bill of material (like a tree) from a textual description. It is inspired by other text to graph tools like plantuml or mermaid.js
 
 ````
 ```bomarkdown Images/FolderExample
 + (i:folder,rootfolder)
  + (i:folder, subfolder1)
-  + (i:file, Fil>e)
+  + (i:file, File)
   + (i:file, Another File)
  + (i:file, Root File)
 ```
@@ -421,6 +419,73 @@ On the starting block you can define an image path
 The path use forward "/" and the name is without extension
 If no block or path is detected the program will create a svg file with the same path as the current editor file.
 Ex launching the command on  "c:\myfolder\myfile.txt" will create or update the myfile.png in the myfolder folder.
+### Markdown-it integration
+Thanks to the export we can now have a partial support for the integrated markdown-it plugin of vscode. 
+if a fenced code starting with bomarkdown is detected markdown-it will render a svg instead of the block:
+
+this code
+````text
+```bomarkdown Image/Fencedblock
+${{
+"legendcolumns":4
+}}$
+
++ **Requirement**
++ (i:folder,Requfolder)(b:context)
+ + (i:spec,Spec 1,A)texte ignoré (e:[A->B[)texte ignoré
+  + __
+  + (e:c'est un **commentaire** valable§(mais pas essentiel))(i:req,req1,1)(a:u1)
+  + (i:req,req2,1)
+  + (i:req,req3,1)(a:u3)
+  + (i:...)
+ + (i:spec,Spec 2,A)(a:spec1)(e:[B->#oo[)
+  + (i:req,req1,1)(l:i:u3!middle label)
+  + (i:req,req2,1)
+  + (i:req,req3,1)(l:i:u1!>begin label,u1!<end label)
+  + (i:...)
++newcolumn 100
++ **Design**
++ (i:assembly,Assembly,A.1)(s:R)
+ + (i:assembly,SubAssembly1,A.1)(l:s:ma1!>begin,ma1!middle,ma1!<end)(e:o)
+  + (i:component,Component 1,A.1)(b:matrice)
+  + (i:component,Component 2§wesh,A.1)(b:lock)
+
+  + (i:component,Component 3,A.1)
+ + (i:assembly,SubAssembly2,A.1)(e:Model1[A->#oo[§Model2[C->#oo[)
+  + (i:component,Component 1,A.1)
+  -+ **Prop1**: toto
+  -+ **Prop2**: tata
+  + (i:component,Component 2,A.1)
+ + (i:assembly,SubAssembly3,A.1)(a:sa3)(l:c:spec1!>begin label,spec1!<end label,spec1!label)
+  + (i:component,Component 1,A.1)
+  + (i:component,Component 2,A.1)
+  + (i:component,Component 3§that last§up to§Four lines!,A.1)
+  + (i:component,Component 4,A.1)
+  a+ (i:component,Component ***4 bis***,A.1)(b:noway)
++newcolumn 
++ **Manuf**
++ (i:mitem,Assembly,A.1)
+ + (i:mitem,SubAssembly1,A.1)(a:ma1)
+  + (i:mitem,Component 1)
+  + (i:mitem,Component 1)
+  -+ property1
+  + (i:mitem,Component 1)
+  -+ property3
+  -+ property4
+ + (i:mitem,Component 1)
+ + (i:mitem,Component 1)
+ + (i:mitem,SubAssembly3,A.1)
+  + (i:mitem,PhantomAssembly1,A.1)
+   + (i:mitem,Component 1)
+   + (i:mitem,Component 1)
+  + (i:mitem,PhantomAssembly2,A.1)
+   + (i:mitem,Component 1)
+   + (i:mitem,Component 1)
+```
+
+````
+will first render as 
+
 
 ### Insert SVG in markdown
 
@@ -430,6 +495,7 @@ Like the export the command will generate or update a svg file from the current 
 It will also insert an image markdown element below the code block and refresh the markdown preview enhanced window.
 
 ![insertSVG](Images/InsertasSVG.gif)
+
 
 ### BOM Commands {#bom-commands}
 
@@ -546,7 +612,7 @@ It opens the selected json icon file for edition
 ![bomarkdown](Images/EditJson%20select.png "Json Selection")
 
 you can add a label to a icon for the legend :
-![Images/addicon](Images/addicon.svg "Images/addicon")
+![Images/addicon](Images/addicon.png "Images/addicon")
 
 
 ```json
@@ -935,7 +1001,7 @@ Objet used to replace a string by an utf8 symbol in all the labels. For instance
 
 
 
-![Images/UTF8rep](Images/UTF8rep.svg "Images/UTF8rep")
+![Images/UTF8rep](Images/UTF8rep.png "Images/UTF8rep")
 
 note that #null is inserting an empty line
 
@@ -947,7 +1013,7 @@ Fun fact if you use UTF8 code in the text it works the setting is just here to m
 + Emoji can be supported &#128540;
 ```
 ````
-![Images/funUTF8rep](Images/funUTF8rep.svg "Images/funUTF8rep")
+![Images/funUTF8rep](Images/funUTF8rep.png "Images/funUTF8rep")
 
 ## Known Issues
 

@@ -6,6 +6,7 @@ import * as path from 'path';
 
 
 
+
 import { Computelayout2, initlegendbloc2 } from './Computelayout';
 import { parseEditor, legendextract, Parselegendbloc, bomgen } from './parseEditor';
 import { generateCommandHTML, generateSVG2 } from './HTMLgeneration';
@@ -611,7 +612,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 				if ("emphasis" in BOMtable.params) { emphasis = BOMtable.params.emphasis; }
 				const legende: legend = legendextract(BOMtable.BOMs);
-				console.log("legend:",legende)
+				console.log("legend:",legende);
 				let legenditems: legenditem[] = Parselegendbloc(legende, icons);
 				bboxservice.webview.postMessage({ command: 'getbboxes', context: "preview", boms: BOMtable, fontdefs: fontdefs, emphasises: emphasis, legenditems: legenditems });
 

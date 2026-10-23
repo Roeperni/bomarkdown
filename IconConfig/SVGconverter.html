@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>SVG to PNG Converter</title>
+</head>
+<body>
+
+<input type="file" id="svgFiles" accept=".svg" multiple>
+
+<script>
+document.getElementById("svgFiles").addEventListener("change", async (e) => {
+
+    for (const file of e.target.files) {
+
+        const svgText = await file.text();
+
+        const blob = new Blob(
+            [svgText],
+            { type: "image/svg+xml" }
+        );
+
+        const url = URL.createObjectURL(blob);
+
+        const img = new Image();
+
+        await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = url;
+        });
+
+        const canvas = document.createElement("canvas");
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        const pngUrl = canvas.toDataURL("image/png");
+
+        const link = document.createElement("a");
+        link.href = pngUrl;
+        link.download = file.name.replace(".svg", ".png");
+        link.click();
+
+        URL.revokeObjectURL(url);
+    }
+});
+</script>
+
+</body>
+</html>
